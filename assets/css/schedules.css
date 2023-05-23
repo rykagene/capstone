@@ -1,0 +1,196 @@
+
+/*navigation bar based sa home.css*/
+body{
+	background-color: #e1e8ee;
+}
+
+  .container {
+    color: #333;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 20px;
+    padding: 30px;
+  }
+  
+  h1 {
+	margin-top: 50px;
+    font-weight: normal;
+    letter-spacing: .125rem;
+    text-transform: uppercase;
+	text-align: center;
+  }
+  
+  li {
+    display: inline-block;
+    font-size: 1.5em;
+    list-style-type: none;
+    padding: 1em;
+    text-transform: uppercase;
+  }
+  
+  li span {
+    display: block;
+    font-size: 4.5rem;
+  }
+
+  .emoji {
+	display: none;
+	padding: 1rem;
+  }
+  
+  .emoji span {
+	font-size: 4rem;
+	padding: 0 .5rem;
+  }
+  
+  
+  @media all and (max-width: 768px) {
+    h1 {
+      font-size: calc(1.5rem * var(--smaller));
+    }
+    
+    li {
+      font-size: calc(1.125rem * var(--smaller));
+    }
+    
+    li span {
+      font-size: calc(3.375rem * var(--smaller));
+    }
+  }
+
+  @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+  * {
+	box-sizing: border-box;
+}
+
+.course {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	flex-wrap: wrap; /* allow the flex items to wrap to a new row */
+	max-width: 100%;
+	margin: 40px 20px 20px 20px;
+	overflow: hidden;
+}
+
+.course h6 {
+	opacity: 0.6;
+	margin: 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.course h2 {
+	letter-spacing: 1px;
+	margin: 10px 0;
+}
+
+.course-preview {
+	background-color: #9f2424;
+	color: #fff;
+	padding: 30px;
+	max-width: 250px;
+	flex: 0 0 250px; /* specify a fixed width for the preview column */
+}
+
+.course-preview a {
+	color: #fff;
+	display: inline-block;
+	font-size: 12px;
+	opacity: 0.6;
+	margin-top: 30px;
+	text-decoration: none;
+}
+
+.course-info {
+	padding: 30px;
+	position: relative;
+	flex: 1 1 auto; /* allow the info column to grow and shrink */
+}
+
+.btn {
+	background-color: #2A265F;
+	border: 0;
+	border-radius: 50px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	color: #fff;
+	font-size: 16px;
+	padding: 12px 25px;
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	letter-spacing: 1px;
+}
+
+@media only screen and (max-width: 768px) {
+	/* adjust styles for screens smaller than 768px */
+	.course {
+		margin: 10px;
+	}
+	.course-preview, .course-info {
+		padding: 20px;
+	}
+	.course-preview {
+		max-width: 100%;
+		flex: 0 0 100%;
+	}
+	.btn {
+		bottom: 20px;
+		right: 20px;
+	}
+}
+
+.base-timer {
+	position: relative;
+	width: 300px;
+	height: 300px;
+  }
+  
+  .base-timer__svg {
+	transform: scaleX(-1);
+  }
+  
+  .base-timer__circle {
+	fill: none;
+	stroke: none;
+  }
+  
+  .base-timer__path-elapsed {
+	stroke-width: 7px;
+	stroke: grey;
+  }
+  
+  .base-timer__path-remaining {
+	stroke-width: 7px;
+	stroke-linecap: round;
+	transform: rotate(90deg);
+	transform-origin: center;
+	transition: 1s linear all;
+	fill-rule: nonzero;
+	stroke: currentColor;
+  }
+  
+  .base-timer__path-remaining.green {
+	color: rgb(65, 184, 131);
+  }
+  
+  .base-timer__path-remaining.orange {
+	color: orange;
+  }
+  
+  .base-timer__path-remaining.red {
+	color: red;
+  }
+  
+  .base-timer__label {
+	position: absolute;
+	width: 300px;
+	height: 300px;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 48px;
+  }
