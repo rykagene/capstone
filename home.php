@@ -19,34 +19,53 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
 }
 ?>
 
+
 <!DOCTYPE HTML>
 <html>
 
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
-    <!------------------------ Bootstrap 5.3.0 ------------------------>
-    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
+
+    <!------------------------ Bootstrap 5 ------------------------>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+   
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/home.css" />
+
+    <!------------------------ For NAV-BAR ------------------------>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <!------------------------ Google Fonts Used ------------------------>
-    <link href="assets/fonts/fonts.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital@1&display=swap"
+        rel="stylesheet">
+
+        <!-- animation on scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 
 <body>
+    <script>
+         AOS.init();
+    </script>
 
     <div class="wrapper">
+
+
         <!-- Sticky header -->
+
         <header class="header-outer">
             <div class="header-inner responsive-wrapper">
                 <div class="header-logo">
                     <img src="assets/img/elib logo.png" class="icon">
                 </div>
                 <nav class="header-navigation">
-                    <a href="#home" class="active">HOME</a>
-                    <a href="reserve.php">RESERVE A SEAT</a>
+                    <a href="#home">HOME</a>
                     <a href="#aboutus">ABOUT US</a>
-                    <a class="show" href="toLogout.php">LOGIN</a>
+                    <a href="reserve.php">RESERVE SEAT</a>
                     <a class="hidden" href="profile.php">ACCOUNT</a>
                     <a class="hidden" href="toLogout.php">LOGOUT</a>
                 </nav>
@@ -54,33 +73,34 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
         </header>
         <!-- Sticky header -->
 
+
         <!------------------------ COVER ------------------------>
         <div id="home" class="parallax-home">
             <img class="banner" src="assets/img/lib building_bg.jpg" id="lib-front">
 
-            <div class="title">
-                <h1 id="parallax-home-text-lib">Library</h1>
-                <h1 id="parallax-home-text-school">BULACAN STATE UNIVERSITY</h1>
-                <h1 id="parallax-home-text-disc">Discover and Learn</h1>
+            <div class="title" >
+                <h1 id="parallax-home-text-lib" data-aos="fade-right">Library</h1>
+                <h1 id="parallax-home-text-school" data-aos="fade-up">BULACAN STATE UNIVERSITY</h1>
+                <h1 id="parallax-home-text-disc" data-aos="fade-left">Discover and Learn</h1>
             </div>
         </div>
         <!------------------------ END OF COVER ------------------------>
 
 
         <!------------------------ SEAT INFO ------------------------>
-        <div class="seats">
+        <div class="seats"  data-aos="fade-right">
             <div class="no-of-seats">
                 <h1 id="no">206</h1>
                 <h1 id="avail">Available Seats</h1>
             </div>
-            <a href="reserve.php" class="reserve-btn">
-                Reserve your seat here
+            <a href="reserve.php" class="reserve-btn btn">
+                Reserve seat
             </a>
         </div>
         <!------------------------ END OF SEAT INFO ------------------------>
 
         <!------------------------ NEWS SLIDER ------------------------>
-        <div id="my-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="true">
+        <div id="my-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="true" data-aos="fade-left">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="0" class="active"
                     aria-current="true" aria-label="Slide 1"></button>
@@ -93,8 +113,8 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
                 <div class="carousel-item active c-item">
                     <img src="assets/img/elib1.jpg" class="d-block w-100 c-img" alt="...">
                     <div class="carousel-caption">
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ...</p>
+                        <h3>First slide label</h3>
+                        <p>Some representative placeholder content for the first slide.</p>
                         <a href="" class="btn btn-lg btn-primary ">
                             Read More
                         </a>
@@ -103,8 +123,8 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
                 <div class="carousel-item c-item">
                     <img class="d-block w-100 c-img" src="assets/img/elib2.jpg" alt="Second slide">
                     <div class="carousel-caption">
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ...</p>
+                        <h3>First slide label</h3>
+                        <p>Some representative placeholder content for the first slide.</p>
                         <a href="" class="btn btn-lg btn-primary">
                             Read More
                         </a>
@@ -113,8 +133,8 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
                 <div class="carousel-item c-item">
                     <img class="d-block w-100 c-img" src="assets/img/elib3.jpg" alt="Third slide">
                     <div class="carousel-caption">
-                        <h3>Lorem ipsum dolor</h3>
-                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ...</p>
+                        <h3>First slide label</h3>
+                        <p>Some representative placeholder content for the first slide.</p>
                         <a href="" class="btn btn-lg btn-primary">
                             Read More
                         </a>
@@ -135,7 +155,7 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
 
 
         <!------------------------ ABOUT US ------------------------>
-        <div class="abtus" id="aboutus">
+        <div class="abtus" id="aboutus" data-aos="fade-up">
             <div class="col-1">
                 <img src="assets/img/elib0.jpg">
 
@@ -157,8 +177,8 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
 
         <!------------------------ VMGO ------------------------>
 
-        <div class="wrap">
-            <div class="tile">
+        <div class="wrap" >
+            <div class="tile" data-aos="fade-up" data-aos-duration="1000">
                 <img src='assets/img/elib4.jpg' />
                 <div class="text">
                     <h1>Vision</h1>
@@ -169,23 +189,33 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
             </div>
 
 
-            <div class="tile">
-                <img src='assets/img/lib building bg.jpg' />
+            <div class="tile" data-aos="fade-up" data-aos-duration="1500">
+                <img src='assets/img/inaug7.jpg' />
                 <div class="text">
                     <h1>Mission</h1>
                     <p class="animate-text"> Bulacan State University exists to produce highly competent, ethical and
                         service-oriented professionals that contribute to the sustainable socio-economic growth and
                         development of the nation </p>
+                    <div class="dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
             </div>
 
-            <div class="tile">
+            <div class="tile" data-aos="fade-up" data-aos-duration="2000">
                 <img src='assets/img/inaug2.jpg' />
                 <div class="text">
                     <h1>Goals</h1>
                     <p class="animate-text">The university is committed to provide education that is accessible to
                         deserving and qualified students through internationally-recognized and industry-responsive
                         programs set in a 21st century learning environment. </p>
+                    <div class="dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -293,10 +323,31 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
             </div>
         </footer>
         <!------------------------ FOOTER ------------------------>
+
+
+
     </div>
+
+
 </body>
 
 <!------------------------ For Sliding News ------------------------>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/bootstrap/js/popper.min.js"></script>
+<script type="text/javascript">
+     AOS.init();
+    var counter = 1;
+    setInterval(function () {
+        document.getElementById('radio' + counter).checked = true;
+        counter++;
+        if (counter > 2) {
+            counter = 1;
+        }
+    }, 5000);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+    integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+    integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
+    </script>
+
 </html>
