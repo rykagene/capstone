@@ -121,34 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Sticky header -->
 
 
-    <!------------------------ SIDE BAR ------------------------>
-    <div id="mySidebar" class="sidebar">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <h2>Occupancy Status</h2>
-      <table>
-        <tr>
-          <th>Time</th>
-          <th>Status</th>
-          <th>Reserve</th>
-        </tr>
-        <tr>
-          <td>11:00 AM-12:00 PM</td>
-          <td>Available</td>
-          <td><button type="button" class="btn btn-success" onclick="confirmSubmit()">Reserve</button></td>
-        </tr>
-        <tr>
-          <td>1:00 PM-2:00 PM</td>
-          <td>Available</td>
-          <td><button type="button" class="btn btn-success">Reserve</button></td>
-        </tr>
-        <tr>
-          <td>4:00 PM-5:00 PM </td>
-          <td>Available</td>
-          <td><button type="button" class="btn btn-success">Reserve</button></td>
-        </tr>
-      </table>
-
-    </div>
+   
 
     <!-------------------------DATE & TIME PICKER--------------------->
     <div class="container-fluid">
