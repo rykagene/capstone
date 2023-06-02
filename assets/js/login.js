@@ -1,28 +1,39 @@
-console.clear();
+const inputs = document.querySelectorAll(".input-field");
+const toggle_btn = document.querySelectorAll(".toggle");
+const main = document.querySelector("main");
+const bullets = document.querySelectorAll(".bullets span");
+const images = document.querySelectorAll(".image");
 
-const loginBtn = document.getElementById('login');
-const signupBtn = document.getElementById('signup');
-
-loginBtn.addEventListener('click', (e) => {
-	let parent = e.target.parentNode.parentNode;
-	Array.from(e.target.parentNode.parentNode.classList).find((element) => {
-		if(element !== "slide-up") {
-			parent.classList.add('slide-up')
-		}else{
-			signupBtn.parentNode.classList.add('slide-up')
-			parent.classList.remove('slide-up')
-		}
-	});
+inputs.forEach((inp) => {
+  inp.addEventListener("focus", () => {
+    inp.classList.add("active");
+  });
+  inp.addEventListener("blur", () => {
+    if (inp.value != "") return;
+    inp.classList.remove("active");
+  });
 });
 
-signupBtn.addEventListener('click', (e) => {
-	let parent = e.target.parentNode;
-	Array.from(e.target.parentNode.classList).find((element) => {
-		if(element !== "slide-up") {
-			parent.classList.add('slide-up')
-		}else{
-			loginBtn.parentNode.parentNode.classList.add('slide-up')
-			parent.classList.remove('slide-up')
-		}
-	});
+toggle_btn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    main.classList.toggle("sign-up-mode");
+  });
+});
+
+function moveSlider() {
+  let index = this.dataset.value;
+
+  let currentImage = document.querySelector(`.img-${index}`);
+  images.forEach((img) => img.classList.remove("show"));
+  currentImage.classList.add("show");
+
+  const textSlider = document.querySelector(".text-group");
+  textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
+
+  bullets.forEach((bull) => bull.classList.remove("active"));
+  this.classList.add("active");
+}
+
+bullets.forEach((bullet) => {
+  bullet.addEventListener("click", moveSlider);
 });
