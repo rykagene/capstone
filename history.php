@@ -67,6 +67,9 @@ if (!isset($_SESSION["adminID"]) && !isset($_SESSION["adminpass"])) {
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
+                <li> <a href="settings.php"><span class="las la-cog"></span>
+                        <span>Settings</span></a>
+                </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
                 </li>
