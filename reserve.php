@@ -10,25 +10,11 @@ require 'assets/php/session.php';
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
   <link rel="stylesheet" href="assets/css/reserve.css">
-
   <?php include 'assets/php/libraries.php'?>
-
- 
-
   <title>Reserve Seat</title>
-
- 
-
-
-
   <style>
-    body {
-  margin-top: 40px; /* This margin just makes the text easier to read. You can remove it if you want since it can mess with your other styles. */
-}
+ 
 
 #btn-check {
  border: 1px solid #a81c1c !important;

@@ -1,15 +1,15 @@
 <?php
 session_start();
-require 'connect.php';
+require 'assets/php/connect.php';
 
 $seat_id = $_GET['seat_id'];
-$student_id = $_SESSION['student_id'];
+$user_id = $_SESSION['username'];
 $date = $_GET['date'];
 $start_time = $_GET['start_time'];
 $end_time = $_GET['end_time'];
 
 // Check if the selected date and time range already exists in the database for the specified seat
-$query = "SELECT * FROM reservations WHERE seat_id = '$seat_id' AND date = '$date' AND start_time < '$end_time' AND end_time > '$start_time'";
+$query = "SELECT * FROM reservation WHERE seat_id = '$seat_id' AND date = '$date' AND start_time < '$end_time' AND end_time > '$start_time'";
 $result = mysqli_query($conn, $query);
 $count = mysqli_num_rows($result);
 
@@ -18,7 +18,9 @@ if ($count > 0) {
   echo "error";
 } else {
   // Insert the reservation into the database
-  $sql = "INSERT INTO reservations (seat_id, student_id, date, start_time, end_time) VALUES ('$seat_id', '$student_id', '$date', '$start_time', '$end_time')";
+  $sql = "INSERT INTO reservation (date, start_time, end_time, user_id, seat_id) 
+  VALUES ('$date', '$start_time', '$end_time',  '$user_id', '$seat_id')";
+
   if (mysqli_query($conn, $sql)) {
     // Reservation inserted successfully
     echo "success";

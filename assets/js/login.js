@@ -37,3 +37,41 @@ function moveSlider() {
 bullets.forEach((bullet) => {
   bullet.addEventListener("click", moveSlider);
 });
+
+// Function to validate existence user_id on db
+function checkUserIdAvailability() {
+	var user_id = $('#user_id').val();
+	$.ajax({
+		url: 'assets/php/check_user_id.php',
+		type: 'POST',
+		data: {
+			user_id: user_id
+		},
+		success: function(response) {
+			if (response == 'exists') {
+				$('#user_id').addClass('is-invalid');
+				console.log(user_id + ' exists');
+			} else {
+				$('#user_id').removeClass('is-invalid');
+				console.log(user_id + ' is valid');
+			}
+		}
+	});
+}
+// Function to validate password fields
+function validatePasswords() {
+	var password = $('#password').val();
+	var confirm_password = $('#confirm_password').val();
+	if (password !== confirm_password) {
+		$('#confirm_password').addClass('is-invalid');
+		$('#password_error').show();
+		console.log('Passwords do not match');
+	} else {
+		$('#confirm_password').removeClass('is-invalid');
+		$('#password_error').hide();
+		console.log('Passwords match');
+	}
+}
+
+$('#user_id').on('change', checkUserIdAvailability);
+$('#password, #confirm_password').on('change', validatePasswords);

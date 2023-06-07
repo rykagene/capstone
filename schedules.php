@@ -1,13 +1,10 @@
 <?php
-// always start session
 session_start();
-
-// if the user was not logged in
-if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
-    header('Location: login.php');
-    exit();
-}
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -38,36 +38,63 @@ require 'assets/php/session.php';
         <div class="my-proflie">
             <div class="app-wrapper">
 
-                <aside class="profile">
+            <?php
+            // Retrieve the username from the session
+            $username = $_SESSION["username"];
 
-                    <h2>My Profile</h2>
+            // Retrieve the user details from the database
+            $sql = "SELECT * FROM ACCOUNT 
+                    INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id
+                    INNER JOIN COURSE ON USERS.course_code = COURSE.course_code
+                    INNER JOIN YEARSEC ON USERS.yearsec_id = YEARSEC.yearsec_id
+                    INNER JOIN COLLEGE ON COURSE.college_code = COLLEGE.college_code
+                    WHERE ACCOUNT.username = '$username'";
 
-                    <div class="details">
+            $result = $conn->query($sql);
 
-                        <div class="profile-pic">
-                            <label class="-label" for="file">
-                                <span>Change Image</span>
-                            </label>
-                            <input id="file" type="file" onchange="loadFile(event)" />
-                            <img src="https://i.pinimg.com/564x/e4/a4/7d/e4a47dc1f909bb9c88bb1a3c7a95fe1e.jpg"
-                                id="output" width="200" />
-                        </div>
-                        <h4>Ryka Gene Austria</h4>
-                        <p>2020104776</p>
+            // Check if a matching record is found
+            if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $email = $row["email"];
+            $year = $row["year_level"];
 
+            // Populate the HTML template with the fetched data
+            echo '
+            <aside class="profile">
+                
+                <div class="details">
+                <div class="profile-pic">
+                    <label class="-label" for="file">
+                    <span>Change Image</span>
+                    </label>
+                    <input id="file" type="file" onchange="loadFile(event)" />
+                    <img src="' . $row["picture"] . '" id="output" width="200" />
+                </div>
+                <h4>' . $row["first_name"] . ' ' . $row["last_name"] . '</h4>
+                <p>' . $row["username"] . '</p>
+                <div class="profile-info">
+                    <h5><span>Email:</span> ' . $email . '</h5>
+                    <h5><span>Age:</span> ' . '</h5>
+                    <h5><span>Gender:</span> ' .  '</h5>
+                    <h5><span>College:</span> ' . $row["college_name"] . '</h5>
+                    <h5><span>Course:</span> ' . $row["course_name"] . '</h5>
+                    <h5><span>Year & Section:</span> ' . $year . ' ' . $row["section"] . '-G' . $row["section_group"] . '</h5>
+                </div>
+                <div class="edit-info">
+                    <button type="submit" class="buttons"><span class="las la-user-edit"></span>Edit</button>
+                </div>
+                </div>
+            </aside>
+            ';
+            } else {
+            // Handle the case when no matching record is found
+            echo "You are not regular student. Either alumni or faculty";
+            }
 
-                        <div class="profile-info">
-                            <h5><span>Email:</span> rykagene.austria@bulsum.edu.ph</h5>
-                            <h5><span>Age:</span> 20</h5>
-                            <h5><span>Gender:</span> Female</h5>
-                            <h5><span>College:</span> CICT</h5>
-                            <h5><span>Course/Section:</span> BSIT 3E</h5>
-                        </div>
+            // Close the database connection
+            // $conn->close();
+            ?>
 
-                        <div class="edit-info">
-                            <button type="submit" class="buttons"><span class="las la-user-edit"></span>Edit</button>
-                        </div>
-                </aside>
 
                 <!--
                 <content class="reservations-wrapper">
@@ -119,7 +146,7 @@ require 'assets/php/session.php';
                 </content>
 -->
 
-                <content class="reservations-wrapper">
+                <!-- <content class="reservations-wrapper">
 
                     <h2>
                         Pending Reservation &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -188,8 +215,53 @@ require 'assets/php/session.php';
                     </div>
 
 
-                </content>
+                </content> -->
 
+
+                <content class="reservations-wrapper">
+    <h2>
+        My Reservation &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        <span class="total-reservation"> 2/3</span>
+    </h2>
+    <div class="reservations">
+        <?php
+            $query = "SELECT * FROM reservation WHERE date >= CURDATE() ORDER BY date ASC LIMIT 3";
+            $result = mysqli_query($conn, $query);
+            
+            if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $seat_id = $row['seat_id'];
+                $date = date('F j, Y', strtotime($row['date'])); // Convert date to desired format
+                $start_time = date('h:i A', strtotime($row['start_time'])); // Convert start time to AM/PM format
+                $end_time = date('h:i A', strtotime($row['end_time'])); // Convert end time to AM/PM format
+            
+                // Retrieve additional information related to the reservation, such as seat details
+                $seat_query = "SELECT * FROM seat WHERE seat_id = '$seat_id'";
+                $seat_result = mysqli_query($conn, $seat_query);
+                $seat_row = mysqli_fetch_assoc($seat_result);
+                $seat_number = $seat_row['seat_number'];
+            
+                // Display the pending reservation information
+                echo "<div class='row'><div class='col-8'>";
+                echo "<h3>Seat {$seat_number}</h3>";
+                echo "<p><ion-icon name='time-outline'></ion-icon> {$start_time} - {$end_time}<br>";
+                echo "<ion-icon name='calendar-outline'></ion-icon> {$date}</p></div>";
+                
+                // Add View Details button
+                
+                echo "<div class='col'><a href='receipt.php?reservation_id={$row['reservation_id']}' class='btn btn-sm'>View Details</a></div>";
+                
+                echo "</div>";
+                echo "<br><br>";
+            }
+            } else {
+            // No pending reservations found
+            echo "No pending reservations.";
+            }
+              
+        ?>
+    </div>
+</content>
 
 
             </div>
@@ -197,106 +269,7 @@ require 'assets/php/session.php';
         </div>
 
         <!------------------------ FOOTER ------------------------>
-        <footer>
-            <div class="container">
-                <div class="footer-top">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3 about-footer">
-                            <h3>Bulacan State University
-                                E-Library </h3>
-                            <ul>
-                                <li><a href="tel:(010) 919 7800"><i class="fas fa-phone fa-flip-horizontal"></i>
-                                        919 7800</a></li>
-                                <li><i class="fas fa-map-marker-alt"></i>
-                                    Guinhawa,
-                                    <br />City of Malolos,
-                                    <br />Bulacan
-                                </li>
-                                <li><i class="fas fa-at"></i>
-                                    officeofthepresident@bulsu.edu.ph
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 col-lg-2 page-more-info">
-                            <div class="footer-title">
-                                <h4>Page links</h4>
-                            </div>
-                            <ul>
-                                <li><a href="home.php">Home</a></li>
-                                <li><a href="home.php#aboutus">About Us</a></li>
-                                <li><a href="reserve.php">Reserve seat</a></li>
-                                <li><a href="profile.php">Your Account</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-md-6 col-lg-3 page-more-info">
-                            <div class="footer-title">
-                                <h4>More Info</h4>
-                            </div>
-                            <ul>
-                                <li><a href="survey.php">Rate our service</a></li>
-                                <li><a href="https://www.bulsu.edu.ph/">Official Website</a></li>
-                                <li><a href="https://myportal.bulsu.edu.ph/">BulSU Portal</a></li>
-                                <li><a href="https://www.bulsu.edu.ph/library/">Library Service</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 col-lg-4 open-hours">
-                            <div class="footer-title">
-                                <h4>Open hours</h4>
-                                <ul class="footer-social">
-                                    <li><a href="https://www.facebook.com/BulSUaklatan" target="_blank"><i
-                                                class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
-
-                                </ul>
-                            </div>
-                            <table class="table-hours">
-                                <tbody>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Monday-Thursday </td>
-                                        <td>10:00am - 7:00pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Friday</td>
-                                        <td>10:00am - 7:30pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Saturday</td>
-                                        <td>10:30am - 7:30pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Sunday</td>
-                                        <td>10:30am - 7:00pm</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <div class="footer-logo">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td><img src="assets/img/elib logo.png"></td>
-                                            <td><img src="assets/img/bulsu logo.png"></td>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="footer-bottom">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <a href="">Privacy policy</a>
-                        </div>
-                        <div class="col-sm-8">
-                            <p>© 2017 Bulacan State University</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+       <?php include 'assets/php/footer.php';?>
         <!------------------------ FOOTER ------------------------>
     </div>
 

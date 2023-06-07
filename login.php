@@ -1,3 +1,46 @@
+<?php
+// Include the connect.php file
+require_once 'assets/php/connect.php';
+
+// Start the session
+session_start();
+
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Retrieve the form data
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  // Check if the user is an admin
+  $sql = "SELECT * FROM account WHERE username = '$username' AND password = '$password' AND account_type = 'admin'";
+  $result = $conn->query($sql);
+
+  // Check if a matching admin record is found
+  if ($result->num_rows == 1) {
+    header("Location: admin.php");
+    $_SESSION["username"] = $username;
+    $_SESSION["password"] = $password;
+    exit();
+  }
+
+  // Check if the user is a regular user
+  $sql = "SELECT * FROM account WHERE username = '$username' AND password = '$password'";
+  $result = $conn->query($sql);
+
+  // Check if a matching user record is found
+  if ($result->num_rows == 1) {
+    header("Location: home.php");
+    $_SESSION["username"] = $username;
+    $_SESSION["password"] = $password;
+    
+    exit();
+  }
+
+  // Login failed
+  $error_message = "Invalid username or password";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +53,8 @@
   <link rel="stylesheet" href="assets/css/login.css" />
   <!------------------------ Bootstrap 5.3.0 ------------------------>
   <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
@@ -18,7 +63,7 @@
       <div class="inner-box">
         <div class="forms-wrap">
 
-          <form method="POST" action="toLogin.php" autocomplete="on" class="sign-in-form">
+        <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" autocomplete="on" class="sign-in-form">
             <div class="logo">
               <img src="assets/img/elib logo.png" alt="easyclass" />
               <h4>SOAR</h4>
@@ -32,16 +77,18 @@
 
             <div class="actual-form">
               <div class="input-wrap">
-                <input type="text" name="student_id" minlength="0" class="input-field" autocomplete="on"
-                  required="required" />
-                <label>Student No.</label>
+                <input type="text" name="username" class="input-field" autocomplete="off" required />
+                <label>Username</label>
               </div>
 
               <div class="input-wrap">
-                <input type="password" name="password" minlength="0" class="input-field" autocomplete="off"
-                  required="required" />
+                <input type="password" name="password" class="input-field" autocomplete="off" required />
                 <label>Password</label>
               </div>
+
+              <?php if (isset($error_message)) { ?>
+                <p style="color:red"><?php echo $error_message; ?></p>
+              <?php } ?>
 
               <input type="submit" value="Sign In" class="sign-btn" />
               <p class="text">
@@ -50,7 +97,7 @@
             </div>
           </form>
 
-          <form action="index.html" autocomplete="off" class="sign-up-form">
+          <form action="toRegister.php" method="POST" autocomplete="off" class="sign-up-form">
             <div class="logo">
               <img src="assets/img/elib logo.png" alt="easyclass" />
               <h4>SOAR</h4>
@@ -64,34 +111,66 @@
 
             <div class="actual-form">
               <div class="input-wrap">
-                <input type="text" minlength="4" class="input-field" autocomplete="off" required />
+                <input type="text" name="firstName" minlength="4" class="input-field" autocomplete="off" required />
                 <label>First Name</label>
               </div>
 
               <div class="input-wrap">
-                <input type="email" class="input-field" autocomplete="off" required />
+                <input type="text" name="lastName" class="input-field" autocomplete="off" required />
                 <label>Last Name</label>
               </div>
-
               <div class="input-wrap">
-                <input type="password" minlength="4" class="input-field" autocomplete="off" required />
-                <label>Student Number</label>
+             
+              <input type="text"class="input-field" id="user_id" name="user_id"required>
+              <label>ID Number</label>
+              <div class="invalid-feedback" style="padding-top: 2.2rem!important;">
+                Sorry, but this ID number already exist.
               </div>
+            </div>
+            
+
+
+  <!-- <div class="input-wrap">
+                <input type="text" name="user_id" id="user_id" class="form-control" required>
+                <label for="user_id">User ID</label>
+                <div class="invalid-feedback">User ID already exists.</div>
+              </div> -->
+
+
 
               <div class="input-wrap">
-                <input type="text" minlength="4" class="input-field" autocomplete="off" required />
+                <input type="email" name="email" class="input-field" autocomplete="off" required />
                 <label>Email</label>
               </div>
 
+              <!-- <div class="input-wrap">
+                <input type="text" name="username" minlength="4" class="input-field" autocomplete="off" required />
+                <label>Username</label>
+              </div> -->
+
               <div class="input-wrap">
-                <input type="email" class="input-field" autocomplete="off" required />
+                <input type="password" name="password" id="password" minlength="3" class="input-field" autocomplete="off" required />
                 <label>Password</label>
               </div>
 
               <div class="input-wrap">
-                <input type="password" minlength="4" class="input-field" autocomplete="off" required />
+                <input type="password" id="confirm_password" minlength="3" class="input-field" autocomplete="off" required />
                 <label>Confirm Password</label>
+                <div id="password_error" class="invalid-feedback" style="padding-top: 2.2rem!important;">
+                  Passwords do not match.
+                </div>
               </div>
+
+
+              <div class="input-wrap">
+                <select name="courseCode" class="input-field" required>
+                    <option value="" disabled selected>Select Course Code</option>
+                    <option value="BSIT">BSIT</option>
+                    <option value="BLIS">BLIS</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <label>Course</label>
+            </div>
 
               <input type="submit" value="Sign Up" class="sign-btn" />
 
@@ -643,6 +722,9 @@
     </div>
   </div>
 
+  <script>
+    
+  </script>
   <!------------------------ For Sliding  ------------------------>
   <script src="assets/js/login.js"></script>
 

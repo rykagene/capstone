@@ -1,4 +1,8 @@
-
+<?php
+session_start();
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
+?>
 
 <!DOCTYPE HTML>
 <html>

@@ -98,7 +98,7 @@ function reserveSeat(seat_id) {
 			// Insert reservation into the database
 			var reservationData = {
 				seat_id: seat_id,
-				student_id: '<?php echo $_SESSION["student_id"]; ?>', // Retrieve the student ID from the session
+				student_id: '<?php echo $_SESSION["username"]; ?>', // Retrieve the student ID from the session
 				date: $('#date').val(),
 				start_time: $('#start_time').val(),
 				end_time: $('#end_time').val(),

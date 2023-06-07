@@ -1,6 +1,6 @@
 <?php
 // connect to the database
-require 'connect.php';
+require 'assets/php/connect.php';
 
 // get reservation details
 $date = $_GET["date"];
@@ -39,11 +39,11 @@ if (($date == date('Y-m-d')) && ($end_time <= date('H:i', strtotime($currentDate
 
 
     // retrieve all seats
-    $sql = "SELECT * FROM seats";
+    $sql = "SELECT * FROM seat";
     $result = mysqli_query($conn, $sql);
 
     // retrieve reservations for the specified date and time
-    $reservationSql = "SELECT seat_id FROM reservations WHERE date = '$date' AND start_time <= '$end_time' AND end_time >= '$start_time'";
+    $reservationSql = "SELECT seat_id FROM reservation WHERE date = '$date' AND start_time <= '$end_time' AND end_time >= '$start_time'";
     $reservationResult = mysqli_query($conn, $reservationSql);
     $reservedSeats = array();
 

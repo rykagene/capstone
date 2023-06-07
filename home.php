@@ -1,22 +1,7 @@
 <?php
-// always start session
 session_start();
-
-// if the user was not logged in
-if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
-    echo '<style type="text/css">
-        .wrapper .hidden{
-            display: none;
-        }
-        </style>'; // reserve and account button is hidden if the user was not logged in
-
-} else {
-    echo '<style type="text/css">
-        .wrapper .show{
-            display: none;
-        }
-        </style>'; // login button is hidden if the user was logged in
-}
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
 ?>
 
 

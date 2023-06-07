@@ -1,14 +1,7 @@
 <?php
-// database connection
-require "connect.php";
-
 session_start();
-
-// need to login first to proceed in homepage
-if (!isset($_SESSION["adminID"]) && !isset($_SESSION["adminpass"])) {
-    header('Location: login.php');
-    exit();
-}
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
 ?>
 
 <!DOCTYPE HTML>

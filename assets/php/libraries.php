@@ -55,6 +55,7 @@ animation on scroll (aos) 2.3.1
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-xxx" crossorigin="anonymous" />
 
 
     <!------------------------ For NAV-BAR ------------------------>
