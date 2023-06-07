@@ -17,6 +17,18 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
         }
         </style>'; // login button is hidden if the user was logged in
 }
+
+
+
+// Check if maintenance mode is enabled
+$maintenanceMode = false; // Set this variable based on your toggle status
+
+if ($maintenanceMode) {
+  header("Location: maintenance.php"); // Redirect to maintenance.php
+  exit(); // Terminate further execution of the script
+}
+
+
 ?>
 
 <!DOCTYPE HTML>
