@@ -1,13 +1,9 @@
 <?php
-// always start session
 session_start();
-
-// if the user was not logged in
-if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
-    header('Location: login.php');
-    exit();
-}
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
 ?>
+
 
 <!DOCTYPE HTML>
 <html>
@@ -29,22 +25,15 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
 
     <div class="wrapper">
 
-        <!-- Sticky header -->
-        <header class="header-outer">
-            <div class="header-inner responsive-wrapper">
-                <div class="header-logo">
-                    <img src="assets/img/elib logo.png" class="icon">
-                </div>
-                <nav class="header-navigation">
-                    <a href="home.php">HOME</a>
-                    <a href="reserve.php">RESERVE A SEAT</a>
-                    <a href="home.php#aboutus">ABOUT US</a>
-                    <a href="profile.php" class="active">ACCOUNT</a>
-                    <a href="toLogout.php">LOGOUT</a>
-                </nav>
-            </div>
-        </header>
-        <!-- Sticky header -->
+       
+      
+  <!------------------------ HEADER --------------------->
+
+  <?php include 'assets/php/header.php'; ?>
+
+  <!------------------------ END HEADER --------------------->
+
+
 
         <div class="my-proflie">
             <div class="app-wrapper">

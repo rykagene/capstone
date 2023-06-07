@@ -5,7 +5,7 @@ require "connect.php";
 session_start();
 
 // need to login first to proceed in homepage
-if (!isset($_SESSION["adminID"]) && !isset($_SESSION["adminpass"])) {
+if (!isset($_SESSION["student_id"]) && !isset($_SESSION["adminpass"])) {
     header('Location: login.php');
     exit();
 }
@@ -61,6 +61,9 @@ if (!isset($_SESSION["adminID"]) && !isset($_SESSION["adminpass"])) {
                 </li>
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
+                </li>
+                <li> <a href="settings.php"><span class="las la-cog"></span>
+                        <span>Settings</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>

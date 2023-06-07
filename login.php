@@ -32,13 +32,13 @@
 
             <div class="actual-form">
               <div class="input-wrap">
-                <input type="text" name="student_id" minlength="10" class="input-field" autocomplete="off"
+                <input type="text" name="student_id" minlength="0" class="input-field" autocomplete="on"
                   required="required" />
                 <label>Student No.</label>
               </div>
 
               <div class="input-wrap">
-                <input type="password" name="password" minlength="3" class="input-field" autocomplete="off"
+                <input type="password" name="password" minlength="0" class="input-field" autocomplete="off"
                   required="required" />
                 <label>Password</label>
               </div>
