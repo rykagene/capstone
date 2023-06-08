@@ -139,21 +139,32 @@ require 'assets/php/session.php';
                     </select>
                 </div>
 
+                <div class="form-group row">
+                    <label for="reservation_hours"  class="col-sm-2 col-form-label">User can reserve </label>
+                    <select class="form-control col-sm-10" name="reservation_hours" id="max_duration">
+                        <?php
+                        for ($i = 1; $i <= 12; $i++) {
+                            echo '<option value="' . $i . '">' . $i . ' reservations per day</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
                
 
                 <button type="submit" class="btn btn-danger">Apply</button>
 
     
                 <?php
-                require 'connect.php';
-                $sql = "SELECT COUNT(*) AS totalSeats FROM seats";
+                require 'assets/php/connect.php';
+                $sql = "SELECT COUNT(*) AS totalSeats FROM seat";
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($result);
                 $totalSeats = $row['totalSeats'];
                 mysqli_close($conn);
                 ?>
                 
-                <!-- <h4>Manage Seats</h4>
+                <h4>Manage Seats</h4>
                 <h6>Total Seats: <?php echo $totalSeats; ?></h6>
                 <h4>Add New Seat</h4>
                 <form action="assets/php/add_seats.php" method="post">
@@ -166,7 +177,7 @@ require 'assets/php/session.php';
 
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
-            -->
+           
 
      
                 </div>
