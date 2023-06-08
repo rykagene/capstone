@@ -2,7 +2,7 @@
     <!-- validation if the user is logged in -->
 <?php 
 // if the user was not logged in
-if (!isset($_SESSION["username"]) && !isset($_SESSION["password"])) {
+if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"]) && !isset($_SESSION["last_name"])) {
   echo '<style type="text/css">
       .wrapper .hidden{
           display: none;
