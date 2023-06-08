@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2023 at 04:39 PM
+-- Generation Time: Jun 08, 2023 at 04:57 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -42,9 +42,7 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`) VALUES
 (1, 'admin', 'admin', 'admin@soar.com', NULL, 'admin'),
-(2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', NULL, 'student'),
-(3, '2020103476', '123', 'dingdong@gmail.com', NULL, 'student'),
-(4, '2020103477', '123', 'joshuagarcia@gmail.com', NULL, 'student');
+(2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', NULL, 'student');
 
 -- --------------------------------------------------------
 
@@ -65,7 +63,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `rfid_no`, `first_name`, `last_name`, `account_id`) VALUES
-(1, NULL, 'admin_fname', 'admin_lname', 1);
+(1, NULL, 'fname', 'lname', 1);
 
 -- --------------------------------------------------------
 
@@ -146,17 +144,6 @@ CREATE TABLE `reservation` (
   `seat_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`) VALUES
-(6, '2023-06-06', '11:41:00', '13:41:00', 2020103475, 5),
-(7, '2023-06-06', '11:42:00', '13:42:00', 2020103475, 4),
-(8, '2023-06-06', '13:45:00', '15:45:00', 2020103475, 1),
-(9, '2023-06-07', '19:20:00', '21:20:00', 2020103475, 5),
-(10, '2023-06-07', '19:59:00', '20:59:00', 2020103475, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -216,8 +203,6 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_id`, `course_code`, `yearsec_id`) VALUES
 (2020103475, NULL, 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
-(2020103476, NULL, 'Dingdong', 'Dantes', 3, 'BSIT', 9),
-(2020103477, NULL, 'Joshua', 'Garcia', 4, 'BSIT', 9),
 (2023000001, NULL, 'admin', 'admin', 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -337,13 +322,13 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
