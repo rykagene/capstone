@@ -86,7 +86,8 @@ require 'assets/php/session.php';
             <div class="user-wrapper">
                 <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
                 <div>
-                    <h4>Derrick Jones</h4>
+                <h4><?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?></h4>
+
                     <small>Admin</small>
                 </div>
             </div>
