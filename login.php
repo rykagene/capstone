@@ -15,11 +15,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $sql = "SELECT * FROM account WHERE username = '$username' AND password = '$password' AND account_type = 'admin'";
   $result = $conn->query($sql);
 
-  // Check if a matching admin record is found
+  // if admin account found
   if ($result->num_rows == 1) {
-    header("Location: admin.php");
+
+    // Fetch the admin details
+    $row= $result->fetch_assoc();
+    $account_id = $row['account_id'];
+    $sql2 = "SELECT * FROM admin WHERE account_id = '$account_id'";
+    $result2 = $conn->query($sql2);
+    $admin_row2 = $result2->fetch_assoc();
+    $first_name = $admin_row2['first_name'];
+    $last_name = $admin_row2['last_name'];
+    $admin_id = $row2['admin_id'];
+
+    // Set the session variables for admin
     $_SESSION["username"] = $username;
     $_SESSION["password"] = $password;
+    $_SESSION["admin_id"] = $admin_id;
+    $_SESSION["first_name"] = $first_name;
+    $_SESSION["last_name"] = $last_name;
+
+    header("Location: admin.php");
     exit();
   }
 
@@ -29,10 +45,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Check if a matching user record is found
   if ($result->num_rows == 1) {
+    // Fetch the user ID from the result
+    $row = $result->fetch_assoc();
+    $account_id = $row['account_id'];
+    $sql2 = "SELECT * FROM users WHERE account_id = '$account_id'";
+    $result2 = $conn->query($sql2);
+    $row2 = $result2->fetch_assoc();
+    $first_name = $row2['first_name'];
+    $last_name = $row2['last_name'];
+    $user_id = $row2['user_id'];
+
+
+      // Set the session variables for user
+      $_SESSION["username"] = $username;
+      $_SESSION["password"] = $password;
+      $_SESSION["user_id"] = $user_id;
+      $_SESSION["first_name"] = $first_name;
+      $_SESSION["last_name"] = $last_name;
     header("Location: home.php");
-    $_SESSION["username"] = $username;
-    $_SESSION["password"] = $password;
-    
     exit();
   }
 
@@ -40,6 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $error_message = "Invalid username or password";
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!------------------------ Bootstrap 5.3.0 ------------------------>
   <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -62,7 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="box">
       <div class="inner-box">
         <div class="forms-wrap">
-
+          
+        <!-- LOGIN FORM -->
         <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" autocomplete="on" class="sign-in-form">
             <div class="logo">
               <img src="assets/img/elib logo.png" alt="easyclass" />
@@ -96,8 +130,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </p>
             </div>
           </form>
+          <!-- END OF LOGIN FORM -->
 
-          <form action="toRegister.php" method="POST" autocomplete="off" class="sign-up-form">
+
+        <!-- REGISTER FORM -->
+        <form action="toRegister.php" method="POST" id="register-form" autocomplete="off" class="sign-up-form">
             <div class="logo">
               <img src="assets/img/elib logo.png" alt="easyclass" />
               <h4>SOAR</h4>
@@ -120,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>Last Name</label>
               </div>
               <div class="input-wrap">
-             
+        
               <input type="text"class="input-field" id="user_id" name="user_id"required>
               <label>ID Number</label>
               <div class="invalid-feedback" style="padding-top: 2.2rem!important;">
@@ -130,11 +167,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
 
 
-  <!-- <div class="input-wrap">
-                <input type="text" name="user_id" id="user_id" class="form-control" required>
-                <label for="user_id">User ID</label>
-                <div class="invalid-feedback">User ID already exists.</div>
-              </div> -->
+              <!-- <div class="input-wrap">
+                            <input type="text" name="user_id" id="user_id" class="form-control" required>
+                            <label for="user_id">User ID</label>
+                            <div class="invalid-feedback">User ID already exists.</div>
+                          </div> -->
 
 
 
@@ -172,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>Course</label>
             </div>
 
-              <input type="submit" value="Sign Up" class="sign-btn" />
+            <input type="submit" value="Sign Up" class="sign-btn" id="register-btn" />
 
               <p class="text">
                 By signing up, I agree to the
@@ -181,6 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </p>
             </div>
           </form>
+          <!-- END OF REGISTER FORM -->
         </div>
 
         <div class="carousel">
@@ -723,8 +761,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <script>
-    
-  </script>
+  $(document).ready(function() {
+    // Listen for form submission
+    $("#register-form").submit(function(e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Perform Ajax request
+      $.ajax({
+        url: $(this).attr("action"),
+        type: $(this).attr("method"),
+        data: $(this).serialize(),
+        success: function(response) {
+            Swal.fire({
+              icon: "success",
+              title: "Registration Success!",
+              text: "Please login in order to proceed.",
+            });
+        },
+        error: function() {
+          // Display error message using SweetAlert2
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "An error occurred. Please try again later.",
+          });
+        }
+      });
+    });
+  });
+</script>
+
+</script>
+
   <!------------------------ For Sliding  ------------------------>
   <script src="assets/js/login.js"></script>
 
