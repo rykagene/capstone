@@ -9,7 +9,7 @@ so the user can use both username or id number to login -->
 
 
 <?php
-require 'assets/php/connect.php';
+require_once 'assets/php/connect.php';
 
 // Retrieve submitted form data
 $username = mysqli_real_escape_string($conn, $_POST['user_id']);
@@ -27,20 +27,16 @@ $yearsecId = 9; //SECTION 3E-G1
 
 // Insert into 'account' table
 $query = "INSERT INTO account (username, password, email, account_type) VALUES ('$username', '$password', '$email', '$account_type')";
-$conn->query($query);
+if ($conn->query($query)) {
+  // Get the generated account_id
+  $accountId = $conn->insert_id;
 
-// Get the generated account_id
-$accountId = $conn->insert_id;
-
-// Insert into 'users' table
-$query = "INSERT INTO users (user_id, rfid_no, first_name, last_name, account_id, course_code, yearsec_id) 
-VALUES ('$user_id', NULL, '$firstName', '$lastName', '$accountId', '$courseCode', '$yearsecId')";
-$conn->query($query);
+  // Insert into 'users' table
+  $query2 = "INSERT INTO users (user_id, rfid_no, first_name, last_name, account_id, course_code, yearsec_id) 
+  VALUES ('$user_id', NULL, '$firstName', '$lastName', '$accountId', '$courseCode', '$yearsecId')";
+  $conn->query($query2);
+} 
 
 // Close the database connection
 $conn->close();
-
-// Redirect to a success page or perform other actions
-// header("Location: registration_success.php");
-exit();
 ?>
