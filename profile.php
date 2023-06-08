@@ -2,6 +2,7 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+
 ?>
 
 
@@ -57,6 +58,7 @@ require 'assets/php/session.php';
             $row = $result->fetch_assoc();
             $email = $row["email"];
             $year = $row["year_level"];
+            
 
             // Populate the HTML template with the fetched data
             echo '
@@ -71,8 +73,10 @@ require 'assets/php/session.php';
                     <img src="' . $row["picture"] . '" id="output" width="200" />
                 </div>
                 <h4>' . $row["first_name"] . ' ' . $row["last_name"] . '</h4>
-                <p>' . $row["username"] . '</p>
+                <p>' . $row["user_id"] . '</p>
                 <div class="profile-info">
+                    <h5><span>RFID No:</span> ' . $row["rfid_no"] = NULL ? $row["rfid_no"] : "Have not yet. <a href=''> Register RFID</a>". '</h5>
+                    <h5><span>Username:</span> ' . $row["username"]. '</h5>
                     <h5><span>Email:</span> ' . $email . '</h5>
                     <h5><span>Age:</span> ' . '</h5>
                     <h5><span>Gender:</span> ' .  '</h5>
@@ -221,47 +225,55 @@ require 'assets/php/session.php';
                 <content class="reservations-wrapper">
     <h2>
         My Reservation &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-        <span class="total-reservation"> 2/3</span>
+        <?php
+        $count_query = "SELECT COUNT(*) AS reservation_count FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE()";
+        $count_result = mysqli_query($conn, $count_query);
+        $count_row = mysqli_fetch_assoc($count_result);
+        $reservation_count = $count_row['reservation_count'];
+        echo "<span class='total-reservation'>{$reservation_count}/3</span>";
+        ?>
     </h2>
     <div class="reservations">
         <?php
-            $query = "SELECT * FROM reservation WHERE date >= CURDATE() ORDER BY date ASC LIMIT 3";
-            $result = mysqli_query($conn, $query);
-            
-            if (mysqli_num_rows($result) > 0) {
+
+        
+        $query = "SELECT * FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE() ORDER BY date ASC LIMIT 3";
+        $result = mysqli_query($conn, $query);
+
+        if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $seat_id = $row['seat_id'];
                 $date = date('F j, Y', strtotime($row['date'])); // Convert date to desired format
                 $start_time = date('h:i A', strtotime($row['start_time'])); // Convert start time to AM/PM format
                 $end_time = date('h:i A', strtotime($row['end_time'])); // Convert end time to AM/PM format
-            
+
                 // Retrieve additional information related to the reservation, such as seat details
                 $seat_query = "SELECT * FROM seat WHERE seat_id = '$seat_id'";
                 $seat_result = mysqli_query($conn, $seat_query);
                 $seat_row = mysqli_fetch_assoc($seat_result);
                 $seat_number = $seat_row['seat_number'];
-            
+
                 // Display the pending reservation information
                 echo "<div class='row'><div class='col-8'>";
                 echo "<h3>Seat {$seat_number}</h3>";
                 echo "<p><ion-icon name='time-outline'></ion-icon> {$start_time} - {$end_time}<br>";
                 echo "<ion-icon name='calendar-outline'></ion-icon> {$date}</p></div>";
-                
+
                 // Add View Details button
-                
+
                 echo "<div class='col'><a href='receipt.php?reservation_id={$row['reservation_id']}' class='btn btn-sm'>View Details</a></div>";
-                
+
                 echo "</div>";
                 echo "<br><br>";
             }
-            } else {
+        } else {
             // No pending reservations found
-            echo "No pending reservations.";
-            }
-              
+            echo "No  reservations yet. <a href='reserve.php'> Reserve seat </a>";
+        }
         ?>
     </div>
 </content>
+
 
 
             </div>
