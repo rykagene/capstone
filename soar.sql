@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2023 at 04:57 PM
+-- Generation Time: Jun 13, 2023 at 04:49 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -33,16 +33,18 @@ CREATE TABLE `account` (
   `password` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
-  `account_type` varchar(255) DEFAULT NULL
+  `account_type` varchar(255) DEFAULT NULL,
+  `reservation_count` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`) VALUES
-(1, 'admin', 'admin', 'admin@soar.com', NULL, 'admin'),
-(2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', NULL, 'student');
+INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`, `reservation_count`) VALUES
+(1, 'admin', 'admin', 'admin@soar.com', NULL, 'admin', 0),
+(2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', NULL, 'student', 0),
+(3, '1234', '1234', 'digo.jeaysmie.m.3475@gmail.com', NULL, 'student', 0);
 
 -- --------------------------------------------------------
 
@@ -118,6 +120,22 @@ CREATE TABLE `news` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `occupy`
+--
+
+CREATE TABLE `occupy` (
+  `occupy_id` int(11) NOT NULL,
+  `reservation_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `seat_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rating`
 --
 
@@ -144,6 +162,15 @@ CREATE TABLE `reservation` (
   `seat_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`) VALUES
+(3, '2023-06-12', '17:36:00', '18:36:00', 2020103475, 1),
+(4, '2023-06-12', '20:04:00', '21:04:00', 2020103475, 2),
+(5, '2023-06-13', '19:21:00', '21:21:00', 2020103475, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -162,7 +189,7 @@ CREATE TABLE `seat` (
 --
 
 INSERT INTO `seat` (`seat_id`, `seat_number`, `data_surface`, `status`) VALUES
-(1, '1', '221 2 495 496 497 0.513 0.203 0.284\r\n', '0'),
+(1, '1', '221 2 495 496 497 0.513 0.203 0.284\r\n', '1'),
 (2, '2', '220 3 7 10 9 0.179 0.274 0.547', '0'),
 (3, '3', '219 3 11 10 12 0.125 0.438 0.437', '0'),
 (4, '4', '218 1 823 824 826 0.428 0.044 0.528\r\n', '0'),
@@ -177,9 +204,17 @@ INSERT INTO `seat` (`seat_id`, `seat_number`, `data_surface`, `status`) VALUES
 CREATE TABLE `settings` (
   `settings_id` int(11) NOT NULL,
   `reservation` tinyint(1) DEFAULT NULL,
-  `minDuration` time DEFAULT NULL,
-  `maxDuration` time DEFAULT NULL
+  `minDuration` int(11) DEFAULT NULL,
+  `maxDuration` int(11) DEFAULT NULL,
+  `reservePerDay` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`settings_id`, `reservation`, `minDuration`, `maxDuration`, `reservePerDay`) VALUES
+(1, 1, 1, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -202,6 +237,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_id`, `course_code`, `yearsec_id`) VALUES
+(1234, NULL, 'JEAYSMIE', 'DIGO', 3, 'BSIT', 9),
 (2020103475, NULL, 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
 (2023000001, NULL, 'admin', 'admin', 1, NULL, NULL);
 
@@ -273,6 +309,15 @@ ALTER TABLE `news`
   ADD PRIMARY KEY (`news_id`);
 
 --
+-- Indexes for table `occupy`
+--
+ALTER TABLE `occupy`
+  ADD PRIMARY KEY (`occupy_id`),
+  ADD KEY `reservation_id` (`reservation_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `seat_id` (`seat_id`);
+
+--
 -- Indexes for table `rating`
 --
 ALTER TABLE `rating`
@@ -322,13 +367,19 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `occupy`
+--
+ALTER TABLE `occupy`
+  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -339,6 +390,14 @@ ALTER TABLE `reservation`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
+
+--
+-- Constraints for table `occupy`
+--
+ALTER TABLE `occupy`
+  ADD CONSTRAINT `occupy_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`),
+  ADD CONSTRAINT `occupy_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `occupy_ibfk_3` FOREIGN KEY (`seat_id`) REFERENCES `seat` (`seat_id`);
 
 --
 -- Constraints for table `rating`
