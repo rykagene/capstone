@@ -2,6 +2,7 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+
 ?>
 
 <!doctype html>
@@ -130,7 +131,39 @@ model-viewer {
 
   <!------------------------ END HEADER --------------------->
 
-  
+    <?php
+    $count_query = "SELECT COUNT(*) AS reservation_count FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE()";
+    $count_result = mysqli_query($conn, $count_query);
+    $count_row = mysqli_fetch_assoc($count_result);
+    $reservation_count = $count_row['reservation_count'];
+
+    // Retrieve the maximum reservation per day from the settings table
+    $settings_query = "SELECT reservePerDay FROM settings WHERE settings_id = '1'";
+    $settings_result = mysqli_query($conn, $settings_query);
+    $settings_row = mysqli_fetch_assoc($settings_result);
+    $reservePerDay = $settings_row['reservePerDay'];
+
+    $_SESSION["reservation_count"] = $reservation_count;
+
+    // Check if the reservation count has reached the limit
+    if ($reservation_count >= $reservePerDay) {
+        echo "<script>
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Reservation Limit Reached',
+                    text: 'You have reached the maximum reservation limit for today.',
+                    confirmButtonText: 'OK',
+                    onClose: function() {
+                      window.location.href = 'home.php';
+                    }
+                  });
+              </script>";
+    } else {
+        echo "<span class='total-reservation'>{$reservation_count} / {$reservePerDay}</span>";
+    }
+    ?>
+
+
   <div class="wrapper">
   <div class="container-fluid">
     <div class="row  bg-light mt-3 mb-3">
@@ -169,16 +202,37 @@ model-viewer {
                   <label for="start_time" class="text-muted">From</label>
                 </div>
 
-                <div class="form-group ">
-                  <label for="duration" class="text-muted small m-2" >Duration:</label>
-                  <div class="btn-group btn-group-toggle w-100" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio"  class="btn-check" name="options" id="option1" value="1" autocomplete="off" onclick="getEndTime()" >
-                    <label class="btn btn-outline-danger m-2 rounded ml-2 mr-2" id="btn-check" for="option1">1 hour</label>
+                <div class="form-group">
+                    <label for="duration" class="text-muted small m-2">Duration:</label>
+                    <div class="btn-group btn-group-toggle w-100" role="group" aria-label="Basic radio toggle button group">
+                        <?php
+                        $sql = "SELECT * FROM `settings` WHERE `settings_id` = 1";
+                        $result = mysqli_query($conn, $sql);
 
-                    <input type="radio" class="btn-check" name="options" id="option2" value="2"autocomplete="off" onclick="getEndTime()" >
-                    <label class="btn btn-outline-danger m-2 rounded ml-2 mr-2" id="btn-check" for="option2">2 hours</label>
-                  </div>
+                        // Check if the query was successful and fetch the row of data
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            $settings = mysqli_fetch_assoc($result);
+                            $minDuration = $settings['minDuration'];
+                            $maxDuration = $settings['maxDuration'];
+
+                            for ($i = $minDuration; $i <= $maxDuration; $i++) {
+                                echo '<input type="radio" class="btn-check" name="options" id="option' . $i . '" value="' . $i . '" autocomplete="off" onclick="getEndTime()">';
+                                echo '<label class="btn btn-outline-danger m-2 rounded ml-2 mr-2" id="btn-check" for="option' . $i . '">' . $i . ' hour' . (($i > 1) ? 's' : '') . '</label>';
+                            }
+                        } else {
+                            echo "Error retrieving settings: " . mysqli_error($conn);
+                        }
+
+                        // Close the result set
+                        mysqli_free_result($result);
+
+                        // Close the database connection
+                        mysqli_close($conn);
+                        ?>
+                    </div>
                 </div>
+
+
 
                 <div class="form-floating mb-3">
                 <input type="time" class="form-control-plaintext" readonly id="end_time" name="end_time" required="required">

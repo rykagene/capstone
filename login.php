@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fetch the admin details
     $row= $result->fetch_assoc();
     $account_id = $row['account_id'];
+    $reservation_count = $row['reservation_count'];
     $sql2 = "SELECT * FROM admin WHERE account_id = '$account_id'";
     $result2 = $conn->query($sql2);
     $admin_row2 = $result2->fetch_assoc();
@@ -34,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["admin_id"] = $admin_id;
     $_SESSION["first_name"] = $first_name;
     $_SESSION["last_name"] = $last_name;
-
+    $_SESSION["reservation_count"] = $reservation_count;
     header("Location: admin.php");
     exit();
   }
@@ -48,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fetch the user ID from the result
     $row = $result->fetch_assoc();
     $account_id = $row['account_id'];
+    $reservation_count = $row['reservation_count'];
     $sql2 = "SELECT * FROM users WHERE account_id = '$account_id'";
     $result2 = $conn->query($sql2);
     $row2 = $result2->fetch_assoc();
@@ -62,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION["user_id"] = $user_id;
       $_SESSION["first_name"] = $first_name;
       $_SESSION["last_name"] = $last_name;
+      $_SESSION["reservation_count"] = $reservation_count;
     header("Location: home.php");
     exit();
   }

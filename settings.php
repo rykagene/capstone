@@ -2,6 +2,25 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+
+if (isset($_POST['apply'])) {
+    // Get the form inputs
+    $reservation = $_POST['customRadio'];
+    $minDuration = $_POST['min_duration'];
+    $maxDuration = $_POST['max_duration'];
+    $reservePerDay = $_POST['reserve_per_day'];
+
+    // Update the settings in the database
+    $sql = "UPDATE `settings` SET `reservation` = '$reservation', `minDuration` = '$minDuration', `maxDuration` = '$maxDuration', `reservePerDay` = '$reservePerDay' WHERE `settings_id` = 1";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        echo "Settings updated successfully.";
+    } else {
+        echo "Error updating settings: " . mysqli_error($conn);
+    }
+}
+
 ?>
 
 <!DOCTYPE HTML>
@@ -92,104 +111,88 @@ require 'assets/php/session.php';
         </header>
         <!------------------------ END OF HEADER ------------------------>
 
+        <?php
+        // Assuming you have established a database connection
+
+        // Retrieve the data from the settings table
+        $sql = "SELECT * FROM `settings` WHERE `settings_id` = 1";
+        $result = mysqli_query($conn, $sql);
+
+        // Check if the query was successful and fetch the row of data
+        if ($result && mysqli_num_rows($result) > 0) {
+            $settings = mysqli_fetch_assoc($result);
+        } else {
+            echo "Error retrieving settings: " . mysqli_error($conn);
+        }
+
+        // Close the result set
+        mysqli_free_result($result);
+
+        // Close the database connection
+        mysqli_close($conn);
+        ?>
 
         <main>
             <div class="container mt-4">
-            <h4 class=""> Reservation System </h4>
-            <form>
-            <div class="form-group row">
-                <label for="enableReservation" class="col-sm-2 col-form-label">Enable Reservation</label>
-                <div class="col-sm-10">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked>
-                        <label class="custom-control-label" for="customRadio1">Enable</label>
+                <h4 class=""> Reservation System </h4>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <!-- Enable Reservation -->
+                    <div class="form-group row">
+                        <label for="enableReservation" class="col-sm-2 col-form-label">Enable Reservation</label>
+                        <div class="col-sm-10">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" <?php if ($settings['reservation'] == 1) echo 'checked'; ?>>
+                                <label class="custom-control-label" for="customRadio1">Enable</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="0" <?php if ($settings['reservation'] == 0) echo 'checked'; ?>>
+                                <label class="custom-control-label" for="customRadio2">Disable</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                        <label class="custom-control-label" for="customRadio2">Disable</label>
+
+                    <!-- Min duration -->
+                    <div class="form-group row">
+                        <label for="min_duration" class="col-sm-2 col-form-label">Min duration</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="min_duration" name="min_duration" value="<?php echo $settings['minDuration']; ?>">
+                            <small class="form-text text-muted">Enter the minimum duration in hours</small>
+                        </div>
                     </div>
-                </div>
-            </div>
-          
-            </form>
-            
-            <div class="form-group row">
-                    <label for="reservation_hours" class="col-sm-2 col-form-label">Min duration</label>
-        
-                    <select class="form-control col-sm-10" name="reservation_hours" id="min_duration">
-                        <?php
-                        for ($i = 1; $i <= 12; $i++) {
-                          if($i == 1) 
-                            echo '<option value="' . $i . '">' . $i . ' hour</option>';
-                          else 
-                            echo '<option value="' . $i . '">' . $i . ' hours</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
 
-                <div class="form-group row">
-                    <label for="reservation_hours"  class="col-sm-2 col-form-label">Max duration </label>
-                    <select class="form-control col-sm-10" name="reservation_hours" id="max_duration">
-                        <?php
-                        for ($i = 2; $i <= 12; $i++) {
-                            echo '<option value="' . $i . '">' . $i . ' hours</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <div class="form-group row">
-                    <label for="reservation_hours"  class="col-sm-2 col-form-label">User can reserve </label>
-                    <select class="form-control col-sm-10" name="reservation_hours" id="max_duration">
-                        <?php
-                        for ($i = 1; $i <= 12; $i++) {
-                            echo '<option value="' . $i . '">' . $i . ' reservations per day</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-
-               
-
-                <button type="submit" class="btn btn-danger">Apply</button>
-
-    
-                <?php
-                require 'assets/php/connect.php';
-                $sql = "SELECT COUNT(*) AS totalSeats FROM seat";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_assoc($result);
-                $totalSeats = $row['totalSeats'];
-                mysqli_close($conn);
-                ?>
-                
-                <h4>Manage Seats</h4>
-                <h6>Total Seats: <?php echo $totalSeats; ?></h6>
-                <h4>Add New Seat</h4>
-                <form action="assets/php/add_seats.php" method="post">
-                    
-                    <div class="mb-3">
-                        <label for="seat_number" class="form-label">Seat Number</label>
-                        <input type="text" class="form-control" id="seat_number" name="seat_number" required>
+                    <!-- Max duration -->
+                    <div class="form-group row">
+                        <label for="max_duration" class="col-sm-2 col-form-label">Max duration</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="max_duration" name="max_duration" value="<?php echo $settings['maxDuration']; ?>">
+                            <small class="form-text text-muted">Enter the maximum duration in hours</small>
+                        </div>
                     </div>
-                   
 
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <!-- Reserve per day -->
+                    <div class="form-group row">
+                        <label for="reserve_per_day" class="col-sm-2 col-form-label">Reserve per day</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="reserve_per_day" name="reserve_per_day" value="<?php echo $settings['reservePerDay']; ?>">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" name="apply">Apply</button>
                 </form>
-           
-
-     
-                </div>
-       
-
-            
-
-
+            </div>
         </main>
 
 
+
+
+       
+
+
+
+
     </div>
+
+
 
 
 </body>

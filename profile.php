@@ -45,7 +45,7 @@ require 'assets/php/session.php';
 
             // Retrieve the user details from the database
             $sql = "SELECT * FROM ACCOUNT 
-                    INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id
+                    INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id   
                     INNER JOIN COURSE ON USERS.course_code = COURSE.course_code
                     INNER JOIN YEARSEC ON USERS.yearsec_id = YEARSEC.yearsec_id
                     INNER JOIN COLLEGE ON COURSE.college_code = COLLEGE.college_code
@@ -223,16 +223,27 @@ require 'assets/php/session.php';
 
 
                 <content class="reservations-wrapper">
-    <h2>
-        My Reservation &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-        <?php
-        $count_query = "SELECT COUNT(*) AS reservation_count FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE()";
-        $count_result = mysqli_query($conn, $count_query);
-        $count_row = mysqli_fetch_assoc($count_result);
-        $reservation_count = $count_row['reservation_count'];
-        echo "<span class='total-reservation'>{$reservation_count}/3</span>";
-        ?>
-    </h2>
+                <h2>
+                    My Reservation &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    <?php
+                    $count_query = "SELECT COUNT(*) AS reservation_count FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE()";
+                    $count_result = mysqli_query($conn, $count_query);
+                    $count_row = mysqli_fetch_assoc($count_result);
+                    $reservation_count = $count_row['reservation_count'];
+
+                    // Retrieve the maximum reservation per day from the settings table
+                    $settings_query = "SELECT reservePerDay FROM settings WHERE settings_id = '1'";
+                    $settings_result = mysqli_query($conn, $settings_query);
+                    $settings_row = mysqli_fetch_assoc($settings_result);
+                    $reservePerDay = $settings_row['reservePerDay'];
+
+                    $_SESSION["reservation_count"] = $reservation_count;
+
+                    echo "<span class='total-reservation'>{$reservation_count} / {$reservePerDay}</span>";
+                    ?>
+                </h2>
+
+
     <div class="reservations">
         <?php
 
