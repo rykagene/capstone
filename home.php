@@ -14,7 +14,7 @@ require 'assets/php/session.php';
 
     <!------------------------ Bootstrap 5 ------------------------>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-   
+
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/home.css" />
 
@@ -24,17 +24,16 @@ require 'assets/php/session.php';
     <!------------------------ Google Fonts Used ------------------------>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital@1&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
-        <!-- animation on scroll -->
+    <!-- animation on scroll -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 
 <body>
     <script>
-         AOS.init();
+        AOS.init();
     </script>
 
     <div class="wrapper">
@@ -63,7 +62,7 @@ require 'assets/php/session.php';
         <div id="home" class="parallax-home">
             <img class="banner" src="assets/img/lib building_bg.jpg" id="lib-front">
 
-            <div class="title" >
+            <div class="title">
                 <h1 id="parallax-home-text-lib" data-aos="fade-right">Library</h1>
                 <h1 id="parallax-home-text-school" data-aos="fade-up">BULACAN STATE UNIVERSITY</h1>
                 <h1 id="parallax-home-text-disc" data-aos="fade-left">Discover and Learn</h1>
@@ -73,7 +72,7 @@ require 'assets/php/session.php';
 
 
         <!------------------------ SEAT INFO ------------------------>
-        <div class="seats"  data-aos="fade-right">
+        <div class="seats" data-aos="fade-right">
             <div class="no-of-seats">
                 <h1 id="no">206</h1>
                 <h1 id="avail">Available Seats</h1>
@@ -87,8 +86,7 @@ require 'assets/php/session.php';
         <!------------------------ NEWS SLIDER ------------------------>
         <div id="my-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="true" data-aos="fade-left">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
@@ -162,7 +160,7 @@ require 'assets/php/session.php';
 
         <!------------------------ VMGO ------------------------>
 
-        <div class="wrap" >
+        <div class="wrap">
             <div class="tile" data-aos="fade-up" data-aos-duration="1000">
                 <img src='assets/img/elib4.jpg' />
                 <div class="text">
@@ -254,8 +252,7 @@ require 'assets/php/session.php';
                             <div class="footer-title">
                                 <h4>Open hours</h4>
                                 <ul class="footer-social">
-                                    <li><a href="https://www.facebook.com/BulSUaklatan" target="_blank"><i
-                                                class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.facebook.com/BulSUaklatan" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
                                     <li><a href="" target="_blank"><i class="fab fa-instagram"></i></a></li>
                                     <li><a href="" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
 
@@ -318,9 +315,9 @@ require 'assets/php/session.php';
 
 <!------------------------ For Sliding News ------------------------>
 <script type="text/javascript">
-     AOS.init();
+    AOS.init();
     var counter = 1;
-    setInterval(function () {
+    setInterval(function() {
         document.getElementById('radio' + counter).checked = true;
         counter++;
         if (counter > 2) {
@@ -328,11 +325,9 @@ require 'assets/php/session.php';
         }
     }, 5000);
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
-    integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
-    </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
-    integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
+</script>
 
 </html>
