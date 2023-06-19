@@ -81,6 +81,10 @@ require 'assets/php/session.php';
                 Reserve seat
             </a>
         </div>
+
+        <canvas class="webgl"></canvas>
+
+        <script type="module" src="/main.js"></script>
         <!------------------------ END OF SEAT INFO ------------------------>
 
         <!------------------------ NEWS SLIDER ------------------------>
