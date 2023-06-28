@@ -3,6 +3,14 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
+require_once('config.php');
+
+if ($config['maintenance_mode']) {
+    // Redirect the user to the maintenance page
+    header('Location: maintenance.php');
+    exit;
+}
+
 ?>
 
 <!doctype html>
@@ -161,6 +169,10 @@ model-viewer {
     } else {
         echo "<span class='total-reservation'>{$reservation_count} / {$reservePerDay}</span>";
     }
+
+
+    
+
     ?>
 
 

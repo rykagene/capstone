@@ -21,6 +21,27 @@ if (isset($_POST['apply'])) {
     }
 }
 
+
+if (isset($_POST['save'])) {
+    // Get the maintenance mode value
+    $maintenanceStatus = $_POST['maintenanceStatus'];
+
+    // Update the maintenance mode in the database
+    $sql = "UPDATE `maintenance` SET `status` = '$maintenanceStatus' WHERE `id` = 1";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        echo "Maintenance mode updated successfully.";
+    } else {
+        echo "Error updating maintenance mode: " . mysqli_error($conn);
+    }
+}
+?>
+
+
+
+
+
 ?>
 
 <!DOCTYPE HTML>
@@ -32,6 +53,9 @@ if (isset($_POST['apply'])) {
     <!------------------------ Bootstrap 4 ------------------------>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-toggle@2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-toggle@2.2.2/js/bootstrap-toggle.min.js"></script>
+    
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/analytics.css" />
@@ -176,19 +200,48 @@ if (isset($_POST['apply'])) {
                             <input type="number" class="form-control" id="reserve_per_day" name="reserve_per_day" value="<?php echo $settings['reservePerDay']; ?>">
                         </div>
                     </div>
-
                     <button type="submit" class="btn btn-primary" name="apply">Apply</button>
                 </form>
             </div>
+
+            <div class="container mt-4">
+                <!-- Maintenance -->
+                <div class="toggle_container">
+                <h4 class="">Reservation Maintenance</h4>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    <div class="form-group row">
+        <label for="maintenanceMode" class="col-sm-2 col-form-label">Maintenance Mode</label>
+        <div class="col-sm-10">
+            <?php
+           
+
+            // Check if $maintenanceStatus is equal to 1 or 0 and set the checked attribute accordingly
+            $isCheckedOn = ($maintenanceStatus == 1) ? 'checked' : '';
+            $isCheckedOff = ($maintenanceStatus == 0) ? 'checked' : '';
+            ?>
+
+            <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio3" name="maintenanceStatus" class="custom-control-input" value="1" <?php echo $isCheckedOn; ?>>
+                <label class="custom-control-label" for="customRadio3">On</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio4" name="maintenanceStatus" class="custom-control-input" value="0" <?php echo $isCheckedOff; ?>>
+                <label class="custom-control-label" for="customRadio4">Off</label>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" name="save">Save</button>
+</form>
+
+
+</div>
+            </div>
+
+    
+
+            
+
         </main>
-
-
-
-
-       
-
-
-
 
     </div>
 
@@ -206,6 +259,7 @@ if (isset($_POST['apply'])) {
 "></script>
 
 <script src="assets/js/analytics.js"></script>
+<script src="assets/js/settings.js"></script>
 
 
 </html>
