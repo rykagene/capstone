@@ -15,7 +15,7 @@ require 'assets/php/session.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!------------------------ CSS Link ------------------------>
-    <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/users.css" />
 
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
@@ -261,39 +261,43 @@ require 'assets/php/session.php';
                             <div class="table-responsive">
 
                                 <section class="table__header">
-                                    <h1>User List</h1>
+                                    <h1>Users</h1>
                                     <div class="input-group">
                                         <input type="search" placeholder="Search Data...">
-
+                                        <div class="search-icon">
+                                            <img src="assets/img/search.png" alt="Search">
+                                        </div>
                                     </div>
                                     <div class="export__file">
-                                        <label for="export-file" class="export__file-btn" title="Export File"></label>
+                                        <label for="export-file" class="export__file-btn" title="Export File">
+                                            <img src="assets/img/export_ic.png" alt="Export" class="export_ic">
+                                        </label>
                                         <input type="checkbox" id="export-file">
                                         <div class="export__file-options">
                                             <label>Export As &nbsp; &#10140;</label>
-                                            <label for="export-file" id="toPDF">PDF <img src="images/pdf.png"
+                                            <label for="export-file" id="toPDF">PDF <img src="assets/img/pdf.png"
                                                     alt=""></label>
-                                            <label for="export-file" id="toJSON">JSON <img src="images/json.png"
+                                            <label for="export-file" id="toJSON">JSON <img src="assets/img/json.png"
                                                     alt=""></label>
-                                            <label for="export-file" id="toCSV">CSV <img src="images/csv.png"
+                                            <label for="export-file" id="toCSV">CSV <img src="assets/img/csv.png"
                                                     alt=""></label>
-                                            <label for="export-file" id="toEXCEL">EXCEL <img src="images/excel.png"
+                                            <label for="export-file" id="toEXCEL">EXCEL <img src="assets/img/excel.png"
                                                     alt=""></label>
                                         </div>
                                     </div>
                                 </section>
                                 <section class="table__body">
-                                    <table>
+                                    <table id="users_list">
                                         <thead>
                                             <tr>
                                                 <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Account ID <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> RFID No. <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> First Name <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Last Name <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> College <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Course <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Course Code <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Year <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Type <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Action</th>
+                                             
 
                                             </tr>
                                         </thead>
@@ -306,9 +310,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                           
                                             </tr>
 
                                             <tr>
@@ -319,9 +321,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                               
                                             </tr>
 
                                             <tr>
@@ -332,9 +332,7 @@ require 'assets/php/session.php';
                                                 <td>CAFA</td>
                                                 <td>BSARC</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                               
                                             </tr>
 
                                             <tr>
@@ -345,9 +343,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BLIS</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                                
                                             </tr>
 
                                             <tr>
@@ -358,9 +354,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                                
                                             </tr>
 
                                             <tr>
@@ -371,9 +365,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                               
                                             </tr>
 
                                             <tr>
@@ -384,9 +376,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                               
                                             </tr>
 
                                             <tr>
@@ -397,9 +387,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                               
                                             </tr>
 
                                             <tr>
@@ -410,9 +398,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                                
                                             </tr>
 
                                             <tr>
@@ -423,23 +409,10 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                <td>
-                                                    <p class="status pending"><a>See More</a></p>
-                                                </td>
+                                                
                                             </tr>
 
-                                            <tr>
-                                                <td class="studno">2020104576</td>
-                                                <td>47192</td>
-                                                <td>Anne</td>
-                                                <td>Kuminga</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-                                                <td>
-                                                    <p class="status pending">See More</p>
-                                                </td>
-                                            </tr>
+                                          
 
 
 
@@ -468,6 +441,6 @@ require 'assets/php/session.php';
     crossorigin="anonymous"></script>
 
 <script src="assets/js/history.js"></script>
-<script src="assets/js/user-list.js"></script>
+<script src="assets/js/users.js"></script>
 
 </html>

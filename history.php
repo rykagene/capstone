@@ -544,5 +544,6 @@ require 'assets/php/session.php';
 </script>
 
 <script src="assets/js/history.js"></script>
+<script src="assets/js/users.js"></script>
 
 </html>

@@ -36,6 +36,22 @@ if (isset($_POST['save'])) {
         echo "Error updating maintenance mode: " . mysqli_error($conn);
     }
 }
+
+// Retrieve the current maintenance mode status from the database
+$query = "SELECT status FROM `maintenance` WHERE `id` = 1";
+$result = mysqli_query($conn, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $maintenanceStatus = $row['status'];
+} else {
+    // Handle the case when the query fails or no rows are found
+    $maintenanceStatus = 0; // Default value for maintenance mode
+}
+
+// Close the result set
+mysqli_free_result($result);
+?>
 ?>
 
 
