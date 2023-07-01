@@ -287,7 +287,7 @@ require 'assets/php/session.php';
                                     </div>
                                 </section>
                                 <section class="table__body">
-                                    <table id="users_list">
+                                    <table id="customers_table">
                                         <thead>
                                             <tr>
                                                 <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
