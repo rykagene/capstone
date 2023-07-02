@@ -57,8 +57,9 @@ const customers_table = document.querySelector('#customers_table');
 
 const toPDF = function (customers_table) {
     const html_code = `
-    <link rel="stylesheet" href="style.css">
-    <main class="table" >${customers_table.innerHTML}</main>
+    <link rel="stylesheet" href="assets/css/users.css" />
+    
+    <table id="customers_table">${customers_table.innerHTML}</table>
     `;
 
     const new_window = window.open();
@@ -118,85 +119,86 @@ json_btn.onclick = () => {
 const csv_btn = document.querySelector('#toCSV');
 
 const toCSV = function (table) {
-    // Code For SIMPLE TABLE
-    // const t_rows = table.querySelectorAll('tr');
-    // return [...t_rows].map(row => {
-    //     const cells = row.querySelectorAll('th, td');
-    //     return [...cells].map(cell => cell.textContent.trim()).join(',');
-    // }).join('\n');
-
-    const t_heads = table.querySelectorAll('th'),
-        tbody_rows = table.querySelectorAll('tbody tr');
-
+    const t_heads = table.querySelectorAll('th');
+    const tbody_rows = table.querySelectorAll('tbody tr');
+  
     const headings = [...t_heads].map(head => {
-        let actual_head = head.textContent.trim().split(' ');
-        return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-    }).join(',') + ',' + 'image name';
-
+      let actual_head = head.textContent.trim().split(' ');
+      return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
+    }).join(',');
+  
     const table_data = [...tbody_rows].map(row => {
-        const cells = row.querySelectorAll('td'),
-            img = decodeURIComponent(row.querySelector('img').src),
-            data_without_img = [...cells].map(cell => cell.textContent.replace(/,/g, ".").trim()).join(',');
-
-        return data_without_img + ',' + img;
+      const cells = row.querySelectorAll('td');
+      return [...cells].map(cell => cell.textContent.trim()).join(',');
     }).join('\n');
-
+  
     return headings + '\n' + table_data;
-}
+  }
+  
 
 csv_btn.onclick = () => {
-    const csv = toCSV(customers_table);
-    downloadFile(csv, 'csv', 'customer orders');
+  const csv = toCSV(customers_table);
+  downloadFile(csv, 'csv', 'soar_users');
 }
 
 // 6. Converting HTML table to EXCEL File
 
 const excel_btn = document.querySelector('#toEXCEL');
 
-const toExcel = function (table) {
-    // Code For SIMPLE TABLE
-    // const t_rows = table.querySelectorAll('tr');
-    // return [...t_rows].map(row => {
-    //     const cells = row.querySelectorAll('th, td');
-    //     return [...cells].map(cell => cell.textContent.trim()).join('\t');
-    // }).join('\n');
-
-    const t_heads = table.querySelectorAll('th'),
-        tbody_rows = table.querySelectorAll('tbody tr');
-
-    const headings = [...t_heads].map(head => {
-        let actual_head = head.textContent.trim().split(' ');
-        return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-    }).join('\t') + '\t' + 'image name';
-
-    const table_data = [...tbody_rows].map(row => {
-        const cells = row.querySelectorAll('td'),
-            img = decodeURIComponent(row.querySelector('img').src),
-            data_without_img = [...cells].map(cell => cell.textContent.trim()).join('\t');
-
-        return data_without_img + '\t' + img;
-    }).join('\n');
-
-    return headings + '\n' + table_data;
-}
+const toExcel = function(table) {
+  const excelRows = [];
+  
+  const t_heads = table.querySelectorAll('th');
+  const headings = [...t_heads].map(head => {
+    let actual_head = head.textContent.trim().split(' ');
+    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
+  });
+  excelRows.push(headings);
+  
+  const tbody_rows = table.querySelectorAll('tbody tr');
+  [...tbody_rows].forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const rowData = [...cells].map(cell => cell.textContent.trim());
+    excelRows.push(rowData);
+  });
+  
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
+  
+  const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  return excelFile;
+};
 
 excel_btn.onclick = () => {
-    const excel = toExcel(customers_table);
-    downloadFile(excel, 'excel');
-}
+  const excel = toExcel(customers_table);
+  downloadFile(excel, 'excel', 'soar_users.xlsx');
+};
 
-const downloadFile = function (data, fileType, fileName = '') {
+/*const downloadFile = function(data, fileType, fileName = '') {
+  const blob = new Blob([data], { type: fileType });
+  const url = URL.createObjectURL(blob);
+  
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}; */ 
+
+
+const downloadFile = function(data, fileType, fileName = '') {
+    const blob = new Blob([data], { type: fileType });
+    const url = URL.createObjectURL(blob);
+    
     const a = document.createElement('a');
-    a.download = fileName;
-    const mime_types = {
-        'json': 'application/json',
-        'csv': 'text/csv',
-        'excel': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    }
-    a.href = `
-        data:${mime_types[fileType]};charset=utf-8,${encodeURIComponent(data)}
-    `;
+    a.href = url;
+    a.download = fileName + '.' + fileType;
     document.body.appendChild(a);
     a.click();
-    a.remove();
-}
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  
