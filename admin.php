@@ -78,11 +78,6 @@ require 'assets/php/session.php';
                 Dashboard
             </h2>
 
-            <div class="search-wrapper">
-                <span class="las la-search"></span>
-                <input type="search" placeholder="Search here..">
-            </div>
-
             <div class="dropdown">
                 <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -97,7 +92,7 @@ require 'assets/php/session.php';
                 </button>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
                     <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
                     </ul>
                 </div>

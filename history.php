@@ -33,7 +33,7 @@ require 'assets/php/session.php';
     <div class="sidebar">
         <div class="sidebar-brand">
             <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
-            <h2> <span>E-Lib Admin</span></h2>
+            <h2> <span>SOAR Admin</span></h2>
         </div>
 
         <div class="sidebar-menu">
@@ -56,6 +56,9 @@ require 'assets/php/session.php';
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
+                <li> <a href="settings.php"><span class="las la-cog"></span>
+                        <span>Settings</span></a>
+                </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
                 </li>
@@ -76,11 +79,23 @@ require 'assets/php/session.php';
                 History
             </h2>
 
-            <div class="user-wrapper">
-                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                <div>
-                    <h4>Derrick Jones</h4>
-                    <small>Admin</small>
+            <div class="dropdown">
+                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="user-wrapper">
+                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
+                        <div>
+                            <h4>
+                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                            </h4>
+                        </div>
+                    </div>
+                </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </header>
@@ -537,13 +552,12 @@ require 'assets/php/session.php';
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-</script>
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-</script>
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
 
 <script src="assets/js/history.js"></script>
-<script src="assets/js/users.js"></script>
 
 </html>
