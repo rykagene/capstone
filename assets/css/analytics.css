@@ -186,6 +186,28 @@ header label span {
 .user-wrapper h4 {
   margin-bottom: -7px !important;
 }
+
+.dropdown-toggle {
+  background-color: transparent;
+  border-color: #fff;
+  border-style: solid;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  content: none;
+}
+
+.dropdown-toggle::after {
+  content: none;
+}
+
+.dropdown-menu {
+  background-color: #a81c1c;
+}
+
+.dropdown-menu > li > a {
+  color: #fff;
+}
 /* --------- END OF HEADER --------- */
 
 main {
@@ -243,7 +265,7 @@ main {
 .print-report .buttons {
   background: #a81c1c;
   color: white;
-  padding: .5rem;
+  padding: 0.5rem;
   border-radius: 15px;
   border: none;
   text-decoration: none;
@@ -255,4 +277,3 @@ main {
   border: 1px black;
   text-decoration: none;
 }
-

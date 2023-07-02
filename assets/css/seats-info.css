@@ -192,8 +192,29 @@ header label span {
 .user-wrapper h4 {
   margin-bottom: -7px !important;
 }
-/* --------- END OF HEADER --------- */
 
+.dropdown-toggle {
+  background-color: transparent;
+  border-color: #fff;
+  border-style: solid;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  content: none;
+}
+
+.dropdown-toggle::after {
+  content: none;
+}
+
+.dropdown-menu {
+  background-color: #a81c1c;
+}
+
+.dropdown-menu > li > a {
+  color: #fff;
+}
+/* --------- END OF HEADER --------- */
 .row {
   display: flex;
   width: 100%;
