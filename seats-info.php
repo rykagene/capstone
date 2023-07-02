@@ -22,6 +22,7 @@ require 'assets/php/session.php';
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
 </head>
 
 
@@ -33,7 +34,7 @@ require 'assets/php/session.php';
     <div class="sidebar">
         <div class="sidebar-brand">
             <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
-            <h2> <span>E-Lib Admin</span></h2>
+            <h2> <span>SOAR Admin</span></h2>
         </div>
 
         <div class="sidebar-menu">
@@ -56,6 +57,9 @@ require 'assets/php/session.php';
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
+                <li> <a href="settings.php"><span class="las la-cog"></span>
+                        <span>Settings</span></a>
+                </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
                 </li>
@@ -76,21 +80,27 @@ require 'assets/php/session.php';
                 Seats Information
             </h2>
 
-            <div class="search-wrapper">
-                <span class="las la-search"></span>
-                <input type="search" placeholder="Search here..">
-            </div>
+            <div class="dropdown">
+                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="user-wrapper">
+                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
+                        <div>
+                            <h4>
+                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                            </h4>
+                        </div>
+                    </div>
+                </button>
 
-            <div class="user-wrapper">
-                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                <div>
-                    <h4>Derrick Jones</h4>
-                    <small>Admin</small>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </header>
         <!------------------------ END OF HEADER ------------------------>
-
 
         <main>
 
@@ -149,17 +159,23 @@ require 'assets/php/session.php';
                             <ul class="calendar weekly-byhour">
                                 <!--  EVENT NODES  -->
                                 <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
-                                
-
-                                    <li class="event personal"  style="grid-column:   tue;   grid-row:  h05   /  h07;  ">2020104776</li>
-                                    <li class="event personal"  style="grid-column:   mon;   grid-row:  h11   /  h12;  ">2020103123</li>
-                                    <li class="event personal"  style="grid-column:   mon;   grid-row:  h08   /  h10;  ">2020104124</li>
-                                    <li class="event personal"  style="grid-column:   mon;   grid-row:  h16  /  h17;  ">2020104214</li>
-                                    <li class="event personal"  style="grid-column:   sun;   grid-row:  h13  /  h15;  ">2020107547</li>
-                                    <li class="event personal"  style="grid-column:   wed;   grid-row:  h10   /  h12;  ">2020107476</li>
 
 
-                        
+                                <li class="event personal" style="grid-column:   tue;   grid-row:  h05   /  h07;  ">
+                                    2020104776</li>
+                                <li class="event personal" style="grid-column:   mon;   grid-row:  h11   /  h12;  ">
+                                    2020103123</li>
+                                <li class="event personal" style="grid-column:   mon;   grid-row:  h08   /  h10;  ">
+                                    2020104124</li>
+                                <li class="event personal" style="grid-column:   mon;   grid-row:  h16  /  h17;  ">
+                                    2020104214</li>
+                                <li class="event personal" style="grid-column:   sun;   grid-row:  h13  /  h15;  ">
+                                    2020107547</li>
+                                <li class="event personal" style="grid-column:   wed;   grid-row:  h10   /  h12;  ">
+                                    2020107476</li>
+
+
+
 
                                 <!--  DAYS OF THE WEEK  -->
                                 <li class="day sun">Seat 40</li>
@@ -245,7 +261,7 @@ require 'assets/php/session.php';
                                 <li></li>
                                 <li></li>
                                 <li></li>
-                    
+
                             </ul>
                         </div>
 
@@ -268,7 +284,7 @@ require 'assets/php/session.php';
     integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
     crossorigin="anonymous"></script>
 
-<script src="assets/js/available.js"></script>
+<script src="assets/js/seats-info.js"></script>
 
 
 </html>

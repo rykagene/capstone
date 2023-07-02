@@ -15,7 +15,7 @@ require 'assets/php/session.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!------------------------ CSS Link ------------------------>
-    <link rel="stylesheet" type="text/css" href="assets/css/users.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
 
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
@@ -30,7 +30,7 @@ require 'assets/php/session.php';
     <div class="sidebar">
         <div class="sidebar-brand">
             <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
-            <h2> <span>E-Lib Admin</span></h2>
+            <h2> <span>SOAR Admin</span></h2>
         </div>
 
         <div class="sidebar-menu">
@@ -53,6 +53,9 @@ require 'assets/php/session.php';
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
+                <li> <a href="settings.php"><span class="las la-cog"></span>
+                        <span>Settings</span></a>
+                </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
                 </li>
@@ -66,6 +69,7 @@ require 'assets/php/session.php';
 
         <!------------------------ HEADER ------------------------>
         <header>
+
             <h2>
                 <label for="nav-toggle">
                     <span class="la la-bars"></span>
@@ -73,15 +77,23 @@ require 'assets/php/session.php';
                 User List
             </h2>
 
-            <div class="search-wrapper">
+            <div class="dropdown">
+                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="user-wrapper">
+                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
+                        <div>
+                            <h4>
+                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                            </h4>
+                        </div>
+                    </div>
+                </button>
 
-            </div>
-
-            <div class="user-wrapper">
-                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                <div>
-                    <h4>Derrick Jones</h4>
-                    <small>Admin</small>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </header>
@@ -297,7 +309,7 @@ require 'assets/php/session.php';
                                                 <th> Course Code <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Year <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Type <span class="icon-arrow">&UpArrow;</span></th>
-                                             
+
 
                                             </tr>
                                         </thead>
@@ -310,7 +322,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                           
+
                                             </tr>
 
                                             <tr>
@@ -321,7 +333,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                               
+
                                             </tr>
 
                                             <tr>
@@ -332,7 +344,7 @@ require 'assets/php/session.php';
                                                 <td>CAFA</td>
                                                 <td>BSARC</td>
                                                 <td>Student</td>
-                                               
+
                                             </tr>
 
                                             <tr>
@@ -343,7 +355,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BLIS</td>
                                                 <td>Student</td>
-                                                
+
                                             </tr>
 
                                             <tr>
@@ -354,7 +366,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                
+
                                             </tr>
 
                                             <tr>
@@ -365,7 +377,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                               
+
                                             </tr>
 
                                             <tr>
@@ -376,7 +388,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                               
+
                                             </tr>
 
                                             <tr>
@@ -387,7 +399,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                               
+
                                             </tr>
 
                                             <tr>
@@ -398,7 +410,7 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                
+
                                             </tr>
 
                                             <tr>
@@ -409,8 +421,18 @@ require 'assets/php/session.php';
                                                 <td>CICT</td>
                                                 <td>BSIT</td>
                                                 <td>Student</td>
-                                                
+
                                             </tr>
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+>>>>>>> dd824405b02cf75106b6a1588305f783ba015ee2
                                         </tbody>
                                     </table>
                                 </section>
@@ -433,6 +455,7 @@ require 'assets/php/session.php';
     integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
     crossorigin="anonymous"></script>
 
+<<<<<<< HEAD
 <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://unpkg.com/xlsx-style/dist/xlsx.full.min.js"></script>
 
@@ -441,5 +464,8 @@ require 'assets/php/session.php';
 
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
+=======
+<script src="assets/js/admin.js"></script>
+>>>>>>> dd824405b02cf75106b6a1588305f783ba015ee2
 
 </html>
