@@ -83,12 +83,23 @@ require 'assets/php/session.php';
                 <input type="search" placeholder="Search here..">
             </div>
 
-            <div class="user-wrapper">
-                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                <div>
-                <h4><?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?></h4>
+            <div class="dropdown">
+                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="user-wrapper">
+                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
+                        <div>
+                            <h4>
+                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                            </h4>
+                        </div>
+                    </div>
+                </button>
 
-                    <small>Admin</small>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </header>
