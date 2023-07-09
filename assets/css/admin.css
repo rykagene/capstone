@@ -80,6 +80,11 @@
   height: 50px;
 }
 
+.manage{
+  color: #ffffff;
+  cursor: pointer;
+}
+
 #nav-toggle:checked + .sidebar {
   width: 70px;
 }
