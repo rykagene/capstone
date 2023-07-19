@@ -142,7 +142,7 @@ csv_btn.onclick = () => {
 }
 
 // 6. Converting HTML table to EXCEL File
-
+// 6. Converting HTML table to EXCEL File
 const excel_btn = document.querySelector('#toEXCEL');
 
 const toExcel = function(table) {
@@ -172,21 +172,13 @@ const toExcel = function(table) {
 
 excel_btn.onclick = () => {
   const excel = toExcel(customers_table);
-  downloadFile(excel, 'excel', 'soar_users.xlsx');
+  downloadFile(excel, 'excel', 'customer_orders');
 };
 
-/*const downloadFile = function(data, fileType, fileName = '') {
-  const blob = new Blob([data], { type: fileType });
-  const url = URL.createObjectURL(blob);
-  
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}; */ 
+
+
+
+
 
 
 const downloadFile = function(data, fileType, fileName = '') {

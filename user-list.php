@@ -2,6 +2,12 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+
+$sql = "SELECT user_id, rfid_no, first_name, last_name, account_id, course_code, yearsec_id from users";
+$result = $conn -> query($sql);
+
+
+
 ?>
 
 <!DOCTYPE HTML>
@@ -20,6 +26,7 @@ require 'assets/php/session.php';
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    
 </head>
 
 
@@ -282,7 +289,7 @@ require 'assets/php/session.php';
                                     </div>
                                     <div class="export__file">
                                         <label for="export-file" class="export__file-btn" title="Export File">
-                                            <img src="assets/img/export_ic.png" alt="Export" class="export_ic">
+                                            <img src="assets/img/export1.png" alt="Export" class="export_ic">
                                         </label>
                                         <input type="checkbox" id="export-file">
                                         <div class="export__file-options">
@@ -306,134 +313,30 @@ require 'assets/php/session.php';
                                                 <th> RFID No. <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> First Name <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Last Name <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Account ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Course Code <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Year <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Type <span class="icon-arrow">&UpArrow;</span></th>
-
-
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="studno">2020104276</td>
-                                                <td>47192</td>
-                                                <td>Killua</td>
-                                                <td>Zoldyck</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2020604776</td>
-                                                <td>47192</td>
-                                                <td>Kei</td>
-                                                <td>Tsukishima</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2024104776</td>
-                                                <td>47192</td>
-                                                <td>Safer</td>
-                                                <td>Sephiroth</td>
-                                                <td>CAFA</td>
-                                                <td>BSARC</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2020604776</td>
-                                                <td>47192</td>
-                                                <td>Rinoa</td>
-                                                <td>Heartily</td>
-                                                <td>CICT</td>
-                                                <td>BLIS</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2020504776</td>
-                                                <td>47192</td>
-                                                <td>Lightning</td>
-                                                <td>Farron</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2023104776</td>
-                                                <td>47192</td>
-                                                <td>Aerith</td>
-                                                <td>Gainborough</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2030104776</td>
-                                                <td>47192</td>
-                                                <td>Tifa</td>
-                                                <td>Lockhart</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2021104776</td>
-                                                <td>47192</td>
-                                                <td>Cloud</td>
-                                                <td>Strife</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2022104776</td>
-                                                <td>47192</td>
-                                                <td>Zack</td>
-                                                <td>Fair</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="studno">2023104776</td>
-                                                <td>47192</td>
-                                                <td>Loyd</td>
-                                                <td>Cruz</td>
-                                                <td>CICT</td>
-                                                <td>BSIT</td>
-                                                <td>Student</td>
-
-                                            </tr>
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
->>>>>>> dd824405b02cf75106b6a1588305f783ba015ee2
-                                        </tbody>
+                                        <?php
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                ?>
+                                                <tr>
+                                                    <td class="studno"><?php echo $row['user_id']; ?></td>
+                                                    <td><?php echo $row['rfid_no']; ?></td>
+                                                    <td><?php echo $row['first_name']; ?></td>
+                                                    <td><?php echo $row['last_name']; ?></td>
+                                                    <td><?php echo $row['account_id']; ?></td>
+                                                    <td><?php echo $row['course_code']; ?></td>
+                                                    <td><?php echo $row['yearsec_id']; ?></td>  
+                                                </tr>
+                                            <?php
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7'>No users found.</td></tr>";
+                                        }
+                                        ?>
                                     </table>
                                 </section>
 
@@ -454,18 +357,217 @@ require 'assets/php/session.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
     crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/xlsx-populate/browser/xlsx-populate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+        const search = document.querySelector('.input-group input'),
+    table_rows = document.querySelectorAll('tbody tr'),
+    table_headings = document.querySelectorAll('thead th');
 
-<<<<<<< HEAD
-<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script src="https://unpkg.com/xlsx-style/dist/xlsx.full.min.js"></script>
+// 1. Searching for specific data of HTML table
+search.addEventListener('input', searchTable);
+
+function searchTable() {
+    table_rows.forEach((row, i) => {
+        let table_data = row.textContent.toLowerCase(),
+            search_data = search.value.toLowerCase();
+
+        row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+        row.style.setProperty('--delay', i / 25 + 's');
+    })
+
+    document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+    });
+}
+
+// 2. Sorting | Ordering data of HTML table
+
+table_headings.forEach((head, i) => {
+    let sort_asc = true;
+    head.onclick = () => {
+        table_headings.forEach(head => head.classList.remove('active'));
+        head.classList.add('active');
+
+        document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
+        table_rows.forEach(row => {
+            row.querySelectorAll('td')[i].classList.add('active');
+        })
+
+        head.classList.toggle('asc', sort_asc);
+        sort_asc = head.classList.contains('asc') ? false : true;
+
+        sortTable(i, sort_asc);
+    }
+})
+
+
+function sortTable(column, sort_asc) {
+    [...table_rows].sort((a, b) => {
+        let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
+            second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
+
+        return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+    })
+        .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+}
+
+// 3. Converting HTML table to PDF
+
+const pdf_btn = document.querySelector('#toPDF');
+const customers_table = document.querySelector('#customers_table');
+
+const toPDF = function (customers_table) {
+    const html_code = `
+    <link rel="stylesheet" href="assets/css/users.css" />
+    
+    <table id="customers_table">${customers_table.innerHTML}</table>
+    `;
+
+    const new_window = window.open();
+    new_window.document.write(html_code);
+
+    setTimeout(() => {
+        new_window.print();
+        new_window.close();
+    }, 400);
+}
+
+pdf_btn.onclick = () => {
+    toPDF(customers_table);
+}
+
+// 4. Converting HTML table to JSON
+
+const json_btn = document.querySelector('#toJSON');
+
+const toJSON = function (table) {
+    let table_data = [],
+        t_head = [],
+
+        t_headings = table.querySelectorAll('th'),
+        t_rows = table.querySelectorAll('tbody tr');
+
+    for (let t_heading of t_headings) {
+        let actual_head = t_heading.textContent.trim().split(' ');
+
+        t_head.push(actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase());
+    }
+
+    t_rows.forEach(row => {
+        const row_object = {},
+            t_cells = row.querySelectorAll('td');
+
+        t_cells.forEach((t_cell, cell_index) => {
+            const img = t_cell.querySelector('img');
+            if (img) {
+                row_object['customer image'] = decodeURIComponent(img.src);
+            }
+            row_object[t_head[cell_index]] = t_cell.textContent.trim();
+        })
+        table_data.push(row_object);
+    })
+
+    return JSON.stringify(table_data, null, 4);
+}
+
+json_btn.onclick = () => {
+    const json = toJSON(customers_table);
+    downloadFile(json, 'json')
+}
+
+
+
+
+
+        const csv_btn = document.querySelector('#toCSV');
+const excel_btn = document.querySelector('#toEXCEL');
+
+const toCSV = function(table) {
+  const t_heads = table.querySelectorAll('th');
+  const headings = [...t_heads].map(head => {
+    let actual_head = head.textContent.trim().split(' ');
+    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
+  }).join(',') + ',image name';
+
+  const tbody_rows = table.querySelectorAll('tbody tr');
+  const table_data = [...tbody_rows].map(row => {
+    const cells = row.querySelectorAll('td');
+    const data_without_img = [...cells].map(cell => cell.textContent.replace(/,/g, ".").trim()).join(',');
+    return data_without_img;
+  }).join('\n');
+
+  return headings + '\n' + table_data;
+};
+
+const toExcel = function(table) {
+  const excelRows = [];
+  
+  const t_heads = table.querySelectorAll('th');
+  const headings = [...t_heads].map(head => {
+    let actual_head = head.textContent.trim().split(' ');
+    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
+  });
+  excelRows.push(headings);
+  
+  const tbody_rows = table.querySelectorAll('tbody tr');
+  [...tbody_rows].forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const rowData = [...cells].map(cell => cell.textContent.trim());
+    excelRows.push(rowData);
+  });
+  
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
+  
+  const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  return excelFile;
+};
+
+csv_btn.onclick = () => {
+  const csv = toCSV(customers_table);
+  downloadFile(csv, 'csv', 'customer_orders.csv');
+};
+
+excel_btn.onclick = () => {
+  const excel = toExcel(customers_table);
+  downloadFile(excel, 'excel', 'customer_orders.xlsx');
+};
+
+const downloadFile = function(data, fileType, fileName = '') {
+  const blob = new Blob([data], { type: fileType });
+  const url = URL.createObjectURL(blob);
+  
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+    </script>
+
+
+
+
+    
+
+
+
+
+
+
+
+
 
 
 
 
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
-=======
-<script src="assets/js/admin.js"></script>
->>>>>>> dd824405b02cf75106b6a1588305f783ba015ee2
 
 </html>
