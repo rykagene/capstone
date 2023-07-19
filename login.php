@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($result->num_rows == 1) {
 
     // Fetch the admin details
-    $row= $result->fetch_assoc();
+    $row = $result->fetch_assoc();
     $account_id = $row['account_id'];
     $reservation_count = $row['reservation_count'];
     $sql2 = "SELECT * FROM admin WHERE account_id = '$account_id'";
@@ -58,13 +58,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $row2['user_id'];
 
 
-      // Set the session variables for user
-      $_SESSION["username"] = $username;
-      $_SESSION["password"] = $password;
-      $_SESSION["user_id"] = $user_id;
-      $_SESSION["first_name"] = $first_name;
-      $_SESSION["last_name"] = $last_name;
-      $_SESSION["reservation_count"] = $reservation_count;
+    // Set the session variables for user
+    $_SESSION["username"] = $username;
+    $_SESSION["password"] = $password;
+    $_SESSION["user_id"] = $user_id;
+    $_SESSION["first_name"] = $first_name;
+    $_SESSION["last_name"] = $last_name;
+    $_SESSION["reservation_count"] = $reservation_count;
     header("Location: home.php");
     exit();
   }
@@ -98,9 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="box">
       <div class="inner-box">
         <div class="forms-wrap">
-          
-        <!-- LOGIN FORM -->
-        <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" autocomplete="on" class="sign-in-form">
+
+          <!-- LOGIN FORM -->
+          <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" autocomplete="on" class="sign-in-form">
             <div class="logo">
               <img src="assets/img/elib logo.png" alt="easyclass" />
               <h4>SOAR</h4>
@@ -124,7 +124,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </div>
 
               <?php if (isset($error_message)) { ?>
-                <p style="color:red"><?php echo $error_message; ?></p>
+                <p style="color:red">
+                  <?php echo $error_message; ?>
+                </p>
               <?php } ?>
 
               <input type="submit" value="Sign In" class="sign-btn" />
@@ -136,15 +138,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <!-- END OF LOGIN FORM -->
 
 
-        <!-- REGISTER FORM -->
-        <form action="toRegister.php" method="POST" id="register-form" autocomplete="off" class="sign-up-form">
+          <!-- REGISTER FORM -->
+          <form action="toRegister.php" method="POST" id="register-form" autocomplete="off" class="sign-up-form">
             <div class="logo">
               <img src="assets/img/elib logo.png" alt="easyclass" />
               <h4>SOAR</h4>
             </div>
 
             <div class="heading">
-              <h2>Get Started</h2>
               <h6>Already have an account?</h6>
               <a href="#" class="toggle">Sign in</a>
             </div>
@@ -160,14 +161,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label>Last Name</label>
               </div>
               <div class="input-wrap">
-        
-              <input type="text"class="input-field" id="user_id" name="user_id"required>
-              <label>ID Number</label>
-              <div class="invalid-feedback" style="padding-top: 2.2rem!important;">
-                Sorry, but this ID number already exist.
+
+                <input type="text" class="input-field" id="user_id" name="user_id" required>
+                <label>ID Number</label>
+                <div class="invalid-feedback" style="padding-top: 2.2rem!important;">
+                  Sorry, but this ID number already exist.
+                </div>
               </div>
-            </div>
-            
+
 
 
               <!-- <div class="input-wrap">
@@ -189,12 +190,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </div> -->
 
               <div class="input-wrap">
-                <input type="password" name="password" id="password" minlength="3" class="input-field" autocomplete="off" required />
+                <input type="password" name="password" id="password" minlength="3" class="input-field"
+                  autocomplete="off" required />
                 <label>Password</label>
               </div>
 
               <div class="input-wrap">
-                <input type="password" id="confirm_password" minlength="3" class="input-field" autocomplete="off" required />
+                <input type="password" id="confirm_password" minlength="3" class="input-field" autocomplete="off"
+                  required />
                 <label>Confirm Password</label>
                 <div id="password_error" class="invalid-feedback" style="padding-top: 2.2rem!important;">
                   Passwords do not match.
@@ -203,16 +206,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
               <div class="input-wrap">
-                <select name="courseCode" class="input-field" required>
-                    <option value="" disabled selected>Select Course Code</option>
-                    <option value="BSIT">BSIT</option>
-                    <option value="BLIS">BLIS</option>
-                    <!-- Add more options as needed -->
+                <select name="courseCode" class="input-field">
+                  <option style="display:none"></option>
+                  <option value="BSIT">BSIT</option>
+                  <option value="BLIS">BLIS</option>
+                  <!-- Add more options as needed -->
                 </select>
                 <label>Course</label>
-            </div>
+              </div>
 
-            <input type="submit" value="Sign Up" class="sign-btn" id="register-btn" />
+              <input type="submit" value="Sign Up" class="sign-btn" id="register-btn" />
 
               <p class="text">
                 By signing up, I agree to the
@@ -764,37 +767,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <script>
-  $(document).ready(function() {
-    // Listen for form submission
-    $("#register-form").submit(function(e) {
-      e.preventDefault(); // Prevent the default form submission
+    $(document).ready(function () {
+      // Listen for form submission
+      $("#register-form").submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
 
-      // Perform Ajax request
-      $.ajax({
-        url: $(this).attr("action"),
-        type: $(this).attr("method"),
-        data: $(this).serialize(),
-        success: function(response) {
+        // Perform Ajax request
+        $.ajax({
+          url: $(this).attr("action"),
+          type: $(this).attr("method"),
+          data: $(this).serialize(),
+          success: function (response) {
             Swal.fire({
               icon: "success",
               title: "Registration Success!",
               text: "Please login in order to proceed.",
             });
-        },
-        error: function() {
-          // Display error message using SweetAlert2
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "An error occurred. Please try again later.",
-          });
-        }
+          },
+          error: function () {
+            // Display error message using SweetAlert2
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "An error occurred. Please try again later.",
+            });
+          }
+        });
       });
     });
-  });
-</script>
+  </script>
 
-</script>
+  </script>
 
   <!------------------------ For Sliding  ------------------------>
   <script src="assets/js/login.js"></script>
