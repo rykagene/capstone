@@ -3,13 +3,18 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-require_once('config.php');
+// Fetch the reservation status from the settings table
+$settings_query = "SELECT reservation FROM settings WHERE settings_id = '1'";
+$settings_result = mysqli_query($conn, $settings_query);
+$settings_row = mysqli_fetch_assoc($settings_result);
+$reservation_status = $settings_row['reservation'];
 
-if ($config['maintenance_mode']) {
-    // Redirect the user to the maintenance page
-    header('Location: maintenance.php');
-    exit;
+// Check if the reservation status is disabled
+if ($reservation_status == '0') {
+    header("Location: maintenance.php");
+    exit(); // Make sure to exit to prevent further script execution
 }
+
 
 ?>
 
@@ -167,7 +172,7 @@ model-viewer {
                   });
               </script>";
     } else {
-        echo "<span class='total-reservation'>{$reservation_count} / {$reservePerDay}</span>";
+        echo "you have  <span class='total-reservation'>{$reservation_count} pending reservation. Remaining:{$reservePerDay}</span>";
     }
 
 

@@ -116,7 +116,7 @@ require 'assets/php/session.php';
             // Create a temporary link element to download the image
             const link = document.createElement("a");
             link.href = dataUrl;
-            link.download = "card.png";
+            link.download = "reservation.png";
 
             // Trigger the download by programmatically clicking the link
             link.click();

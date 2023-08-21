@@ -205,15 +205,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </div>
 
 
-              <div class="input-wrap">
+              <!-- <div class="input-wrap">
                 <select name="courseCode" class="input-field">
                   <option style="display:none"></option>
                   <option value="BSIT">BSIT</option>
                   <option value="BLIS">BLIS</option>
-                  <!-- Add more options as needed -->
+   
                 </select>
                 <label>Course</label>
-              </div>
+              </div> -->
 
               <input type="submit" value="Sign Up" class="sign-btn" id="register-btn" />
 
