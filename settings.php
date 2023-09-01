@@ -3,65 +3,54 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-if (isset($_POST['apply'])) {
-    // Get the form inputs
+
+// Initialize variables
+$settingsUpdated = false;
+
+// Update the settings in the database
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reservation = $_POST['customRadio'];
     $minDuration = $_POST['min_duration'];
     $maxDuration = $_POST['max_duration'];
     $reservePerDay = $_POST['reserve_per_day'];
 
-    // Update the settings in the database
     $sql = "UPDATE `settings` SET `reservation` = '$reservation', `minDuration` = '$minDuration', `maxDuration` = '$maxDuration', `reservePerDay` = '$reservePerDay' WHERE `settings_id` = 1";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        echo "Settings updated successfully.";
+        $settingsUpdated = true;
+        // Display SweetAlert2 success message
+        echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Settings Updated",
+                text: "The settings have been updated successfully.",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "settings.php"; // Redirect to settings page
+                }
+            });
+        </script>';
     } else {
         echo "Error updating settings: " . mysqli_error($conn);
     }
 }
 
+// Retrieve the data from the settings table
+$sql = "SELECT * FROM `settings` WHERE `settings_id` = 1";
+$result = mysqli_query($conn, $sql);
 
-if (isset($_POST['save'])) {
-    // Get the maintenance mode value
-    $maintenanceStatus = $_POST['maintenanceStatus'];
-
-    // Update the maintenance mode in the database
-    $sql = "UPDATE `maintenance` SET `status` = '$maintenanceStatus' WHERE `id` = 1";
-    $result = mysqli_query($conn, $sql);
-
-    if ($result) {
-        echo "Maintenance mode updated successfully.";
-    } else {
-        echo "Error updating maintenance mode: " . mysqli_error($conn);
-    }
-}
-
-// Retrieve the current maintenance mode status from the database
-$query = "SELECT status FROM `maintenance` WHERE `id` = 1";
-$result = mysqli_query($conn, $query);
-
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    $maintenanceStatus = $row['status'];
-} else {
-    // Handle the case when the query fails or no rows are found
-    $maintenanceStatus = 0; // Default value for maintenance mode
-}
-
-// Close the result set
-mysqli_free_result($result);
-?>
-?>
-
-
-
-
-
+// Rest of your code...
 ?>
 
 <!DOCTYPE HTML>
 <html>
+    <!--  SweetAlert2 CSS and JS files -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+
 
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
@@ -69,9 +58,6 @@ mysqli_free_result($result);
     <!------------------------ Bootstrap 4 ------------------------>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-toggle@2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-toggle@2.2.2/js/bootstrap-toggle.min.js"></script>
-    
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/analytics.css" />
@@ -142,12 +128,15 @@ mysqli_free_result($result);
             </div> -->
 
             <div class="user-wrapper">
-                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                <div>
-                    <h4>Derrick Jones</h4>
-                    <small>Admin</small>
-                </div>
-            </div>
+                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
+                        
+                        <div>
+                        Admin
+                            <h4>
+                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                            </h4>
+                        </div>
+                    </div>
         </header>
         <!------------------------ END OF HEADER ------------------------>
 
@@ -174,11 +163,12 @@ mysqli_free_result($result);
 
         <main>
             <div class="container mt-4">
-                <h4 class=""> Reservation System </h4>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <h3 class=""> Reservation</h3>
+                <br>
+                <form id="settings-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                     <!-- Enable Reservation -->
                     <div class="form-group row">
-                        <label for="enableReservation" class="col-sm-2 col-form-label">Enable Reservation</label>
+                        <label for="enableReservation" class="col-sm-2 col-form-label">Maintenance Mode</label>
                         <div class="col-sm-10">
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" <?php if ($settings['reservation'] == 1) echo 'checked'; ?>>
@@ -216,48 +206,19 @@ mysqli_free_result($result);
                             <input type="number" class="form-control" id="reserve_per_day" name="reserve_per_day" value="<?php echo $settings['reservePerDay']; ?>">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" name="apply">Apply</button>
+
+                    <button type="submit" class="btn btn-danger" name="apply" id="applyButton" disabled>Apply Changes</button>
                 </form>
             </div>
-
-            <div class="container mt-4">
-                <!-- Maintenance -->
-                <div class="toggle_container">
-                <h4 class="">Reservation Maintenance</h4>
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-    <div class="form-group row">
-        <label for="maintenanceMode" class="col-sm-2 col-form-label">Maintenance Mode</label>
-        <div class="col-sm-10">
-            <?php
-           
-
-            // Check if $maintenanceStatus is equal to 1 or 0 and set the checked attribute accordingly
-            $isCheckedOn = ($maintenanceStatus == 1) ? 'checked' : '';
-            $isCheckedOff = ($maintenanceStatus == 0) ? 'checked' : '';
-            ?>
-
-            <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio3" name="maintenanceStatus" class="custom-control-input" value="1" <?php echo $isCheckedOn; ?>>
-                <label class="custom-control-label" for="customRadio3">On</label>
-            </div>
-            <div class="custom-control custom-radio">
-                <input type="radio" id="customRadio4" name="maintenanceStatus" class="custom-control-input" value="0" <?php echo $isCheckedOff; ?>>
-                <label class="custom-control-label" for="customRadio4">Off</label>
-            </div>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary" name="save">Save</button>
-</form>
-
-
-</div>
-            </div>
-
-    
-
-            
-
         </main>
+
+
+
+
+       
+
+
+
 
     </div>
 
@@ -273,9 +234,75 @@ mysqli_free_result($result);
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js
 "></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 
-<script src="assets/js/analytics.js"></script>
-<script src="assets/js/settings.js"></script>
+<!-- AJAX script -->
+<script>
+$(document).ready(function () {
+    const settingsForm = $("#settings-form");
+    const applyButton = $("#applyButton");
+
+    // Store the initial values of the form fields
+    const initialValues = {
+        customRadio: <?php echo $settings['reservation']; ?>,
+        min_duration: <?php echo $settings['minDuration']; ?>,
+        max_duration: <?php echo $settings['maxDuration']; ?>,
+        reserve_per_day: <?php echo $settings['reservePerDay']; ?>
+    };
+
+    // Function to check if any changes have been made
+    function hasChanges() {
+        const currentValues = {
+            customRadio: parseInt(settingsForm.find("input[name='customRadio']:checked").val()),
+            min_duration: parseInt(settingsForm.find("#min_duration").val()),
+            max_duration: parseInt(settingsForm.find("#max_duration").val()),
+            reserve_per_day: parseInt(settingsForm.find("#reserve_per_day").val())
+        };
+
+        return JSON.stringify(currentValues) !== JSON.stringify(initialValues);
+    }
+
+    // Check if there are changes on form input
+    settingsForm.on("input", function () {
+        applyButton.prop("disabled", !hasChanges());
+    });
+
+    settingsForm.on("submit", function (event) {
+        if (!hasChanges()) {
+            event.preventDefault();
+            return;
+        }
+
+        event.preventDefault(); // Prevent the default form submission
+
+        $.ajax({
+            url: "settings.php",
+            method: "POST",
+            data: settingsForm.serialize(),
+            success: function (responseText) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Settings Updated",
+                    text: "The settings have been updated successfully.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        window.location.href = "settings.php"; // Redirect to settings page
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+    });
+});
+</script>
+
+
+<!-- <script src="assets/js/analytics.js"></script> -->
 
 
 </html>
