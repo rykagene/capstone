@@ -15,6 +15,9 @@ require 'assets/php/session.php';
 
     <!------------------------ Bootstrap 5.3.0 ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/bootstrap/js/popper.min.js"></script>
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/profile.css" />
     <!------------------------ ICONS ------------------------>
@@ -85,7 +88,7 @@ require 'assets/php/session.php';
                     <h5><span>Year & Section:</span> ' . $year . ' ' . $row["section"] . '-G' . $row["section_group"] . '</h5>
                 </div>
                 <div class="edit-info">
-                    <button type="submit" class="buttons"><span class="las la-user-edit"></span>Edit</button>
+                    <a href="update_profile.php" class="buttons"><span class="las la-user-edit"></span>Edit</a>
                 </div>
                 </div>
             </aside>
@@ -287,9 +290,12 @@ require 'assets/php/session.php';
 
 
 
+
+
             </div>
 
         </div>
+              
 
         <!------------------------ FOOTER ------------------------>
        <?php include 'assets/php/footer.php';?>
@@ -299,5 +305,7 @@ require 'assets/php/session.php';
 </body>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/bootstrap/js/popper.min.js"></script>
+
+
 
 </html>
