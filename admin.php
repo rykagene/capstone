@@ -78,24 +78,24 @@ require 'assets/php/session.php';
                             class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
-                <li> <a data-tabName="seats-info" class="seats-info" id="tabButtons"><span class="las la-check"></span>
+                <li> <a href="seats-info.php" ><span class="las la-check"></span>
                         <span>Seats Information</span></a>
                 </li>
-                <li> <a data-tabName="reserved" class="reserved" id="tabButtons"><span class="las la-clock"></span>
+                <li> <a href="reserved.php"><span class="las la-clock"></span>
                         <span>Reserved</span></a>
                 </li>
-                <li> <a data-tabName="userList" class="userList" id="tabButtons"><span
+                <li> <a href="userlist.php"><span
                             class="las la-user-friends"></span>
                         <span>User List</span></a>
                 </li>
-                <li> <a data-tabName="history" class="history" id="tabButtons"><span class="las la-history"></span>
+                <li> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
                 </li>
-                <li> <a data-tabName="analytics" class="analytics" id="tabButtons"><span
+                <li> <a href="analytics.php"><span
                             class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
-                <li> <a data-tabName="settings" class="settings" id="tabButtons"><span class="las la-cog"></span>
+                <li> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
                 <li class="manage" data-toggle="modal" data-target="#exampleModal"> <a><span
