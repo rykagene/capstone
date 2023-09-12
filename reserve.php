@@ -10,7 +10,7 @@ $settings_row = mysqli_fetch_assoc($settings_result);
 $reservation_status = $settings_row['reservation'];
 
 // Check if the reservation status is disabled
-if ($reservation_status == '0') {
+if ($reservation_status != '0') {
     header("Location: maintenance.php");
     exit(); // Make sure to exit to prevent further script execution
 }

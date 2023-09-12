@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2023 at 04:49 PM
+-- Generation Time: Sep 12, 2023 at 02:42 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -43,8 +43,10 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`, `reservation_count`) VALUES
 (1, 'admin', 'admin', 'admin@soar.com', NULL, 'admin', 0),
-(2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', NULL, 'student', 0),
-(3, '1234', '1234', 'digo.jeaysmie.m.3475@gmail.com', NULL, 'student', 0);
+(2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', 'assets/img/profilejeays id picture bsu.jpg', 'student', 0),
+(3, '1234', '1234', 'digo.jeaysmie.m.3475@gmail.com', NULL, 'student', 0),
+(4, '123', '123', '123@gmail.com', NULL, 'student', 0),
+(5, 'nosection', '123', 'nosection@ga.com', NULL, 'student', 0);
 
 -- --------------------------------------------------------
 
@@ -169,7 +171,13 @@ CREATE TABLE `reservation` (
 INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`) VALUES
 (3, '2023-06-12', '17:36:00', '18:36:00', 2020103475, 1),
 (4, '2023-06-12', '20:04:00', '21:04:00', 2020103475, 2),
-(5, '2023-06-13', '19:21:00', '21:21:00', 2020103475, 1);
+(5, '2023-06-13', '19:21:00', '21:21:00', 2020103475, 1),
+(6, '2023-08-15', '16:17:00', '18:17:00', 2020103475, 4),
+(7, '2023-08-21', '18:29:00', '20:29:00', 2020103475, 4),
+(8, '2023-08-29', '17:57:00', '19:57:00', 2020103475, 2),
+(9, '2023-09-12', '20:04:00', '22:04:00', 2020103475, 3),
+(10, '2023-09-13', '20:13:00', '23:13:00', 2020103475, 1),
+(11, '2023-09-12', '20:30:00', '21:30:00', 2020103475, 2);
 
 -- --------------------------------------------------------
 
@@ -214,7 +222,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`settings_id`, `reservation`, `minDuration`, `maxDuration`, `reservePerDay`) VALUES
-(1, 1, 1, 4, 3);
+(1, 0, 1, 4, 10);
 
 -- --------------------------------------------------------
 
@@ -237,6 +245,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_id`, `course_code`, `yearsec_id`) VALUES
+(0, NULL, 'nosection', 'nosection', 5, NULL, NULL),
+(123, NULL, 'noCourse', 'noCourse', 4, NULL, 9),
 (1234, NULL, 'JEAYSMIE', 'DIGO', 3, 'BSIT', 9),
 (2020103475, NULL, 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
 (2023000001, NULL, 'admin', 'admin', 1, NULL, NULL);
@@ -270,7 +280,47 @@ INSERT INTO `yearsec` (`yearsec_id`, `year_level`, `section`, `section_group`) V
 (9, 3, 'E', '1'),
 (10, 3, 'E', '2'),
 (11, 3, 'F', '1'),
-(12, 3, 'F', '2');
+(12, 3, 'F', '2'),
+(13, 3, 'G', '1'),
+(14, 3, 'G', '2'),
+(15, 3, 'H', '1'),
+(16, 3, 'H', '2'),
+(17, 3, 'I', '1'),
+(18, 3, 'I', '2'),
+(19, 3, 'J', '1'),
+(20, 3, 'J', '2'),
+(21, 3, 'K', '1'),
+(22, 3, 'K', '2'),
+(23, 3, 'L', '1'),
+(24, 3, 'L', '2'),
+(25, 3, 'M', '1'),
+(26, 3, 'M', '2'),
+(27, 3, 'N', '1'),
+(28, 3, 'N', '2'),
+(29, 3, 'O', '1'),
+(30, 3, 'O', '2'),
+(31, 3, 'P', '1'),
+(32, 3, 'P', '2'),
+(33, 3, 'Q', '1'),
+(34, 3, 'Q', '2'),
+(35, 3, 'R', '1'),
+(36, 3, 'R', '2'),
+(37, 3, 'S', '1'),
+(38, 3, 'S', '2'),
+(39, 3, 'T', '1'),
+(40, 3, 'T', '2'),
+(41, 3, 'U', '1'),
+(42, 3, 'U', '2'),
+(43, 3, 'V', '1'),
+(44, 3, 'V', '2'),
+(45, 3, 'W', '1'),
+(46, 3, 'W', '2'),
+(47, 3, 'X', '1'),
+(48, 3, 'X', '2'),
+(49, 3, 'Y', '1'),
+(50, 3, 'Y', '2'),
+(51, 3, 'Z', '1'),
+(52, 3, 'Z', '2');
 
 --
 -- Indexes for dumped tables
@@ -367,7 +417,7 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `occupy`
@@ -379,7 +429,7 @@ ALTER TABLE `occupy`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
