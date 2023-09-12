@@ -22,7 +22,7 @@ $result = $conn -> query($sql);
     <link rel="stylesheet" type="text/css" href="assets/css/reserved.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
 
-    <!------------------------ ICONS ------------------------>
+    <!------------------------ ICONS -------------------------->
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
     
