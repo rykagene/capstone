@@ -93,8 +93,6 @@ function reserveSeat(seat_id) {
 		cancelButtonText: 'Cancel',
 	}).then((result) => {
 		if (result.isConfirmed) {
-
-
 			// Insert reservation into the database
 			var reservationData = {
 				seat_id: seat_id,
@@ -103,14 +101,14 @@ function reserveSeat(seat_id) {
 				start_time: $('#start_time').val(),
 				end_time: $('#end_time').val(),
 			};
-
+		
 			console.log(reservationData);
-
+		
 			$.ajax({
 				url: 'toReserve.php',
 				method: 'GET',
 				data: reservationData,
-				success: function(response) {
+				success: function (response) {
 					if (response === 'success') {
 						console.log('Reservation inserted into the database');
 						// Show success alert
@@ -118,8 +116,11 @@ function reserveSeat(seat_id) {
 							title: 'Reserved Successfully!!',
 							text: 'Seat ' + seat_id + ' has been reserved.',
 							icon: 'success',
-							confirmButtonText: 'View Receipt',
+							confirmButtonText: 'Okay',
 							confirmButtonColor: '#a81c1c',
+						}).then(() => {
+							// Redirect to the receipt page
+							window.location.href = 'receipt.php';
 						});
 					} else if (response === 'error') {
 						console.log('The selected seat is already reserved for the selected date and time range');
@@ -147,10 +148,9 @@ function reserveSeat(seat_id) {
 						});
 					}
 				},
-
 			});
 		}
-
+		
 	});
 }
 

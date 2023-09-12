@@ -171,8 +171,6 @@ model-viewer {
                     }
                   });
               </script>";
-    } else {
-        echo "you have  <span class='total-reservation'>{$reservation_count} pending reservation. Remaining:{$reservePerDay}</span>";
     }
 
 
