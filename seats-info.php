@@ -38,7 +38,7 @@ require 'assets/php/session.php';
 
         #selectSeatForm,
         #view-3d {
-            height: 100vh !important;
+            height: 95vh !important;
         }
 
         body::before {
@@ -74,30 +74,6 @@ require 'assets/php/session.php';
         @media (min-width: 992px) {
             body::before {
                 content: "LG";
-            }
-
-            #dateTimeDiv {
-                height: 100vh !important;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            body::before {
-                content: "XL";
-            }
-
-            #dateTimeDiv {
-                height: 100vh !important;
-            }
-        }
-
-        @media (min-width: 1400px) {
-            body::before {
-                content: "XXL";
-            }
-
-            #dateTimeDiv {
-                height: 100vh !important;
             }
         }
 
@@ -215,10 +191,10 @@ require 'assets/php/session.php';
 
                 <div class="wrapper">
                     <div class="container-fluid">
-                        <div class="row mt-3 mb-3" style="height: 10vh;">
-                            <div class="col-lg-2">
+                        <div class="row mt-3 mb-3">
+                            <div class="col-lg-4">
                                 <!-------------------------DATE & TIME PICKER CARD DIV--------------------->
-                                <div id="dateTimeDiv" class="card" data-aos="fade-right">
+                                <div id="dateTimeDiv" class="card" data-aos="fade-right" style="display: flex;">
                                     <div class="card-header bg-light">
                                         <h5>Date</h5>
                                     </div>
@@ -227,7 +203,7 @@ require 'assets/php/session.php';
                                             <div class="">
                                                 <div class="form-group">
                                                     <!-- <label for="date" class="text-muted">Reserve seat on</label> -->
-                                                    <div class="row d-flex justify-content-center" id="date_picker">
+                                                    <div class="row d-flex justify-content-center">
                                                         <input type="text" id="date" class="form-control d-none"
                                                             min="<?php echo date('Y-m-d') ?>" name="date"
                                                             required="required">
