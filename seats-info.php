@@ -2,6 +2,9 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+
+$sql = "SELECT seat_id, seat_number, data_surface, status from seat";
+$result = $conn -> query($sql);
 ?>
 
 
@@ -18,6 +21,7 @@ require 'assets/php/session.php';
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/seats-info.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
 
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
@@ -104,171 +108,82 @@ require 'assets/php/session.php';
 
         <main>
 
-            <div class="filter">
-                <form action="brw_history.php" method="GET">
+            
 
-                    <div class="row">
 
-                        <div class="date">
-                            <label>Date seated </label>
-                            <input type="date" name="claimed_date" value="2023-04-17" class="form-control"
-                                required="required"></input>
+                        
+
+            <!----- TABLE -------->
+            <div class="recent-grid">
+                <div class="history">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+
+                                <section class="table__header">
+                                    <h1>Seats</h1>
+                                    <div class="input-group">
+                                        <input type="search" placeholder="Search Data...">
+                                        <div class="search-icon">
+                                            <img src="assets/img/search.png" alt="Search">
+                                        </div>
+                                    </div>
+                                    <div class="export__file">
+                                        <label for="export-file" class="export__file-btn" title="Export File">
+                                            <img src="assets/img/export1.png" alt="Export" class="export_ic">
+                                        </label>
+                                        <input type="checkbox" id="export-file">
+                                        <div class="export__file-options">
+                                            <label>Export As &nbsp; &#10140;</label>
+                                            <label for="export-file" id="toPDF">PDF <img src="assets/img/pdf.png"
+                                                    alt=""></label>
+                                            <label for="export-file" id="toJSON">JSON <img src="assets/img/json.png"
+                                                    alt=""></label>
+                                            <label for="export-file" id="toCSV">CSV <img src="assets/img/csv.png"
+                                                    alt=""></label>
+                                            <label for="export-file" id="toEXCEL">EXCEL <img src="assets/img/excel.png"
+                                                    alt=""></label>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="table__body">
+                                    <table id="customers_table">
+                                        <thead>
+                                            <tr>
+                                                <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Seat Number <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Data Surface <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Status <span class="icon-arrow">&UpArrow;</span></th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <?php
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                ?>
+                                                <tr>
+                                                    <td class="studno"><?php echo $row['seat_id']; ?></td>
+                                                    <td><?php echo $row['seat_number']; ?></td>
+                                                    <td><?php echo $row['data_surface']; ?></td>
+                                                    <td><?php echo $row['status']; ?></td>
+                                                    
+                                                                                                      
+                                                </tr>
+                                            <?php
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7'>No users found.</td></tr>";
+                                        }
+                                        ?>
+                                    </table>
+                                </section>
+
+                            </div>
                         </div>
-
-                        <div class="college">
-                            <label for="cars">Table No.</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option selected="selected">8</option>
-                                <option>9</option>
-                            </select>
-                        </div>
-
-                        <div class="floor" class="form-control">
-                            <label for="cars">Floor</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option disabled>1</option>
-                                <option disabled>2</option>
-                                <option disabled>3</option>
-                                <option disabled>4</option>
-                                <option disabled>5</option>
-                                <option selected="selected">6</option>
-                                <option disabled>7</option>
-                            </select>
-                        </div>
-
-
-
-                        <div class="col-md-2">
-                            <button type="submit" class="buttons">Filter</button>
-                        </div>
-
-
-                        <div class="table">
-
-                            <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
-
-                            <ul class="calendar weekly-byhour">
-                                <!--  EVENT NODES  -->
-                                <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
-
-
-                                <li class="event personal" style="grid-column:   tue;   grid-row:  h05   /  h07;  ">
-                                    2020104776</li>
-                                <li class="event personal" style="grid-column:   mon;   grid-row:  h11   /  h12;  ">
-                                    2020103123</li>
-                                <li class="event personal" style="grid-column:   mon;   grid-row:  h08   /  h10;  ">
-                                    2020104124</li>
-                                <li class="event personal" style="grid-column:   mon;   grid-row:  h16  /  h17;  ">
-                                    2020104214</li>
-                                <li class="event personal" style="grid-column:   sun;   grid-row:  h13  /  h15;  ">
-                                    2020107547</li>
-                                <li class="event personal" style="grid-column:   wed;   grid-row:  h10   /  h12;  ">
-                                    2020107476</li>
-
-
-
-
-                                <!--  DAYS OF THE WEEK  -->
-                                <li class="day sun">Seat 40</li>
-                                <li class="day mon">Seat 41</li>
-                                <li class="day tue">Seat 42</li>
-                                <li class="day wed">Seat 43</li>
-                                <li class="day thu">Seat 44</li>
-
-
-                                <!--  TIMES OF THE DAY  -->
-                                <li class="time h05">9:00 am</li>
-                                <li class="time h06">10:00 am</li>
-                                <li class="time h07">11:00 am</li>
-                                <li class="time h08">12:00 am</li>
-                                <li class="time h09">1:00 pm</li>
-                                <li class="time h10">2:00 pm</li>
-                                <li class="time h11">3:00 pm</li>
-                                <li class="time h12">4:00 pm</li>
-                                <li class="time h13">5:00 pm</li>
-                                <li class="time h14">6:00 pm</li>
-                                <li class="time h15">7:00 pm</li>
-                                <li class="time h16">8:00 pm</li>
-                                <li class="time h17">9:00 pm</li>
-
-                                <!--  TOP LEFT CORNER FILLER  -->
-                                <li class="corner"></li>
-
-                                <!--  EMPTY HOURLY FILLERS:
-    Helps us show the grid template lines, and create calendar funtionality later. One for every hour
-    cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-
-                            </ul>
-                        </div>
-
                     </div>
-                </form>
+                </div>
             </div>
-
 
         </main>
 
