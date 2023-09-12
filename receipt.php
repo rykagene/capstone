@@ -96,8 +96,8 @@ require 'assets/php/session.php';
         // Button for capturing and downloading the div as an image
         echo '<div class="container">
         <div class="text-center">
-            <button onclick="captureAndDownload()" class="btn btn-danger mt-3"><i class="fa-solid fa-arrow-down" style="color: #ffffff;"></i>Download Receipt</button>
-            <button onclick="printDiv()" class="btn btn-danger mt-3">Print</button>
+          
+            <button onclick="printDiv()" class="btn btn-danger mt-3">Print Receipt</button>
         </div>
         </div>';
     } else {

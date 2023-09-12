@@ -93,6 +93,10 @@ require 'assets/php/session.php';
 							<i class="fa fa-key text-center mr-1"></i> 
 							Password
 						</a>
+						<a class="nav-link" id="rfid-tab" data-toggle="pill" href="#rfid_tab" role="tab" aria-controls="rfid-tab" aria-selected="false">
+							<i class="fa fa-id-card text-center mr-1"></i> 
+							RFID
+						</a>
 						
 					</div>
 				</div>
@@ -246,6 +250,7 @@ require 'assets/php/session.php';
 							<button class="btn btn-light">Cancel</button>
 						</div>
 					</div>
+
 					<div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
 						<h3 class="mb-4">Account Settings</h3>
 						<div class="row">
@@ -276,6 +281,25 @@ require 'assets/php/session.php';
 						</div>
 						<div>
 							<button class="btn btn-danger" id="updateAcc">Update</button>
+							<button class="btn btn-light">Cancel</button>
+							</form>	
+						</div>
+					</div>
+					
+					<div class="tab-pane fade" id="rfid_tab" role="tabpanel" aria-labelledby="rfid_tab">
+						<h3 class="mb-4">Edit RFID</h3>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+								  	<label>RFID Number</label>
+								  	<input type="text" class="form-control" name="rfid_input" id="rfid_input" value="<?php echo $row["rfid_no"]; ?>">
+									
+								</div>
+							</div>
+
+						</div>
+						<div>
+							<button class="btn btn-danger" id="updateRFID">Update</button>
 							<button class="btn btn-light">Cancel</button>
 							</form>	
 						</div>
@@ -395,6 +419,37 @@ document.getElementById('updateAcc').addEventListener('click', function() {
         }
     });
 });
+
+document.getElementById('updateRFID').addEventListener('click', updateRFID);
+function updateRFID() {
+    var rfid = document.getElementById('rfid_input').value;
+
+    var data = {
+        rfid: rfid
+    };
+
+    $.ajax({
+        url: 'toUpdateRFID.php', // Change the URL to your server-side script
+        method: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function(response) {
+            if (response.status === 'success') {
+            
+                    Swal.fire('Success!', 'RFID added successfully.', 'success');
+                    // Clear the input fields
+            } else {
+                // Error occurred while updating RFID
+				Swal.fire('Failed!', 'RFID not added.', 'error');
+            }
+        },
+        error: function() {
+			Swal.fire('Success!', 'RFID added successfully.', 'success');
+        }
+    });
+}
+
+
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2023 at 02:42 PM
+-- Generation Time: Sep 12, 2023 at 06:35 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -164,21 +164,6 @@ CREATE TABLE `reservation` (
   `seat_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`) VALUES
-(3, '2023-06-12', '17:36:00', '18:36:00', 2020103475, 1),
-(4, '2023-06-12', '20:04:00', '21:04:00', 2020103475, 2),
-(5, '2023-06-13', '19:21:00', '21:21:00', 2020103475, 1),
-(6, '2023-08-15', '16:17:00', '18:17:00', 2020103475, 4),
-(7, '2023-08-21', '18:29:00', '20:29:00', 2020103475, 4),
-(8, '2023-08-29', '17:57:00', '19:57:00', 2020103475, 2),
-(9, '2023-09-12', '20:04:00', '22:04:00', 2020103475, 3),
-(10, '2023-09-13', '20:13:00', '23:13:00', 2020103475, 1),
-(11, '2023-09-12', '20:30:00', '21:30:00', 2020103475, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -222,7 +207,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`settings_id`, `reservation`, `minDuration`, `maxDuration`, `reservePerDay`) VALUES
-(1, 0, 1, 4, 10);
+(1, 0, 1, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -248,7 +233,7 @@ INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_i
 (0, NULL, 'nosection', 'nosection', 5, NULL, NULL),
 (123, NULL, 'noCourse', 'noCourse', 4, NULL, 9),
 (1234, NULL, 'JEAYSMIE', 'DIGO', 3, 'BSIT', 9),
-(2020103475, NULL, 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
+(2020103475, '123', 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
 (2023000001, NULL, 'admin', 'admin', 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -429,7 +414,7 @@ ALTER TABLE `occupy`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables

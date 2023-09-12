@@ -78,17 +78,17 @@ require 'assets/php/session.php';
                 <h4>' . $row["first_name"] . ' ' . $row["last_name"] . '</h4>
                 <p>' . $row["user_id"] . '</p>
                 <div class="profile-info">
-                    <h5><span>RFID No:</span> ' . $row["rfid_no"] = NULL ? $row["rfid_no"] : "Have not yet. <a href=''> Register RFID</a>". '</h5>
+                    <h5><span>RFID No:</span> ' . $row["rfid_no"] . '</h5>
                     <h5><span>Username:</span> ' . $row["username"]. '</h5>
                     <h5><span>Email:</span> ' . $email . '</h5>
-                    <h5><span>Age:</span> ' . '</h5>
-                    <h5><span>Gender:</span> ' .  '</h5>
+                    <!--<h5><span>Age:</span> ' . '</h5>
+                    <h5><span>Gender:</span> ' .  '</h5>-->
                     <h5><span>College:</span> ' . $row["college_name"] . '</h5>
                     <h5><span>Course:</span> ' . $row["course_name"] . '</h5>
                     <h5><span>Year & Section:</span> ' . $year . ' ' . $row["section"] . '-G' . $row["section_group"] . '</h5>
                 </div>
                 <div class="edit-info">
-                    <a href="update_profile.php" class="buttons"><span class="las la-user-edit"></span>Edit</a>
+                    <a href="update_profile.php" class="btn btn-danger"><span class="las la-user-edit"></span>Edit </a>
                 </div>
                 </div>
             </aside>
@@ -251,7 +251,7 @@ require 'assets/php/session.php';
         <?php
 
         
-        $query = "SELECT * FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE() ORDER BY date ASC LIMIT 3";
+        $query = "SELECT * FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE() ORDER BY date ASC LIMIT {$reservePerDay}";
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
@@ -275,14 +275,14 @@ require 'assets/php/session.php';
 
                 // Add View Details button
 
-                echo "<div class='col'><a href='receipt.php?reservation_id={$row['reservation_id']}' class='btn btn-sm'>View Details</a></div>";
+                echo "<div class='col'><a class='btn btn-danger'href='receipt.php?reservation_id={$row['reservation_id']}' class='btn btn-sm'>View Details</a></div>";
 
                 echo "</div>";
                 echo "<br><br>";
             }
         } else {
             // No pending reservations found
-            echo "No  reservations yet. <a href='reserve.php'> Reserve seat </a>";
+            echo "<center> <br> <br> <br> <br> <br>No  reservations yet. <br><br><a class='btn btn-outline-secondary 'href='reserve.php'> Reserve seat </a></center>";
         }
         ?>
     </div>
