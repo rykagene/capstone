@@ -84,7 +84,7 @@ require 'assets/php/session.php';
                 <li> <a href="reserved.php"><span class="las la-clock"></span>
                         <span>Reserved</span></a>
                 </li>
-                <li> <a href="userlist.php"><span
+                <li> <a href="user-list.php"><span
                             class="las la-user-friends"></span>
                         <span>User List</span></a>
                 </li>
