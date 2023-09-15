@@ -9,7 +9,7 @@ $start_time = $_GET['start_time'];
 $end_time = $_GET['end_time'];
 
 // Check if the selected date and time range already exists in the database for the specified seat
-$query = "SELECT * FROM reservation WHERE seat_id = '$seat_id' AND date = '$date' AND start_time < '$end_time' AND end_time > '$start_time'";
+$query = "SELECT * FROM reservation WHERE seat_id = '$seat_id' AND date = '$date' AND start_time < '$end_time' AND end_time > '$start_time' AND isDone = 0";
 $result = mysqli_query($conn, $query);
 $count = mysqli_num_rows($result);
 

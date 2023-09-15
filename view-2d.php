@@ -38,7 +38,7 @@ if (($date == date('Y-m-d')) && ($end_time <= date('H:i', strtotime($currentDate
     $result = mysqli_query($conn, $sql);
 
     // retrieve reservations for the specified date and time
-    $reservationSql = "SELECT seat_id FROM reservation WHERE date = '$date' AND start_time <= '$end_time' AND end_time >= '$start_time'";
+    $reservationSql = "SELECT seat_id FROM reservation WHERE date = '$date' AND start_time <= '$end_time' AND end_time >= '$start_time' AND isDone = 0" ;
     $reservationResult = mysqli_query($conn, $reservationSql);
     $reservedSeats = array();
 

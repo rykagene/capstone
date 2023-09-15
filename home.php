@@ -38,24 +38,11 @@ require 'assets/php/session.php';
 
     <div class="wrapper">
 
+        <!------------------------ HEADER --------------------->
 
-        <!-- Sticky header -->
+        <?php include 'assets/php/header.php'; ?>
 
-        <header class="header-outer">
-            <div class="header-inner responsive-wrapper">
-                <div class="header-logo">
-                    <img src="assets/img/elib logo.png" class="icon">
-                </div>
-                <nav class="header-navigation">
-                    <a href="#home">HOME</a>
-                    <a href="#aboutus">ABOUT US</a>
-                    <a href="reserve.php">RESERVE SEAT</a>
-                    <a class="hidden" href="profile.php">ACCOUNT</a>
-                    <a class="hidden" href="toLogout.php">LOGOUT</a>
-                </nav>
-            </div>
-        </header>
-        <!-- Sticky header -->
+        <!------------------------ END HEADER --------------------->
 
 
         <!------------------------ COVER ------------------------>

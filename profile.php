@@ -23,7 +23,24 @@ require 'assets/php/session.php';
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+
 </head>
+<style>
+    .nav-pills .nav-link {
+        outline: none !important;
+        border: none !important;
+    }
+
+    .nav-pills .nav-link.active {
+        
+        background-color: #a81c1c ;
+    }
+</style>
 
 <body>
 
@@ -224,69 +241,114 @@ require 'assets/php/session.php';
 
                 </content> -->
 
+                <div class="container mt-2">
+    <ul class="nav nav-pills  nav-justified m-3" id="reservationTabs" role="tablist">
+        <li class="nav-item " role="presentation">
+            <a class="nav-link active rounded-3" id="myReservation-tab" data-bs-toggle="pill" href="#myReservation" role="tab" aria-controls="myReservation" aria-selected="true">My Reservation</a>
+        </li>
 
-                <content class="reservations-wrapper">
-                <h2>
-                    My Reservation &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                    <?php
-                    $count_query = "SELECT COUNT(*) AS reservation_count FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE()";
-                    $count_result = mysqli_query($conn, $count_query);
-                    $count_row = mysqli_fetch_assoc($count_result);
-                    $reservation_count = $count_row['reservation_count'];
+        <li class="nav-item" role="presentation">
+            <a class="nav-link  rounded-3" id="ongoing-tab" data-bs-toggle="pill" href="#ongoing" role="tab" aria-controls="ongoing" aria-selected="false">Occupying</a>
+        </li>
+      
+        <li class="nav-item" role="presentation">
+            <a class="nav-link  rounded-3" id="history-tab" data-bs-toggle="pill" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
+        </li>
+    </ul>
 
-                    // Retrieve the maximum reservation per day from the settings table
-                    $settings_query = "SELECT reservePerDay FROM settings WHERE settings_id = '1'";
-                    $settings_result = mysqli_query($conn, $settings_query);
-                    $settings_row = mysqli_fetch_assoc($settings_result);
-                    $reservePerDay = $settings_row['reservePerDay'];
-
-                    $_SESSION["reservation_count"] = $reservation_count;
-
-                    echo "<span class='total-reservation'>{$reservation_count} / {$reservePerDay}</span>";
-                    ?>
-                </h2>
-
-
-    <div class="reservations">
-        <?php
-
+    <div class="tab-content" id="reservationTabsContent">
+         <!-- My Reservation Tab -->
+        <div class="tab-pane fade show active" id="myReservation" role="tabpanel" aria-labelledby="myReservation-tab">
+            <?php include_once("profile_tab1.php");?>
+        </div>
+       
+       <!-- Ongoing Tab -->
+        <div class="tab-pane fade" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
+            <?php include_once("profile_tab2.php"); ?>
+        </div>
         
-        $query = "SELECT * FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE() ORDER BY date ASC LIMIT {$reservePerDay}";
-        $result = mysqli_query($conn, $query);
-
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $seat_id = $row['seat_id'];
-                $date = date('F j, Y', strtotime($row['date'])); // Convert date to desired format
-                $start_time = date('h:i A', strtotime($row['start_time'])); // Convert start time to AM/PM format
-                $end_time = date('h:i A', strtotime($row['end_time'])); // Convert end time to AM/PM format
-
-                // Retrieve additional information related to the reservation, such as seat details
-                $seat_query = "SELECT * FROM seat WHERE seat_id = '$seat_id'";
-                $seat_result = mysqli_query($conn, $seat_query);
-                $seat_row = mysqli_fetch_assoc($seat_result);
-                $seat_number = $seat_row['seat_number'];
-
-                // Display the pending reservation information
-                echo "<div class='row'><div class='col-8'>";
-                echo "<h3>Seat {$seat_number}</h3>";
-                echo "<p><ion-icon name='time-outline'></ion-icon> {$start_time} - {$end_time}<br>";
-                echo "<ion-icon name='calendar-outline'></ion-icon> {$date}</p></div>";
-
-                // Add View Details button
-
-                echo "<div class='col'><a class='btn btn-danger'href='receipt.php?reservation_id={$row['reservation_id']}' class='btn btn-sm'>View Details</a></div>";
-
-                echo "</div>";
-                echo "<br><br>";
-            }
-        } else {
-            // No pending reservations found
-            echo "<center> <br> <br> <br> <br> <br>No  reservations yet. <br><br><a class='btn btn-outline-secondary 'href='reserve.php'> Reserve seat </a></center>";
-        }
-        ?>
+        <!-- History Tab -->
+        <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">          
+            <?php include_once("profile_tab3.php"); ?>
+        </div>
     </div>
-</content>
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function confirmDelete(reservationId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this reservation!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#a81c1c",
+            confirmButtonText: 'Delete Reservation',
+            cancelButtonText: 'Cancel',
+            cancelButtonColor: '#ddd',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, proceed with the deletion via AJAX
+                $.ajax({
+                    url: `toCancelReservation.php?reservation_id=${reservationId}`,
+                    type: 'GET',
+                    success: function(response) {
+                        if (response === "Success") {
+                            // Deletion was successful, show success message
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'The reservation has been deleted.',
+                                icon: 'success',
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Redirect to profile.php or perform other actions
+                                    window.location.href = 'profile.php';
+                                }
+                            });
+                        } else if (response === "Ongoing reservation") {
+                            // Reservation is still ongoing; show an error message
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'You cannot delete a reservation that is currently ongoing.',
+                                icon: 'error',
+                                confirmButtonColor: "#a81c1c",
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            // Handle other error cases here
+                            Swal.fire({
+                                title: 'Error',
+                                text: response,
+                                icon: 'error',
+                                confirmButtonColor: "#a81c1c",
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Handle AJAX errors here
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'An error occurred while deleting the reservation.',
+                            icon: 'error',
+                            confirmButtonColor: "#a81c1c",
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>
+
 
 
 

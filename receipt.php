@@ -58,13 +58,16 @@ require 'assets/php/session.php';
         $seat_result = mysqli_query($conn, $seat_query);
         $seat_row = mysqli_fetch_assoc($seat_result);
         $seat_number = $seat_row['seat_number'];
+        
 
         // Generate QR code content (e.g., reservation details)
         $qr_content = "Reservation ID: " . $reservation_id . "\n";
+        $qr_content .= "Name " . $_SESSION["first_name"] . " " . $_SESSION["last_name"] . "\n";
         $qr_content .= "Seat Number: " . $seat_number . "\n";
         $qr_content .= "Date: " . $date . "\n";
         $qr_content .= "Time: " . $start_time . " - " . $end_time . "\n";
         $qr_content .= "User ID: " . $user_id;
+        
 
         // Generate the QR code URL
         $qrCodeUrl = "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=" . urlencode($qr_content);
@@ -79,6 +82,8 @@ require 'assets/php/session.php';
                             <img src="assets/img/elib logo.png" style="width:70px" class="img-fluid rounded-start" alt="...">
                             <h1 class="card-title p-3">SOAR</h1>
                         </div>
+                        
+                        <p class="card-text fw-bold">Name: ' . $_SESSION["first_name"]  ." ". $_SESSION["last_name"]. '</p>
                         <p class="card-text fw-bold">Date: ' . $date . '</p>
                         <p class="card-text fw-bold">Time: ' . $start_time . ' - ' . $end_time . '</p>
                         <p class="card-text fw-bold">Seat No: ' . $seat_number . '</p>

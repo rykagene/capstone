@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 12, 2023 at 06:35 PM
+-- Generation Time: Sep 15, 2023 at 04:08 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -46,7 +46,9 @@ INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`,
 (2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', 'assets/img/profilejeays id picture bsu.jpg', 'student', 0),
 (3, '1234', '1234', 'digo.jeaysmie.m.3475@gmail.com', NULL, 'student', 0),
 (4, '123', '123', '123@gmail.com', NULL, 'student', 0),
-(5, 'nosection', '123', 'nosection@ga.com', NULL, 'student', 0);
+(5, 'nosection', '123', 'nosection@ga.com', NULL, 'student', 0),
+(6, '123456', '123', '123@gmail.com', NULL, 'student', 0),
+(7, '1234567', '123456', '123@gmail.com', NULL, 'student', 0);
 
 -- --------------------------------------------------------
 
@@ -67,7 +69,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `rfid_no`, `first_name`, `last_name`, `account_id`) VALUES
-(1, NULL, 'fname', 'lname', 1);
+(1, NULL, 'Papi', 'Chulo', 1);
 
 -- --------------------------------------------------------
 
@@ -109,6 +111,23 @@ INSERT INTO `course` (`course_code`, `course_name`, `college_code`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `history`
+--
+
+CREATE TABLE `history` (
+  `history_id` int(11) NOT NULL,
+  `reservation_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `seat_id` int(11) DEFAULT NULL,
+  `time_spent` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `news`
 --
 
@@ -132,7 +151,8 @@ CREATE TABLE `occupy` (
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `seat_id` int(11) DEFAULT NULL
+  `seat_id` int(11) DEFAULT NULL,
+  `time_spent` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -161,7 +181,8 @@ CREATE TABLE `reservation` (
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `seat_id` int(11) DEFAULT NULL
+  `seat_id` int(11) DEFAULT NULL,
+  `isDone` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -182,7 +203,7 @@ CREATE TABLE `seat` (
 --
 
 INSERT INTO `seat` (`seat_id`, `seat_number`, `data_surface`, `status`) VALUES
-(1, '1', '221 2 495 496 497 0.513 0.203 0.284\r\n', '1'),
+(1, '1', '221 2 495 496 497 0.513 0.203 0.284\r\n', '0'),
 (2, '2', '220 3 7 10 9 0.179 0.274 0.547', '0'),
 (3, '3', '219 3 11 10 12 0.125 0.438 0.437', '0'),
 (4, '4', '218 1 823 824 826 0.428 0.044 0.528\r\n', '0'),
@@ -207,7 +228,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`settings_id`, `reservation`, `minDuration`, `maxDuration`, `reservePerDay`) VALUES
-(1, 0, 1, 4, 3);
+(1, 0, 1, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -233,7 +254,9 @@ INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_i
 (0, NULL, 'nosection', 'nosection', 5, NULL, NULL),
 (123, NULL, 'noCourse', 'noCourse', 4, NULL, 9),
 (1234, NULL, 'JEAYSMIE', 'DIGO', 3, 'BSIT', 9),
-(2020103475, '123', 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
+(123456, NULL, '1234', '1234', 6, NULL, NULL),
+(1234567, NULL, 'noCourses', 'noCourses', 7, NULL, NULL),
+(2020103475, '12345', 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
 (2023000001, NULL, 'admin', 'admin', 1, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -338,6 +361,15 @@ ALTER TABLE `course`
   ADD KEY `college_code` (`college_code`);
 
 --
+-- Indexes for table `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`history_id`),
+  ADD KEY `reservation_id` (`reservation_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `seat_id` (`seat_id`);
+
+--
 -- Indexes for table `news`
 --
 ALTER TABLE `news`
@@ -402,19 +434,25 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `history`
+--
+ALTER TABLE `history`
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `occupy`
 --
 ALTER TABLE `occupy`
-  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- Constraints for dumped tables
@@ -425,6 +463,14 @@ ALTER TABLE `reservation`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
+
+--
+-- Constraints for table `history`
+--
+ALTER TABLE `history`
+  ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`),
+  ADD CONSTRAINT `history_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `history_ibfk_3` FOREIGN KEY (`seat_id`) REFERENCES `seat` (`seat_id`);
 
 --
 -- Constraints for table `occupy`
