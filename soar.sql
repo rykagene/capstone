@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2023 at 04:08 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Sep 18, 2023 at 06:54 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -125,6 +125,16 @@ CREATE TABLE `history` (
   `time_spent` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`history_id`, `reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `time_spent`) VALUES
+(29, 79, '2023-09-19', '00:21:00', '00:21:59', NULL, NULL, '01:00:00'),
+(30, 80, '2023-09-19', '00:29:00', '00:29:59', 2020103475, 4, '01:00:00'),
+(31, 84, '2023-09-19', '00:37:00', '00:48:07', 2020103475, 4, '01:00:00'),
+(32, 81, '2023-09-19', '00:30:00', '00:53:29', 2020103475, 5, '01:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -152,8 +162,19 @@ CREATE TABLE `occupy` (
   `end_time` time DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `seat_id` int(11) DEFAULT NULL,
-  `time_spent` time DEFAULT NULL
+  `time_spent` time DEFAULT NULL,
+  `isDone` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `occupy`
+--
+
+INSERT INTO `occupy` (`occupy_id`, `reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `time_spent`, `isDone`) VALUES
+(83, 79, '2023-09-19', '00:21:00', '01:21:00', 2020103475, 1, NULL, 1),
+(84, 80, '2023-09-19', '00:29:00', '01:29:00', 2020103475, 4, NULL, 1),
+(85, 84, '2023-09-19', '00:37:00', '01:37:00', 2020103475, 4, NULL, 1),
+(86, 81, '2023-09-19', '00:30:00', '01:30:00', 2020103475, 5, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -168,6 +189,16 @@ CREATE TABLE `rating` (
   `date` date DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`rating_id`, `rating`, `review`, `date`, `user_id`) VALUES
+(1, 5, 'sheesh', '2023-09-19', 2020103475),
+(2, 3, 'nice!', '2023-09-19', 2020103475),
+(3, 5, 'nice!', '2023-09-19', 2020103475),
+(4, 4, '', '2023-09-19', 2020103475);
 
 -- --------------------------------------------------------
 
@@ -184,6 +215,16 @@ CREATE TABLE `reservation` (
   `seat_id` int(11) DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `isDone`) VALUES
+(79, '2023-09-19', '00:21:00', '01:21:00', 2020103475, 1, 1),
+(80, '2023-09-19', '00:29:00', '01:29:00', 2020103475, 4, 1),
+(81, '2023-09-19', '00:30:00', '01:30:00', 2020103475, 5, 1),
+(84, '2023-09-19', '00:37:00', '01:37:00', 2020103475, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -440,19 +481,25 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `occupy`
 --
 ALTER TABLE `occupy`
-  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+
+--
+-- AUTO_INCREMENT for table `rating`
+--
+ALTER TABLE `rating`
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- Constraints for dumped tables

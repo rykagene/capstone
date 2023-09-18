@@ -1,13 +1,7 @@
 <?php
-// always start session
 session_start();
-
-// if the user was not logged in
-if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
-    header('Location: login.php');
-    exit();
-}
-
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
 ?>
 
 
@@ -17,163 +11,118 @@ if (!isset($_SESSION["student_id"]) && !isset($_SESSION["password"])) {
 <head>
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Form Review</title>
-    <!------------------------ Bootstrap 5.3.0 ------------------------>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
-    <!------------------------ CSS Link ------------------------>
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/survey.css" />
-    <!------------------------ For Survey ------------------------>
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <!-- Include Swal2 CSS and JS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    <!-- Custom CSS for Stars -->
+    <style>
+        .star {
+            font-size: 24px;
+            color: #ccc; /* Default color for empty star */
+            cursor: pointer;
+        }
+
+        .star.selected {
+            color: gold; /* Color for selected (filled) star */
+        }
+    </style>
 </head>
 
 <body>
+
     <div class="wrapper">
-        <!-- Sticky header -->
-        <header class="header-outer">
-            <div class="header-inner responsive-wrapper">
-                <div class="header-logo">
-                    <img src="assets/img/elib logo.png" class="icon">
-                </div>
-                <nav class="header-navigation">
-                    <a href="home.php">HOME</a>
-                    <a href="reserve.php">RESERVE A SEAT</a>
-                    <a href="home.php#aboutus">ABOUT US</a>
-                    <a href="profile.php">ACCOUNT</a>
-                    <a class="hidden" href="toLogout.php">LOGOUT</a>
-                </nav>
-            </div>
-        </header>
-        <!-- Sticky header -->
-
-
-        <!------------------------ SURVEY ------------------------>
+        <!-- SURVEY -->
         <div class="survey">
             <h3>Tell us how was your experience.</h3>
-            <form action="#">
+            <form action="surveyProcess.php" method="post">
                 <div class="rating">
                     <input type="number" name="rating" hidden>
-                    <i class='bx bx-star star' style="--i: 0;"></i>
-                    <i class='bx bx-star star' style="--i: 1;"></i>
-                    <i class='bx bx-star star' style="--i: 2;"></i>
-                    <i class='bx bx-star star' style="--i: 3;"></i>
-                    <i class='bx bx-star star' style="--i: 4;"></i>
+                    <i class="fas fa-star star" data-rating="1"></i>
+                    <i class="fas fa-star star" data-rating="2"></i>
+                    <i class="fas fa-star star" data-rating="3"></i>
+                    <i class="fas fa-star star" data-rating="4"></i>
+                    <i class="fas fa-star star" data-rating="5"></i>
                 </div>
                 <textarea name="opinion" cols="30" rows="5" placeholder="Your opinion..."></textarea>
                 <div class="btn-group">
-                    <button type="submit" class="btn submit">Submit</button>
+                    <button type="submit" class="btn btn-danger w-100">Submit Review</button>
                     <button class="btn cancel">Cancel</button>
                 </div>
             </form>
         </div>
-        <!------------------------ END OF SURVEY ------------------------>
+        <!-- END OF SURVEY -->
 
-        <!------------------------ FOOTER ------------------------>
-        <footer>
-            <div class="container">
-                <div class="footer-top">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3 about-footer">
-                            <h3>Bulacan State University
-                                E-Library </h3>
-                            <ul>
-                                <li><a href="tel:(010) 919 7800"><i class="fas fa-phone fa-flip-horizontal"></i>
-                                        919 7800</a></li>
-                                <li><i class="fas fa-map-marker-alt"></i>
-                                    Guinhawa,
-                                    <br />City of Malolos,
-                                    <br />Bulacan
-                                </li>
-                                <li><i class="fas fa-at"></i>
-                                    officeofthepresident@bulsu.edu.ph
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 col-lg-2 page-more-info">
-                            <div class="footer-title">
-                                <h4>Page links</h4>
-                            </div>
-                            <ul>
-                                <li><a href="home.php">Home</a></li>
-                                <li><a href="home.php#aboutus">About Us</a></li>
-                                <li><a href="reserve.php">Reserve seat</a></li>
-                                <li><a href="profile.php">Your Account</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-md-6 col-lg-3 page-more-info">
-                            <div class="footer-title">
-                                <h4>More Info</h4>
-                            </div>
-                            <ul>
-                                <li><a href="survey.php">Rate our service</a></li>
-                                <li><a href="https://www.bulsu.edu.ph/">Official Website</a></li>
-                                <li><a href="https://myportal.bulsu.edu.ph/">BulSU Portal</a></li>
-                                <li><a href="https://www.bulsu.edu.ph/library/">Library Service</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6 col-lg-4 open-hours">
-                            <div class="footer-title">
-                                <h4>Open hours</h4>
-                                <ul class="footer-social">
-                                    <li><a href="https://www.facebook.com/BulSUaklatan" target="_blank"><i
-                                                class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a href="" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
-
-                                </ul>
-                            </div>
-                            <table class="table-hours">
-                                <tbody>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Monday-Thursday </td>
-                                        <td>10:00am - 7:00pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Friday</td>
-                                        <td>10:00am - 7:30pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Saturday</td>
-                                        <td>10:30am - 7:30pm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="far fa-clock"></i>Sunday</td>
-                                        <td>10:30am - 7:00pm</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                            <div class="footer-logo">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td><img src="assets/img/elib logo.png"></td>
-                                            <td><img src="assets/img/bulsu logo.png"></td>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="footer-bottom">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <a href="">Privacy policy</a>
-                        </div>
-                        <div class="col-sm-8">
-                            <p>© 2017 Bulacan State University</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!------------------------ FOOTER ------------------------>
+        <!-- FOOTER (commented out for brevity) -->
+        <!-- ... -->
     </div>
 
-</body>
-<script src="assets/js/survey.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/bootstrap/js/popper.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+    // Function to handle clicking on a star
+    $(".star").click(function() {
+        // Get the index of the clicked star
+        var starIndex = $(this).data('rating');
 
-    </html>
+        // Set the hidden input field with the selected rating
+        $('input[name="rating"]').val(starIndex);
+
+        // Highlight the selected stars
+        $(".star").removeClass("selected");
+        $(".star:lt(" + starIndex + ")").addClass("selected");
+    });
+
+    // Function to handle the form submission
+    $("form").submit(function(event) {
+        event.preventDefault();
+
+        // Retrieve the selected rating and opinion
+        var rating = $('input[name="rating"]').val();
+        var opinion = $('textarea[name="opinion"]').val();
+
+        // Send the data to the server using AJAX
+        $.ajax({
+            type: "POST",
+            url: "surveyProcess.php", // Adjust the URL to the correct endpoint
+            data: {
+                rating: rating,
+                opinion: opinion
+            },
+            success: function(response) {
+                console.log("Record inserted successfully!");
+                Swal.fire({
+                        title: 'Successfully submitted!',
+                        icon: 'success',
+                        confirmButtonColor: 'darkred',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = `home.php`;
+                        }
+                    });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+                // Handle errors and display an appropriate message
+            }
+        });
+    });
+});
+
+    </script>
+
+  
+
+    <!-- Bootstrap JS -->
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/bootstrap/js/popper.min.js"></script>
+</body>
+
+</html>

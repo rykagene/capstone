@@ -90,6 +90,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             success: function (response) {
                 // Handle the response from occupyProcess.php here if needed
                 console.log(response);
+                location.reload();
                 
             },
             error: function (xhr, status, error) {

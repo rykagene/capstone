@@ -81,12 +81,15 @@ if (isset($_GET['reservation_id'])) {
                                  SELECT reservation_id, seat_id, user_id, date, start_time, '$current_time', '$spent_time' FROM reservation 
                                  WHERE reservation_id = $reservation_id";
 
+           
+
             if (mysqli_query($conn, $move_to_history_query)) {
                 // Reservation successfully moved to history
 
                 // Now, delete the corresponding entry from the occupy table
-                $delete_occupy_query = "DELETE FROM occupy WHERE reservation_id = $reservation_id";
-                if (mysqli_query($conn, $delete_occupy_query)) {
+                $update_occupy_query = "UPDATE occupy SET isDone = 1 WHERE reservation_id = $reservation_id";
+
+                if (mysqli_query($conn, $update_occupy_query)) {
                     // Update the isDone column in the reservation table to 1
                     $update_reservation_query = "UPDATE reservation SET isDone = 1 WHERE reservation_id = $reservation_id";
                     if (mysqli_query($conn, $update_reservation_query)) {
@@ -95,7 +98,7 @@ if (isset($_GET['reservation_id'])) {
                         echo "Error updating isDone column in reservation table: " . mysqli_error($conn);
                     }
                 } else {
-                    echo "Error deleting entry from occupy table: " . mysqli_error($conn);
+                    echo "Errorupdating isDone column in occupy table: " . mysqli_error($conn);
                 }
             } else {
                 echo "Error moving reservation to history: " . mysqli_error($conn);
