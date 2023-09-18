@@ -74,24 +74,56 @@ if (($date == date('Y-m-d')) && ($end_time <= date('H:i', strtotime($currentDate
         $seat_number = $row['seat_number'];
         $seat_id = $row['seat_id'];
         $surface_data = $row['data_surface'];
+        
 
-        if (in_array($seat_id, $reservedSeats)) {
-            // seat is already reserved, display disabled button
+      // ... Your existing code ...
+    if (in_array($seat_id, $reservedSeats)) {
+        // Fetch the user who reserved this seat
+        $reserved_user_query = "SELECT u.user_id 
+                                FROM reservation r
+                                JOIN users u ON r.user_id = u.user_id
+                                WHERE r.seat_id = $seat_id AND r.isDone = 0";
+        $reserved_user_result = mysqli_query($conn, $reserved_user_query);
+
+        if ($reserved_user_result && mysqli_num_rows($reserved_user_result) > 0) {
+            $user_row = mysqli_fetch_assoc($reserved_user_result);
+            $reserved_user = $user_row['user_id'];
+
             echo "<button class='btn btn-dark btn-sm Hotspot' 
             style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' 
             slot='hotspot-$seat_id' data-surface='$surface_data' 
             data-visibility-attribute='visible' 
-            disabled><div class='HotspotAnnotation'>S$seat_number</div></button>";
+            disabled><div class='HotspotAnnotation'>S$seat_number<br>Reserved by: $reserved_user</div></button>";
         } else {
-            // seat is available, display enabled button
-            echo "<button class='btn btn-success btn-sm Hotspot'
-            style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;'  
-            id='seat-$seat_id' 
-            slot='hotspot-$seat_id' 
-            data-surface='$surface_data' 
+            echo "<button class='btn btn-dark btn-sm Hotspot' 
+            style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;' 
+            slot='hotspot-$seat_id' data-surface='$surface_data' 
             data-visibility-attribute='visible' 
-            onclick='reserveSeat($seat_id)'><div class='HotspotAnnotation'>S$seat_number</div></button>";
+            disabled><div class='HotspotAnnotation'>S$seat_number<br>Error fetching user</div></button>";
         }
+    }  else {
+        // seat is available, display enabled button
+        echo "<button class='btn btn-success btn-sm Hotspot'
+        style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;'  
+        id='seat-$seat_id' 
+        slot='hotspot-$seat_id' 
+        data-surface='$surface_data' 
+        data-visibility-attribute='visible' 
+        onclick='reserveSeat($seat_id)'><div class='HotspotAnnotation'>S$seat_number</div></button>";
+    }
+
+        
+        
+        
+        
+        
+        
+        
+       
+
+
+
+
     }
 
     // close the 3D view card and other HTML tags

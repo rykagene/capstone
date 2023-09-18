@@ -46,18 +46,37 @@ require 'assets/php/session.php';
         // Retrieve initial seat status from the database and generate buttons
         $sql = "SELECT * FROM seat";
         $result = mysqli_query($conn, $sql);
+        
 
-        while ($row = mysqli_fetch_assoc($result)) {
-            $seat_number = $row['seat_number'];
-            $seat_id = $row['seat_id'];
-            $status = $row['status'];
+       // ... Your existing code ...
 
-            if ($status == 1) {
-                echo "<button id='$seat_id' class='btn btn-dark ml-2 btn-lg disabled'>$seat_number</button>";
-            } else {
-                echo "<button id='$seat_id' onclick='occupySeat($seat_id)' class='btn btn-success ml-2 btn-lg'>$seat_number</button>";
-            }
+while ($row = mysqli_fetch_assoc($result)) {
+    $seat_number = $row['seat_number'];
+    $seat_id = $row['seat_id'];
+    $status = $row['status'];
+
+    if ($status == 1) {
+        // If the seat is occupied, fetch the occupying user information
+        $occupying_user_query = "SELECT u.user_id
+                                 FROM reservation r
+                                 JOIN users u ON r.user_id = u.user_id
+                                 WHERE r.seat_id = $seat_id AND r.isDone = 0";
+        $occupying_user_result = mysqli_query($conn, $occupying_user_query);
+
+        if ($occupying_user_result && mysqli_num_rows($occupying_user_result) > 0) {
+            $user_row = mysqli_fetch_assoc($occupying_user_result);
+            $occupying_user = $user_row['user_id'];
+
+            echo "<button id='$seat_id' class='btn btn-dark ml-2 btn-lg disabled'> $seat_number (occupied by $occupying_user) </button>";
+        } else {
+            // Handle the case where there's an issue fetching user information
+            echo "<button id='$seat_id' class='btn btn-danger ml-2 btn-lg disabled'> $seat_number (Error fetching user)</button>";
         }
+    } else {
+        echo "<button id='$seat_id' onclick='occupySeat($seat_id)' class='btn btn-success ml-2 btn-lg'>$seat_number</button>";
+    }
+}
+
         ?>
     </div>
 

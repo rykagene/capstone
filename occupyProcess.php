@@ -3,8 +3,8 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-// Set the server's time zone to Asia/Taipei
-date_default_timezone_set('Asia/Taipei');
+// Set the server's time zone to Asia/Manila
+date_default_timezone_set('Asia/Manila');
 
 if (isset($_POST['seat_id'])) {
     $seat_id = $_POST['seat_id'];
@@ -13,7 +13,8 @@ if (isset($_POST['seat_id'])) {
     $current_time = date('H:i:s');  // Current time
 
     // Check if the user has a reservation for the specified time and seat
-    $query = "SELECT reservation_id, date, start_time, end_time FROM reservation WHERE user_id = $user_id AND seat_id = $seat_id";
+    $query = "SELECT reservation_id, date, start_time, end_time FROM reservation WHERE user_id = $user_id AND isDone = 0 AND seat_id = $seat_id ";
+
     $reservation_result = mysqli_query($conn, $query);
 
     if ($reservation_result && mysqli_num_rows($reservation_result) > 0) {
@@ -24,15 +25,14 @@ if (isset($_POST['seat_id'])) {
         $start_time = $reservation['start_time'];
         $end_time = $reservation['end_time'];
 
-         // Calculate the remaining time in minutes
-         $end_timestamp = strtotime($end_time);
-         $current_timestamp = strtotime($current_time);
-         $remaining_time = round(($end_timestamp - $current_timestamp) / 60); // in minutes
+        $start_timestamp = strtotime($date . ' ' . $start_time);
+        $end_timestamp = strtotime($date . ' ' . $end_time);
+        $current_timestamp = strtotime($current_date . ' ' . $current_time);
 
-
-        // Check if the current time is within the reservation time
-        if ($current_time >= $start_time && $current_time <= $end_time) {
+        if ($current_timestamp >= $start_timestamp && $current_timestamp <= $end_timestamp) {
            
+
+
             // Insert data into the occupy table
             $occupy_query = "INSERT INTO occupy (reservation_id, date, start_time, end_time, user_id, seat_id) VALUES ($reservation_id, '$date', '$start_time', '$end_time', $user_id, $seat_id)";
             $occupy_result = mysqli_query($conn, $occupy_query);
