@@ -12,6 +12,23 @@ if (isset($_POST['seat_id'])) {
     $current_date = date('Y-m-d');  // Current date
     $current_time = date('H:i:s');  // Current time
 
+    // Check if the user already occupies a seat
+    $occupy_check_query = "SELECT COUNT(*) AS occupy_count FROM occupy WHERE user_id = $user_id AND isDone = 0";
+    $occupy_check_result = mysqli_query($conn, $occupy_check_query);
+
+    if ($occupy_check_result) {
+        $occupy_count = mysqli_fetch_assoc($occupy_check_result)['occupy_count'];
+
+        if ($occupy_count >= 1) {
+            echo "Hi, $user_id. You cannot occupy more than one seat at a time.";
+            exit();
+        }
+    } else {
+        // Handle the error if the query fails
+        echo "An error occurred while checking occupancy.";
+        exit();
+    }
+
     // Check if the user has a reservation for the specified time and seat
     $query = "SELECT reservation_id, date, start_time, end_time FROM reservation WHERE user_id = $user_id AND isDone = 0 AND seat_id = $seat_id ";
 
@@ -30,11 +47,8 @@ if (isset($_POST['seat_id'])) {
         $current_timestamp = strtotime($current_date . ' ' . $current_time);
 
         if ($current_timestamp >= $start_timestamp && $current_timestamp <= $end_timestamp) {
-           
-
-
             // Insert data into the occupy table
-            $occupy_query = "INSERT INTO occupy (reservation_id, date, start_time, end_time, user_id, seat_id) VALUES ($reservation_id, '$date', '$start_time', '$end_time', $user_id, $seat_id)";
+            $occupy_query = "INSERT INTO occupy (reservation_id, date, start_time, user_id, seat_id) VALUES ($reservation_id, '$date', '$current_time', $user_id, $seat_id)";
             $occupy_result = mysqli_query($conn, $occupy_query);
 
             if ($occupy_result) {
@@ -43,28 +57,30 @@ if (isset($_POST['seat_id'])) {
                 $update_seat_query_result = mysqli_query($conn, $update_seat_query);
 
                 if ($update_seat_query_result) {
+                    // Send a response indicating success
                     $response['success'] = true;
-                    echo "seat status set to 1 success";
-                    echo "Seat $seat_id occupied successfully. You are $user_id. Occupied on $current_date from $current_time until $end_time You only have $remaining_time minute/s";
+                    echo "Seat $seat_id occupied successfully. You are $user_id. Occupied on $current_date from $current_time until $end_time";
+
+                    // Start a JavaScript timer to update the time spent every second
+                    echo "<script>
+                            var timeSpent = 0;
+                            setInterval(function() {
+                                timeSpent++;
+                                document.getElementById('timeSpent').innerHTML = 'Time Spent: ' + timeSpent + ' seconds';
+                            }, 1000);
+                          </script>";
+                    echo "<div id='timeSpent'></div>"; // Display the time spent here
                 } else {
+                    // Send an error response
                     $response['success'] = false;
-                    echo "seat status still 0 ";
                     $response['error'] = "Error updating seat status: " . mysqli_error($conn);
                 }
             } else {
-                echo "Error inserting data into the occupy table";
+                // Send an error response
                 $response['success'] = false;
                 $response['error'] = "Error inserting data into the occupy table: " . mysqli_error($conn);
             }
-        }
-        else {
-            // Calculate the waiting time in minutes
-            // $start_timestamp = strtotime($start_time);
-            // $end_timestamp = strtotime($end_time);
-            // $current_timestamp = strtotime($current_time);
-            // $waiting_time = round(($start_timestamp - $current_timestamp) / 60); // in minutes
-
-            // echo "Hi, $user_id. Occupancy not successful. Please wait for $waiting_time minute/s until your reservation starts.";
+        } else {
             echo "Hi, $user_id. Occupancy not successful. Please check your reservation time on this seat";
         }
     } else {
