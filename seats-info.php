@@ -42,7 +42,7 @@ $result = $conn -> query($sql);
 
         #selectSeatForm,
         #view-3d {
-            height: 100vh !important;
+            height: 95vh !important;
         }
 
         body::before {
@@ -78,30 +78,6 @@ $result = $conn -> query($sql);
         @media (min-width: 992px) {
             body::before {
                 content: "LG";
-            }
-
-            #dateTimeDiv {
-                height: 100vh !important;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            body::before {
-                content: "XL";
-            }
-
-            #dateTimeDiv {
-                height: 100vh !important;
-            }
-        }
-
-        @media (min-width: 1400px) {
-            body::before {
-                content: "XXL";
-            }
-
-            #dateTimeDiv {
-                height: 100vh !important;
             }
         }
 
@@ -217,16 +193,51 @@ $result = $conn -> query($sql);
 
             <main>
 
-            <div class="filter">
-                <form action="brw_history.php" method="GET">
+                <div class="wrapper">
+                    <div class="container-fluid">
+                        <div class="row mt-3 mb-3" style="height: 10vh;">
+                            <div class="col-lg-2">
+                                <!-------------------------DATE & TIME PICKER CARD DIV--------------------->
+                                <div id="dateTimeDiv" class="card" data-aos="fade-right">
+                                    <div class="card-header bg-light">
+                                        <h5>Date</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="reserveForm" method="get">
+                                            <div class="">
+                                                <div class="form-group">
+                                                    <!-- <label for="date" class="text-muted">Reserve seat on</label> -->
+                                                    <div class="row d-flex justify-content-center" id="date_picker">
+                                                        <input type="text" id="date" class="form-control d-none"
+                                                            min="<?php echo date('Y-m-d') ?>" name="date"
+                                                            required="required">
+                                                    </div>
+                                                </div>
+                                                <!-- date picker -->
+                                                <script>
+                                                    flatpickr("#date", {
+                                                        theme: "default",
+                                                        inline: true,
+                                                        dateFormat: "Y-m-d",
+                                                        minDate: "today",
+                                                        defaultDate: "today"
 
-                    <div class="row">
+                                                    });
+                                                </script>
+                                                <!-- end of date picker -->
 
-                        <div class="date">
-                            <label>Date seated </label>
-                            <input type="date" name="claimed_date" value="2023-04-17" class="form-control"
-                                required="required"></input>
-                        </div>
+                                                <!-- hiddeeeennnnn -->
+                                                <div class="hidden">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="time" class="form-control" id="start_time"
+                                                            name="start_time" required onchange="getEndTime()"
+                                                            min="<?php echo date('H:i'); ?>" value="">
+                                                        <label for="start_time" class="text-muted">From</label>
+
+                                                        <input type="time" class="form-control-plaintext" readonly
+                                                            id="end_time" name="end_time" required="required">
+                                                        <label for="end_time" class="text-muted">To:</label>
+                                                    </div>
 
                         <div class="college">
                             <label for="cars">Table No.</label>
