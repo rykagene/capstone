@@ -7,6 +7,8 @@
     <a href="home.php">HOME</a>
     <a href="home.php#aboutus">ABOUT US</a>
     <a href="reserve.php">RESERVE SEAT</a>
+    <a href="occupy.php">OCCUPY SEAT</a>
+  
     <a href="profile.php">ACCOUNT</a>
     <a href="toLogout.php">LOGOUT</a>
   </nav>

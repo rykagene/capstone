@@ -119,8 +119,8 @@ function reserveSeat(seat_id) {
 							confirmButtonText: 'Okay',
 							confirmButtonColor: '#a81c1c',
 						}).then(() => {
-							// Redirect to the receipt page
-							window.location.href = 'receipt.php';
+							
+							window.location.href = 'profile.php';
 						});
 					} else if (response === 'error') {
 						console.log('The selected seat is already reserved for the selected date and time range');
