@@ -13,7 +13,9 @@ require 'assets/php/session.php';
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- SweetAlert2 CSS and JS files -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/edit_profile.css" />
@@ -48,7 +50,7 @@ require 'assets/php/session.php';
         $result = mysqli_query($conn, $sql);
         
 
-       // ... Your existing code ...
+
 
 while ($row = mysqli_fetch_assoc($result)) {
     $seat_number = $row['seat_number'];
@@ -81,6 +83,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 
 <script>
+
+
     function occupySeat(seat_id) {
         // Make an AJAX request to occupyProcess.php
         $.ajax({
