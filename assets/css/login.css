@@ -36,8 +36,8 @@ main {
 
 .inner-box {
   position: absolute;
-  width: calc(100% - 4.1rem);
-  height: calc(100% - 4.1rem);
+  width: calc(100% - 5.1rem);
+  height: calc(100% - 5.1rem);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -100,14 +100,14 @@ form.sign-up-form {
 .heading h6 {
   color: #bababa;
   font-weight: 400;
-  font-size: 0.75rem;
+  font-size: 1rem;
   display: inline;
 }
 
 .toggle {
   color: #151111;
   text-decoration: none;
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 500;
   transition: 0.3s;
 }
@@ -165,7 +165,7 @@ label {
   border: none;
   cursor: pointer;
   border-radius: 0.8rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin-bottom: 2rem;
   transition: 0.3s;
 }
@@ -176,7 +176,7 @@ label {
 
 .text {
   color: #bbb;
-  font-size: 0.7rem;
+  font-size: .9rem;
 }
 
 .text a {
@@ -389,7 +389,7 @@ main.sign-up-mode .carousel {
   }
 
   .text-group h2 {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
   }
 
   form {

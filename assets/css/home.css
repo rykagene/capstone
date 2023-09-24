@@ -177,7 +177,7 @@
   top: 30%; /* Adjust this value to move the positioned div up and down */
   font-weight: bold;
   color: whitesmoke;
-  width: 75%; /* Set the width of the positioned div */
+  width: 30%; /* Set the width of the positioned div */
 }
 
 #parallax-home-text-lib {
@@ -185,7 +185,7 @@
   color: #ffffff;
   text-align: center;
   margin-top: 3%;
-  left: -10%;
+  left: 10%;
   font-size: 9.5vw;
   font-family: "Archivo Black", "Times New Roman", Times, serif;
 }
@@ -194,12 +194,13 @@
   position: absolute;
   color: #ffffff;
   text-align: center;
-  margin-top: 5.5%;
-  left: 7%;
-  font-size: 1.5vw;
+  margin-top: 3.5%;
+  left: 10%; /* Adjust the left position as needed */
+  font-size: 1.5vw; /* Adjust the font size as needed */
   font-family: "Archivo Black", "Times New Roman", Times, serif;
 }
 
+/*
 #parallax-home-text-disc {
   position: absolute;
   color: #ffffff;
@@ -210,6 +211,18 @@
   font-family: "Playfair Display", "Times New Roman", Times, serif;
   opacity: 60%;
 }
+*/
+
+#parallax-home-text-disc {
+  position: absolute;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 3%;
+  left: -30%;
+  font-size: 9.5vw;
+  font-family: "Archivo Black", "Times New Roman", Times, serif;
+}
+
 
 @media only screen and (max-width: 952px) {
   .parallax-home {
@@ -217,6 +230,16 @@
   }
 }
 /* END of Banner/Cover */
+
+
+/* Discover */
+
+.discover-pic {
+  width: 650px;
+  height: 750px;
+  position: absolute;
+  display: flex;
+}
 
 /* Seat Info */
 .seats {
@@ -430,19 +453,23 @@
 .col-2 {
   width: 50%;
   position: relative;
-  margin-right: 55px;
-  padding-top: 7em;
+  margin: 0 auto; /* Center horizontally */
+  padding-top: 27em;
+  text-align: center;
 }
+
+
 
 .col-2 h2 {
   color: #a81c1c;
-  margin-top: 0%;
-  left: 0%;
+  margin: 0 auto; /* Center horizontally */
   font-size: 3.5vw;
   font-family: "Archivo Black", "Times New Roman", Times, serif;
+  padding-bottom: 10px;
 }
 
 .col-2 h6 {
+  margin: 0 auto; /* Center horizontally */
   color: #dd5656;
   margin-top: 0%;
   left: 7%;
@@ -451,10 +478,12 @@
 }
 
 .col-2 p {
+  margin: 0 auto; /* Center horizontally */
   font-family: "Helvetica";
   font-size: 2.4vh;
   width: 90%;
 }
+
 
 @media (max-width: 954px) {
   .col-2 {
@@ -519,7 +548,7 @@
   border-radius: 10px;
   width: 480px;
   height: 380px;
-  margin: 20px;
+  margin: 10px;
   background-color: #141212;
   display: inline-block;
   background-size: cover;
@@ -828,3 +857,24 @@ footer hr {
 }
 
 /* END of Footer */
+
+
+
+hr {
+  border: none;
+  background-color: black;
+  height: 1.5px;
+}
+
+.container {
+  position: relative; /* Position the container relative to its normal position */
+  display: flex; /* Use flexbox to align elements horizontally */
+  align-items: center; /* Vertically center-align the elements */
+}
+
+.vertical-line {
+  border-left: 1.5px solid black; /* Adjust the width and color as needed */
+  height: 150px; /* Adjust the height as needed */
+  margin-left: 100px; /* Adjust the margin to control the gap between lines */
+  position: absolute;
+}
