@@ -8,9 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['user_id'];
     $newFirstName = $_POST['first_name'];
     $newLastName = $_POST['last_name'];
+    $newAge = $_POST['age'];
+    $newNumber = $_POST['contact_num'];
 
     // Update the user's information in the database
-    $sql = "UPDATE users SET first_name = '$newFirstName', last_name = '$newLastName' WHERE user_id = '$userId'";
+    $sql = "UPDATE users SET first_name = '$newFirstName', last_name = '$newLastName', contact_num = '$newNumber', 
+            age = '$newAge'  WHERE user_id = '$userId'";
     if ($conn->query($sql) === TRUE) {
         // Return a success response as JSON if the update is successful
         echo json_encode(array('status' => 'success'));
