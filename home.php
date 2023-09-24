@@ -74,8 +74,21 @@ require 'assets/php/session.php';
         <script type="module" src="/main.js"></script>
         <!------------------------ END OF SEAT INFO ------------------------>
 
+        <div class="col-2">
+                <h2>ABOUT US</h2>
+                <p>
+                    The Bulacan State University Library, through its resources, facility, and staff, is dedicated to
+                    providing open
+                    access to information and to offering the services and tools with which to locate and interpret that
+                    information. As patrons’ needs and information technologies continue to evolve, so will the means
+                    with which the
+                    Library attempts to fulfill its role within the community.
+                </p>
+            </div>
+
+        
         <!------------------------ NEWS SLIDER ------------------------>
-        <div id="my-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="true" data-aos="fade-left">
+        <!--<div id="my-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="true" data-aos="fade-left">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#my-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -129,7 +142,7 @@ require 'assets/php/session.php';
 
 
         <!------------------------ ABOUT US ------------------------>
-        <div class="abtus" id="aboutus" data-aos="fade-up">
+        <!--<div class="abtus" id="aboutus" data-aos="fade-up">
             <div class="col-1">
                 <img src="assets/img/elib0.jpg">
 
@@ -159,6 +172,11 @@ require 'assets/php/session.php';
                     <p class="animate-text">Bulacan State University is a progressive knowledge-generating institution
                         globally recognized for excellent instruction, pioneering research, and responsive community
                         engagements. </p>
+                        <div class="dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
             </div>
 
@@ -192,7 +210,23 @@ require 'assets/php/session.php';
                     </div>
                 </div>
             </div>
+
+            <div class="tile" data-aos="fade-up" data-aos-duration="2000">
+                <img src='assets/img/inaug2.jpg' />
+                <div class="text">
+                    <h1>Core Values</h1>
+                    <p class="animate-text">S – Service to God and Community.<br>O – Order and Peace.<br>
+                    A – Assurance of Quality and Accountability.<br>R – Respect and Responsibility. </p>
+                    <div class="dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
         <!------------------------ END OF VMGO ------------------------>
 
         <!------------------------ FOOTER ------------------------>
