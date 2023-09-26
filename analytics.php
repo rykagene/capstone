@@ -44,8 +44,7 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard"  id="tabButtons"><span
-                            class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -90,14 +89,18 @@ require 'assets/php/session.php';
                 Analytics
             </h2>
 
-            <div class="dropdown">
+            <<div class="dropdown">
                 <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <div class="user-wrapper">
-                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                        <div>
+                        <img src="<?php if ($_SESSION['gender'] == "Male") {
+                            echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
+                        } elseif ($_SESSION['gender'] == "Female") {
+                            echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
+                        } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
+                        <div id="user_admin">
                             <h4>
-                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                                <?php echo $_SESSION["username"]; ?>
                             </h4>
                         </div>
                     </div>
@@ -106,88 +109,87 @@ require 'assets/php/session.php';
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
                     <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
-                    </ul>
+                </div>
+    </div>
+    </header>
+    <!------------------------ END OF HEADER ------------------------>
+
+
+    <main>
+        <div class="graphBox">
+            <div class="box">
+                <h4>Weekly Statistics</h4>
+                <div>
+                    <canvas id="myChart"></canvas>
                 </div>
             </div>
-        </header>
-        <!------------------------ END OF HEADER ------------------------>
-
-
-        <main>
-            <div class="graphBox">
-                <div class="box">
-                    <h4>Weekly Statistics</h4>
-                    <div>
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-                <div class="box">
-                    <div>
-                        <canvas id="myChart2"></canvas>
-                    </div>
+            <div class="box">
+                <div>
+                    <canvas id="myChart2"></canvas>
                 </div>
             </div>
+        </div>
 
-            <div class="graphBox2">
-                <div class="box">
-                    <h4>Monthly/Annual Statistics</h4>
-                    <div>
+        <div class="graphBox2">
+            <div class="box">
+                <h4>Monthly/Annual Statistics</h4>
+                <div>
 
-                        <div class="filters">
+                    <div class="filters">
 
-                            <div class="year" class="form-control">
-                                <label for="cars">Filter Year:</label>
-                                <select class="form-control">
-                                    <option>2022</option>
-                                    <option>2023</option>
-                                </select>
-                            </div>
-
-                            <div class="year-level" class="form-control">
-                                <label for="cars">Filter Year Level:</label>
-                                <select class="form-control">
-                                    <option style="display:none">Select here</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
-                            </div>
-
-                            <div class="college">
-                                <label for="cars">Filter College:</label>
-                                <select class="form-control">
-                                    <option style="display:none">Select here</option>
-                                    <option>CAFA</option>
-                                    <option>CAL</option>
-                                    <option>CBA</option>
-                                    <option>CCJE</option>
-                                    <option>CHTM</option>
-                                    <option>CICT</option>
-                                    <option>CIT</option>
-                                    <option>CLaw</option>
-                                    <option>CN</option>
-                                    <option>COE</option>
-                                    <option>COED</option>
-                                    <option>CS</option>
-                                    <option>CSER</option>
-                                    <option>CSSP</option>
-                                    <option>GS</option>
-                                </select>
-                            </div>
-
+                        <div class="year" class="form-control">
+                            <label for="cars">Filter Year:</label>
+                            <select class="form-control">
+                                <option>2022</option>
+                                <option>2023</option>
+                            </select>
                         </div>
-                        <canvas id="myChart3"></canvas>
-                        <div class="print-report">
-                            <a href="sample-doc.pdf" class="buttons">Print Report</a>
+
+                        <div class="year-level" class="form-control">
+                            <label for="cars">Filter Year Level:</label>
+                            <select class="form-control">
+                                <option style="display:none">Select here</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
                         </div>
+
+                        <div class="college">
+                            <label for="cars">Filter College:</label>
+                            <select class="form-control">
+                                <option style="display:none">Select here</option>
+                                <option>CAFA</option>
+                                <option>CAL</option>
+                                <option>CBA</option>
+                                <option>CCJE</option>
+                                <option>CHTM</option>
+                                <option>CICT</option>
+                                <option>CIT</option>
+                                <option>CLaw</option>
+                                <option>CN</option>
+                                <option>COE</option>
+                                <option>COED</option>
+                                <option>CS</option>
+                                <option>CSER</option>
+                                <option>CSSP</option>
+                                <option>GS</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <canvas id="myChart3"></canvas>
+                    <div class="print-report">
+                        <a href="sample-doc.pdf" class="buttons">Print Report</a>
                     </div>
                 </div>
             </div>
+        </div>
 
 
 
-        </main>
+    </main>
 
 
     </div>

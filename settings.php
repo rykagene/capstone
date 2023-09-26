@@ -133,18 +133,26 @@ $result = mysqli_query($conn, $sql);
                 Settings
             </h2>
 
-            <!-- <div class="search-wrapper">
-                <span class="las la-search"></span>
-                <input type="search" placeholder="Search here..">
-            </div> -->
+            <div class="dropdown">
+                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="user-wrapper">
+                        <img src="<?php if ($_SESSION['gender'] == "Male") {
+                            echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
+                        } elseif ($_SESSION['gender'] == "Female") {
+                            echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
+                        } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
+                        <div id="user_admin">
+                            <h4>
+                                <?php echo $_SESSION["username"]; ?>
+                            </h4>
+                        </div>
+                    </div>
+                </button>
 
-            <div class="user-wrapper">
-                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-
-                <div>
-                    <h4>
-                        <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
-                    </h4>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
                 </div>
             </div>
         </header>

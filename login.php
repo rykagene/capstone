@@ -29,6 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = $admin_row2['last_name'];
     $admin_id = $admin_row2['admin_id'];
     $isSuperAdmin = $admin_row2['isSuperAdmin'];
+    $gender = $admin_row2['gender'];
+
 
     // Set the session variables for admin
     $_SESSION["username"] = $username;
@@ -38,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["last_name"] = $last_name;
     $_SESSION["account_id"] = $account_id;
     $_SESSION["isSuperAdmin"] = $isSuperAdmin;
+    $_SESSION["gender"] = $gender;
     $_SESSION["reservation_count"] = $reservation_count;
     header("Location: admin.php");
     exit();
