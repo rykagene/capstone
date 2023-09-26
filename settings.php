@@ -47,7 +47,7 @@ $result = mysqli_query($conn, $sql);
 
 <!DOCTYPE HTML>
 <html>
-    <!--  SweetAlert2 CSS and JS files -->
+<!--  SweetAlert2 CSS and JS files -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 
@@ -61,7 +61,7 @@ $result = mysqli_query($conn, $sql);
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/analytics.css" />
-   
+
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
@@ -69,7 +69,14 @@ $result = mysqli_query($conn, $sql);
 
 
 <body>
-
+    <?php if ($_SESSION['isSuperAdmin'] === 'no') {
+        echo '<style type="text/css">
+       .sidebar-menu #hidden{
+           display: none;
+       }
+      </style>';
+    }
+    ; ?>
     <input type="checkbox" id="nav-toggle">
 
     <!------------------------ SIDEBAR ------------------------>
@@ -79,9 +86,9 @@ $result = mysqli_query($conn, $sql);
             <h2> <span>SOAR Admin</span></h2>
         </div>
 
-        <div class="sidebar-menu">
+        <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php"><span class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -96,11 +103,15 @@ $result = mysqli_query($conn, $sql);
                 <li> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
                 </li>
-                <li> <a href="analytics.php" ><span class="las la-chart-bar"></span>
+                <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
                 <li> <a href="settings.php" class="active"><span class="las la-cog"></span>
                         <span>Settings</span></a>
+                </li>
+                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                        href="manageAdmin.php"><span class="las la-users-cog"></span>
+                        <span>Manage Accounts</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
@@ -128,21 +139,20 @@ $result = mysqli_query($conn, $sql);
             </div> -->
 
             <div class="user-wrapper">
-                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                        
-                        <div>
-                        Admin
-                            <h4>
-                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
-                            </h4>
-                        </div>
-                    </div>
+                <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
+
+                <div>
+                    <h4>
+                        <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                    </h4>
+                </div>
+            </div>
         </header>
         <!------------------------ END OF HEADER ------------------------>
 
         <?php
         // Assuming you have established a database connection
-
+        
         // Retrieve the data from the settings table
         $sql = "SELECT * FROM `settings` WHERE `settings_id` = 1";
         $result = mysqli_query($conn, $sql);
@@ -171,11 +181,15 @@ $result = mysqli_query($conn, $sql);
                         <label for="enableReservation" class="col-sm-2 col-form-label">Maintenance Mode</label>
                         <div class="col-sm-10">
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="1" <?php if ($settings['reservation'] == 1) echo 'checked'; ?>>
+                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
+                                    value="1" <?php if ($settings['reservation'] == 1)
+                                        echo 'checked'; ?>>
                                 <label class="custom-control-label" for="customRadio1">Enable</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="0" <?php if ($settings['reservation'] == 0) echo 'checked'; ?>>
+                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
+                                    value="0" <?php if ($settings['reservation'] == 0)
+                                        echo 'checked'; ?>>
                                 <label class="custom-control-label" for="customRadio2">Disable</label>
                             </div>
                         </div>
@@ -185,7 +199,8 @@ $result = mysqli_query($conn, $sql);
                     <div class="form-group row">
                         <label for="min_duration" class="col-sm-2 col-form-label">Min duration</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="min_duration" name="min_duration" value="<?php echo $settings['minDuration']; ?>">
+                            <input type="number" class="form-control" id="min_duration" name="min_duration"
+                                value="<?php echo $settings['minDuration']; ?>">
                             <small class="form-text text-muted">Enter the minimum duration in hours</small>
                         </div>
                     </div>
@@ -194,7 +209,8 @@ $result = mysqli_query($conn, $sql);
                     <div class="form-group row">
                         <label for="max_duration" class="col-sm-2 col-form-label">Max duration</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="max_duration" name="max_duration" value="<?php echo $settings['maxDuration']; ?>">
+                            <input type="number" class="form-control" id="max_duration" name="max_duration"
+                                value="<?php echo $settings['maxDuration']; ?>">
                             <small class="form-text text-muted">Enter the maximum duration in hours</small>
                         </div>
                     </div>
@@ -203,11 +219,13 @@ $result = mysqli_query($conn, $sql);
                     <div class="form-group row">
                         <label for="reserve_per_day" class="col-sm-2 col-form-label">Reserve per day</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="reserve_per_day" name="reserve_per_day" value="<?php echo $settings['reservePerDay']; ?>">
+                            <input type="number" class="form-control" id="reserve_per_day" name="reserve_per_day"
+                                value="<?php echo $settings['reservePerDay']; ?>">
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-danger" name="apply" id="applyButton" disabled>Apply Changes</button>
+                    <button type="submit" class="btn btn-danger" name="apply" id="applyButton" disabled>Apply
+                        Changes</button>
                 </form>
             </div>
         </main>
@@ -215,7 +233,7 @@ $result = mysqli_query($conn, $sql);
 
 
 
-       
+
 
 
 
@@ -239,66 +257,66 @@ $result = mysqli_query($conn, $sql);
 
 <!-- AJAX script -->
 <script>
-$(document).ready(function () {
-    const settingsForm = $("#settings-form");
-    const applyButton = $("#applyButton");
+    $(document).ready(function () {
+        const settingsForm = $("#settings-form");
+        const applyButton = $("#applyButton");
 
-    // Store the initial values of the form fields
-    const initialValues = {
-        customRadio: <?php echo $settings['reservation']; ?>,
-        min_duration: <?php echo $settings['minDuration']; ?>,
-        max_duration: <?php echo $settings['maxDuration']; ?>,
-        reserve_per_day: <?php echo $settings['reservePerDay']; ?>
-    };
-
-    // Function to check if any changes have been made
-    function hasChanges() {
-        const currentValues = {
-            customRadio: parseInt(settingsForm.find("input[name='customRadio']:checked").val()),
-            min_duration: parseInt(settingsForm.find("#min_duration").val()),
-            max_duration: parseInt(settingsForm.find("#max_duration").val()),
-            reserve_per_day: parseInt(settingsForm.find("#reserve_per_day").val())
+        // Store the initial values of the form fields
+        const initialValues = {
+            customRadio: <?php echo $settings['reservation']; ?>,
+            min_duration: <?php echo $settings['minDuration']; ?>,
+            max_duration: <?php echo $settings['maxDuration']; ?>,
+            reserve_per_day: <?php echo $settings['reservePerDay']; ?>
         };
 
-        return JSON.stringify(currentValues) !== JSON.stringify(initialValues);
-    }
+        // Function to check if any changes have been made
+        function hasChanges() {
+            const currentValues = {
+                customRadio: parseInt(settingsForm.find("input[name='customRadio']:checked").val()),
+                min_duration: parseInt(settingsForm.find("#min_duration").val()),
+                max_duration: parseInt(settingsForm.find("#max_duration").val()),
+                reserve_per_day: parseInt(settingsForm.find("#reserve_per_day").val())
+            };
 
-    // Check if there are changes on form input
-    settingsForm.on("input", function () {
-        applyButton.prop("disabled", !hasChanges());
-    });
-
-    settingsForm.on("submit", function (event) {
-        if (!hasChanges()) {
-            event.preventDefault();
-            return;
+            return JSON.stringify(currentValues) !== JSON.stringify(initialValues);
         }
 
-        event.preventDefault(); // Prevent the default form submission
+        // Check if there are changes on form input
+        settingsForm.on("input", function () {
+            applyButton.prop("disabled", !hasChanges());
+        });
 
-        $.ajax({
-            url: "settings.php",
-            method: "POST",
-            data: settingsForm.serialize(),
-            success: function (responseText) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Settings Updated",
-                    text: "The settings have been updated successfully.",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "OK"
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        window.location.href = "settings.php"; // Redirect to settings page
-                    }
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error:", error);
+        settingsForm.on("submit", function (event) {
+            if (!hasChanges()) {
+                event.preventDefault();
+                return;
             }
+
+            event.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                url: "settings.php",
+                method: "POST",
+                data: settingsForm.serialize(),
+                success: function (responseText) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Settings Updated",
+                        text: "The settings have been updated successfully.",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "OK"
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            window.location.href = "settings.php"; // Redirect to settings page
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
         });
     });
-});
 </script>
 
 
