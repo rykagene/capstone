@@ -59,6 +59,8 @@ require 'assets/php/session.php';
 
 
         <!------------------------ SEAT INFO ------------------------>
+        <canvas class="webgl"></canvas>
+
         <div class="seats" data-aos="fade-right">
             <div class="no-of-seats">
                 <h1 id="no">206</h1>
@@ -69,24 +71,22 @@ require 'assets/php/session.php';
             </a>
         </div>
 
-        <canvas class="webgl"></canvas>
 
-        <script type="module" src="/main.js"></script>
         <!------------------------ END OF SEAT INFO ------------------------>
 
         <div class="col-2">
-                <h2>ABOUT US</h2>
-                <p>
-                    The Bulacan State University Library, through its resources, facility, and staff, is dedicated to
-                    providing open
-                    access to information and to offering the services and tools with which to locate and interpret that
-                    information. As patrons’ needs and information technologies continue to evolve, so will the means
-                    with which the
-                    Library attempts to fulfill its role within the community.
-                </p>
-            </div>
+            <h2>ABOUT US</h2>
+            <p>
+                The Bulacan State University Library, through its resources, facility, and staff, is dedicated to
+                providing open
+                access to information and to offering the services and tools with which to locate and interpret that
+                information. As patrons’ needs and information technologies continue to evolve, so will the means
+                with which the
+                Library attempts to fulfill its role within the community.
+            </p>
+        </div>
 
-        
+
         <!------------------------ NEWS SLIDER ------------------------>
         <!--<div id="my-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-ride="true" data-aos="fade-left">
             <div class="carousel-indicators">
@@ -172,7 +172,7 @@ require 'assets/php/session.php';
                     <p class="animate-text">Bulacan State University is a progressive knowledge-generating institution
                         globally recognized for excellent instruction, pioneering research, and responsive community
                         engagements. </p>
-                        <div class="dots">
+                    <div class="dots">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -216,7 +216,7 @@ require 'assets/php/session.php';
                 <div class="text">
                     <h1>Core Values</h1>
                     <p class="animate-text">S – Service to God and Community.<br>O – Order and Peace.<br>
-                    A – Assurance of Quality and Accountability.<br>R – Respect and Responsibility. </p>
+                        A – Assurance of Quality and Accountability.<br>R – Respect and Responsibility. </p>
                     <div class="dots">
                         <span></span>
                         <span></span>
@@ -335,6 +335,7 @@ require 'assets/php/session.php';
 
     </div>
 
+    <script type="module" src="assets/js/main.js"></script>
 
 </body>
 
