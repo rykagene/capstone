@@ -3,8 +3,8 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-// Set the server's time zone to Asia/Manila
-date_default_timezone_set('Asia/Manila');
+// // Set the server's time zone to Asia/Manila
+// date_default_timezone_set('Asia/Manila');
 
 if (isset($_POST['seat_id'])) {
     $seat_id = $_POST['seat_id'];

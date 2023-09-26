@@ -52,6 +52,9 @@ if (mysqli_num_rows($ongoing_result) > 0) {
     $end_time = date('h:i A', strtotime($row['end_time'])); // Convert end time to AM/PM format
     $reservation_id = $row['reservation_id'];
 
+    $start_time_raw = $row['start_time'];
+    $end_time_raw = $row['end_time'];
+
     $end_timestamp = strtotime($row['end_time']);
     $current_timestamp = time();
     $remaining_time = max(0, $end_timestamp - $current_timestamp); // Remaining time in seconds
@@ -69,32 +72,9 @@ if (mysqli_num_rows($ongoing_result) > 0) {
     echo "<span>6th Floor</span>";
     echo "<h5>{$start_time} - {$end_time}</h5>";
     echo "<i>Please don't forget your ID when done</i><br>";
-    // echo "<h7>Time Left:  ";
-
-    // if ($remaining_hours > 0) {
-    //     echo "{$remaining_hours} hr";
-    //     if ($remaining_minutes > 0) {
-    //         echo " {$remaining_minutes} min";
-    //         if ($remaining_seconds > 0) {
-    //             echo " {$remaining_seconds} sec";
-    //         }
-    //     } else {
-    //         if ($remaining_seconds > 0) {
-    //             echo "{$remaining_seconds} seconds";
-    //         }
-    //     }
-    // } else {
-    //     if ($remaining_minutes > 0) {
-    //         echo "{$remaining_minutes} minutes";
-    //         if ($remaining_seconds > 0) {
-    //             echo " and {$remaining_seconds} seconds";
-    //         }
-    //     } else {
-    //         echo "{$remaining_seconds} seconds";
-    //     }
-    // }
-    // echo "</h7>";
     echo "<a href='#' class='btn btn-outline-danger btn-sm' onclick='markReservationAsDone({$row['reservation_id']}); return false;'>Mark as Done</a>";
+    echo "<div id='extendtimeDiv' style='display:none'><button onclick='extendReservationTime(event)' class='btn btn-danger'>extend 30 mins</button><br>";
+    echo "</div>";
     
 } else {
     echo "<h1>No ongoing reservations for this user.</h1>";
@@ -136,30 +116,98 @@ mysqli_free_result($ongoing_result);
     <!-------JAVASCRIPT-------->
 
     <script>
-              function markReservationAsDone(reservationId) {
+
+    // mark as done function will be trigger if the reservation time is over
+    function markReservationAsDone(reservationId) {
+        Swal.fire({
+            title: 'Occupying Done?',
+            text: 'This button will serve as act of removing RFID card on the reader will automatically submit this form',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'green',
+            cancelButtonColor: '#d3d3d3',
+            confirmButtonText: 'Mark available'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send AJAX request to update seat status and move reservation to history
+                // mark as done button
+                $.ajax({
+                    url: `toAddHistory.php?reservation_id=${reservationId}`,  
+                    type: 'GET',
+                    success: function (response) {
+                        window.location.href = `survey.php`;
+                        
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'An error occurred while marking the reservation as done.',
+                            icon: 'error',
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+
+// function that extend the time
+function extendReservationTime(event) {
+    event.preventDefault();
+    const reservationId = <?php echo $reservation_id ?>; // Get the reservation ID from PHP
+    const seatId = <?php echo $seat_number ?>;
+  
+    const endTime = <?php echo strtotime($row['end_time']) ?>;
+    const startTime = <?php echo strtotime($row['start_time']) ?>;
+
     Swal.fire({
-        title: 'Occupying Done?',
-        text: 'This button will serve as act of removing RFID card on the reader will automatically submit this form',
-        icon: 'warning',
+        title: 'Extend Time?',
+        text: 'Add more 30 minutes?',
+        icon: 'info',
         showCancelButton: true,
-        confirmButtonColor: 'green',
+        confirmButtonColor: '#a81c1c',
         cancelButtonColor: '#d3d3d3',
-        confirmButtonText: 'Mark this seat as available'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Send AJAX request to update seat status and move reservation to history
-            // mark as done button
+        confirmButtonText: 'Extend',
+        
+    }).then((confirmResult) => {
+        if (confirmResult.isConfirmed) {
             $.ajax({
-                url: `toAddHistory.php?reservation_id=${reservationId}`,  
-                type: 'GET',
-                success: function (response) {
-                    window.location.href = `survey.php`;
-                    
+                url: 'extendProcess.php',
+                type: 'POST',
+                data: { 
+                    reservation_id: reservationId,
+                    seat_id: seatId,
+                    start_time_raw: startTime,
+                    end_time_raw: endTime
                 },
-                error: function (xhr, textStatus, errorThrown) {
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Reservation Time Extended',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonColor: '#a81c1c'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Failed to extend time',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonColor: '#a81c1c',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
                     Swal.fire({
                         title: 'Error',
-                        text: 'An error occurred while marking the reservation as done.',
+                        text: 'An error occurred while extending the reservation time.',
                         icon: 'error',
                         confirmButtonColor: '#d33',
                         confirmButtonText: 'OK'
@@ -169,7 +217,13 @@ mysqli_free_result($ongoing_result);
         }
     });
 }
+
+
+
+
     </script>
+
+
 
  <script>
     const FULL_DASH_ARRAY = 283;
@@ -217,7 +271,7 @@ mysqli_free_result($ongoing_result);
             <span id="base-timer-label" class="base-timer__label">${formatTime(timeLeft)}</span>
         </div>
     `;
-
+    let extendButtonShown = false;
     startTimer();
 
     function onTimesUp() {
@@ -232,14 +286,34 @@ mysqli_free_result($ongoing_result);
             setCircleDasharray();
             setRemainingPathColor(timeLeft);
 
-            if (timeLeft === 0) {
+             // Check if timeLeft is 5 minutes
+            if (timeLeft <= 300 && !extendButtonShown) {  // 5 minutes = 300 seconds
+                // less than 5 minutes
+                extendButtonShown = true;
+                document.getElementById("extendtimeDiv").style = 'block';
+               
+               
+                
+            }
+            
+
+            if ((timeLeft === 0) || (timeLeft <= 0)) {
                 onTimesUp();
                 $.ajax({
                 url: `toAddHistory.php?reservation_id=<?php echo $reservation_id;?>`,  
                 type: 'GET',
                 success: function (response) {
-                    window.location.href = `survey.php`;
-                    
+                    Swal.fire({
+                        title: 'Time\'s Up',
+                        text: 'Your reservation time is up!',
+                        icon: 'success',
+                        confirmButtonColor: '#a81c1c',
+                        confirmButtonText: 'OK',
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = `survey.php`;
+                    });
+                   
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     Swal.fire({
@@ -251,16 +325,27 @@ mysqli_free_result($ongoing_result);
                     });
                 }
             });
-                window.location.href = "survey.php";
+               
             }
         }, 1000);
     }
 
+    // function formatTime(time) {
+    //     const minutes = Math.floor(time / 60);
+    //     const seconds = time % 60;
+    //     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    // }
+
     function formatTime(time) {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    if (time < 0) {
+        return 'Time\'s Up';
     }
+
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${Math.max(seconds, 0)}`;
+    }
+
 
     function setRemainingPathColor(timeLeft) {
         const { alert, warning, info } = COLOR_CODES;
