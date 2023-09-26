@@ -1,9 +1,29 @@
-<?php
-session_start();
-require 'assets/php/connect.php';
-require 'assets/php/session.php';
-?>
+<!-- <?php if (
+        !isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"])
+        && !isset($_SESSION["last_name"])
+    ) {
+        echo '<style type="text/css">
+       .header-navigation #hidden{
+           display: none;
+       }
 
+       .header-navigation #show{
+        display: block;
+       }
+      </style>';
+    } else {
+        
+        echo '<style type="text/css">
+       .header-navigation #hidden{
+           display: block;
+       }
+
+       .header-navigation #show{
+        display: none;
+       }
+      </style>';
+    }
+    ; ?> -->
 
 <!DOCTYPE HTML>
 <html>
@@ -13,7 +33,8 @@ require 'assets/php/session.php';
     <title>Home</title>
 
     <!------------------------ Bootstrap 5 ------------------------>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/home.css" />
@@ -24,7 +45,8 @@ require 'assets/php/session.php';
     <!------------------------ Google Fonts Used ------------------------>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital@1&display=swap"
+        rel="stylesheet">
 
     <!-- animation on scroll -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -32,6 +54,10 @@ require 'assets/php/session.php';
 </head>
 
 <body>
+
+   
+
+
     <script>
         AOS.init();
     </script>
@@ -74,7 +100,7 @@ require 'assets/php/session.php';
 
         <!------------------------ END OF SEAT INFO ------------------------>
 
-        <div class="col-2">
+        <div class="col-2" id="aboutus">
             <h2>ABOUT US</h2>
             <p>
                 The Bulacan State University Library, through its resources, facility, and staff, is dedicated to
@@ -277,7 +303,8 @@ require 'assets/php/session.php';
                             <div class="footer-title">
                                 <h4>Open hours</h4>
                                 <ul class="footer-social">
-                                    <li><a href="https://www.facebook.com/BulSUaklatan" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.facebook.com/BulSUaklatan" target="_blank"><i
+                                                class="fab fa-facebook-f"></i></a></li>
                                     <li><a href="" target="_blank"><i class="fab fa-instagram"></i></a></li>
                                     <li><a href="" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
 
@@ -343,7 +370,7 @@ require 'assets/php/session.php';
 <script type="text/javascript">
     AOS.init();
     var counter = 1;
-    setInterval(function() {
+    setInterval(function () {
         document.getElementById('radio' + counter).checked = true;
         counter++;
         if (counter > 2) {
@@ -351,9 +378,11 @@ require 'assets/php/session.php';
         }
     }, 5000);
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+    integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+    integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
+    </script>
 
 </html>
