@@ -37,7 +37,7 @@ require 'assets/php/session.php';
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="manage.php" class="btn btn-danger">Proceed</a>
+                    <a href="manageAdmin.php" class="btn btn-danger">Proceed</a>
                 </div>
             </div>
         </div>
@@ -63,6 +63,15 @@ require 'assets/php/session.php';
 
 
 <body>
+<?php if ($_SESSION['isSuperAdmin'] === 'no') {
+    echo '<style type="text/css">
+       .sidebar-menu #hidden{
+           display: none;
+       }
+      </style>';
+}
+; ?>
+
 
     <input type="checkbox" id="nav-toggle">
     <!------------------------ SIDEBAR ------------------------>
@@ -74,7 +83,7 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a data-tabName="dashboard" class="dashboard active" id="tabButtons"><span
+                <li> <a href="admin.php" data-tabName="dashboard" class="dashboard active" id="tabButtons"><span
                             class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
@@ -98,8 +107,8 @@ require 'assets/php/session.php';
                 <li> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li class="manage" data-toggle="modal" data-target="#exampleModal"> <a><span
-                            class="las la-users-cog"></span>
+                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                        href="manageAdmin.php"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">

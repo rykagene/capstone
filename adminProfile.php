@@ -33,14 +33,13 @@ require 'assets/php/session.php';
 
 
 <body>
-   <?php if ($_SESSION['isSuperAdmin'] === 'no') {
+    <?php if ($_SESSION['isSuperAdmin'] === 'no') {
         echo '<style type="text/css">
        .sidebar-menu #hidden{
            display: none;
        }
-      </style>'; // reserve and account button is hidden if the user was not logged in} else {
-        //Put the buttons which you want to display on when the use is ABC.
-    }; ?> 
+      </style>';
+    }; ?>
 
     <input type="checkbox" id="nav-toggle">
 
@@ -51,9 +50,10 @@ require 'assets/php/session.php';
             <h2> <span>SOAR Admin</span></h2>
         </div>
 
-        <div class="sidebar-menu">
+        <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php"><span class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard"  id="tabButtons"><span
+                            class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -74,8 +74,8 @@ require 'assets/php/session.php';
                 <li> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li id="hidden" class= "manage" data-toggle="modal" data-target="#exampleModal"> <a href="manageAdmin.php"><span
-                            class="las la-users-cog"></span>
+                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                        href="manageAdmin.php"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">

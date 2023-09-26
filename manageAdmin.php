@@ -36,9 +36,9 @@ require 'assets/php/session.php';
             <h2> <span>SOAR Admin</span></h2>
         </div>
 
-        <div class="sidebar-menu">
+        <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php"><span class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -59,8 +59,9 @@ require 'assets/php/session.php';
                 <li> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li> <a href="manageAdmin.php" class="active"><span class="las la-cog"></span>
-                        <span>Manage Admin Accounts</span></a>
+                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a class="active"
+                        href="manageAdmin.php"><span class="las la-users-cog"></span>
+                        <span>Manage Accounts</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
