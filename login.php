@@ -27,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $admin_row2 = $result2->fetch_assoc();
     $first_name = $admin_row2['first_name'];
     $last_name = $admin_row2['last_name'];
-    $admin_id = $row2['admin_id'];
+    $admin_id = $admin_row2['admin_id'];
+    $isSuperAdmin = $admin_row2['isSuperAdmin'];
 
     // Set the session variables for admin
     $_SESSION["username"] = $username;
@@ -35,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["admin_id"] = $admin_id;
     $_SESSION["first_name"] = $first_name;
     $_SESSION["last_name"] = $last_name;
+    $_SESSION["account_id"] = $account_id;
+    $_SESSION["isSuperAdmin"] = $isSuperAdmin;
     $_SESSION["reservation_count"] = $reservation_count;
     header("Location: admin.php");
     exit();
