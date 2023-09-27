@@ -357,10 +357,23 @@ $result = mysqli_query($conn, $sql);
       success: function (response) {
         // Handle successful response
         console.log('Form submitted successfully.', response);
+        // Show SweetAlert2 success alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Date restricted successfully!',
+          confirmButtonColor: 'darkred',
+          
+        });
       },
       error: function (xhr, status, error) {
         // Handle error
         console.error('Form submission failed. Status: ' + status + ', Error: ' + error);
+        Swal.fire({
+          icon: 'error',
+          title: 'error',
+          text: 'Date restricted unsucessful!',
+        });
       }
     });
   });
