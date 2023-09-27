@@ -115,6 +115,12 @@ body,html{
   text-decoration: none;
 }
 
+.header-navigation a.active {
+  transform: scalex(1);
+  color: rgb(151, 55, 55);
+  content: "";
+}
+
 .header-navigation a:after,
 .header-navigation button:after {
   transition: 0.25s ease;
@@ -143,6 +149,20 @@ body,html{
   }
 }
 /* END OF HEADER */
+
+/* Clock */
+#clock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  font-size: 108px; 
+  font-weight: bold; 
+  text-align: center;
+  margin-top: 750px;
+  margin-left: 350px;
+}
 
 /* Banner/Cover */
 .parallax-home {

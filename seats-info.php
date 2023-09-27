@@ -2,9 +2,6 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
-
-$sql = "SELECT seat_id, seat_number, data_surface, status from seat";
-$result = $conn -> query($sql);
 ?>
 
 
@@ -20,7 +17,6 @@ $result = $conn -> query($sql);
 
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/seats-info.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
 
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
@@ -116,6 +112,14 @@ $result = $conn -> query($sql);
 <body>
 
     <body onload="handleFormChange();">
+        <?php if ($_SESSION['isSuperAdmin'] === 'no') {
+            echo '<style type="text/css">
+       .sidebar-menu #hidden{
+           display: none;
+       }
+      </style>';
+        }
+        ; ?>
 
         <input type="checkbox" id="nav-toggle">
 
@@ -126,9 +130,10 @@ $result = $conn -> query($sql);
                 <h2> <span>SOAR Admin</span></h2>
             </div>
 
-            <div class="sidebar-menu">
+            <div class="sidebar-menu" id="tabButton">
                 <ul>
-                    <li> <a href="admin.php"><span class="las la-th-large"></span>
+                    <li> <a href="admin.php" data-tabName="dashboard" class="dashboard" id="tabButtons"><span
+                                class="las la-th-large"></span>
                             <span>Dashboard</span></a>
                     </li>
                     <li> <a href="seats-info.php" class="active"><span class="las la-check"></span>
@@ -148,6 +153,10 @@ $result = $conn -> query($sql);
                     </li>
                     <li> <a href="settings.php"><span class="las la-cog"></span>
                             <span>Settings</span></a>
+                    </li>
+                    <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                            href="manageAdmin.php"><span class="las la-users-cog"></span>
+                            <span>Manage Accounts</span></a>
                     </li>
                     <li class="logout"> <a href="toLogout.php">
                             <span>Logout</span></a>
@@ -173,10 +182,14 @@ $result = $conn -> query($sql);
                     <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <div class="user-wrapper">
-                            <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                            <div>
+                            <img src="<?php if ($_SESSION['gender'] == "Male") {
+                                echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
+                            } elseif ($_SESSION['gender'] == "Female") {
+                                echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
+                            } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
+                            <div id="user_admin">
                                 <h4>
-                                    <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                                    <?php echo $_SESSION["username"]; ?>
                                 </h4>
                             </div>
                         </div>
@@ -185,7 +198,6 @@ $result = $conn -> query($sql);
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
                         <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
-                        </ul>
                     </div>
                 </div>
             </header>
@@ -195,10 +207,10 @@ $result = $conn -> query($sql);
 
                 <div class="wrapper">
                     <div class="container-fluid">
-                        <div class="row mt-3 mb-3" style="height: 10vh;">
-                            <div class="col-lg-2">
+                        <div class="row mt-3 mb-3">
+                            <div class="col-lg-4">
                                 <!-------------------------DATE & TIME PICKER CARD DIV--------------------->
-                                <div id="dateTimeDiv" class="card" data-aos="fade-right">
+                                <div id="dateTimeDiv" class="card" data-aos="fade-right" style="display: flex;">
                                     <div class="card-header bg-light">
                                         <h5>Date</h5>
                                     </div>
@@ -207,7 +219,7 @@ $result = $conn -> query($sql);
                                             <div class="">
                                                 <div class="form-group">
                                                     <!-- <label for="date" class="text-muted">Reserve seat on</label> -->
-                                                    <div class="row d-flex justify-content-center" id="date_picker">
+                                                    <div class="row d-flex justify-content-center">
                                                         <input type="text" id="date" class="form-control d-none"
                                                             min="<?php echo date('Y-m-d') ?>" name="date"
                                                             required="required">
@@ -239,162 +251,91 @@ $result = $conn -> query($sql);
                                                         <label for="end_time" class="text-muted">To:</label>
                                                     </div>
 
-                        <div class="college">
-                            <label for="cars">Table No.</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option selected="selected">8</option>
-                                <option>9</option>
-                            </select>
+                                                    <div class="form-group">
+                                                        <label for="duration"
+                                                            class="text-muted small m-2">Duration:</label>
+                                                        <div class="btn-group btn-group-toggle w-100" role="group"
+                                                            aria-label="Basic radio toggle button group">
+                                                            <?php
+                                                            $sql = "SELECT * FROM `settings` WHERE `settings_id` = 1";
+                                                            $result = mysqli_query($conn, $sql);
+
+                                                            // Check if the query was successful and fetch the row of data
+                                                            if ($result && mysqli_num_rows($result) > 0) {
+                                                                $settings = mysqli_fetch_assoc($result);
+                                                                $minDuration = $settings['minDuration'];
+                                                                $maxDuration = $settings['maxDuration'];
+
+                                                                for ($i = $minDuration; $i <= $maxDuration; $i++) {
+                                                                    echo '<input type="radio" class="btn-check" name="options" id="option' . $i . '" value="' . $i . '" autocomplete="off" onclick="getEndTime()">';
+                                                                    echo '<label class="btn btn-outline-danger m-2 rounded ml-2 mr-2" id="btn-check" for="option' . $i . '">' . $i . ' hour' . (($i > 1) ? 's' : '') . '</label>';
+                                                                }
+                                                            } else {
+                                                                echo "Error retrieving settings: " . mysqli_error($conn);
+                                                            }
+
+                                                            // Close the result set
+                                                            mysqli_free_result($result);
+
+                                                            // Close the database connection
+                                                            mysqli_close($conn);
+                                                            ?>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-floating mb-3">
+                                                        <input type="time" class="form-control-plaintext" readonly
+                                                            id="end_time" name="end_time" required="required">
+                                                        <label for="end_time" class="text-muted">To:</label>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-check form-switch form-switch-md">
+                                                    <input class="form-check-input" type="checkbox" checked
+                                                        id="flexSwitchCheckDefault" name="viewOption"
+                                                        onchange="handleFormChange()"
+                                                        style="--background-color: #FF0000;">
+                                                    <label class="form-check-label m-1" for="flexSwitchCheckDefault"
+                                                        style="padding-left: 20px;">3D View</label>
+                                                </div>
+
+                                                <!-- <button type="submit" id="newReservationBtn" class="btn btn-lg btn-primary rounded w-100">Check Availability</button> -->
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-------------------------END OF DATE & TIME PICKER CARD DIV --------------------->
+                            </div>
+
+
+                            <div id="selectSeatForm" class="col mt-1">
+
+                                <?php
+
+                                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                    // $date = $_POST["date"];
+                                    // $start_time = $_POST["start_time"];
+                                    // $end_time = $_POST["end_time"];
+                                    // include "view-3d.php";
+                                    // include "view-2d.php";
+                                }
+                                ?>
+
+                            </div>
                         </div>
 
-                        <div class="floor" class="form-control">
-                            <label for="cars">Floor</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option disabled>1</option>
-                                <option disabled>2</option>
-                                <option disabled>3</option>
-                                <option disabled>4</option>
-                                <option disabled>5</option>
-                                <option selected="selected">6</option>
-                                <option disabled>7</option>
-                            </select>
-                        </div>
 
 
 
-                        <div class="col-md-2">
-                            <button type="submit" class="buttons">Filter</button>
-                        </div>
+                        <!-------------------------END OF DATE & TIME PICKER--------------------->
 
-
-                        <div class="table">
-
-                            <!-- Non-responsive (yet); Just a small sample of what's possible with CSS Grid. -->
-
-                            <ul class="calendar weekly-byhour">
-                                <!--  EVENT NODES  -->
-                                <!--  DATA:      CATEGORY                         DAY              START  /  END     EVENT DETAILS  -->
-
-
-                                <li class="event personal" style="grid-column:   tue;   grid-row:  h05   /  h07;  ">
-                                    2020104776</li>
-                                <li class="event personal" style="grid-column:   mon;   grid-row:  h11   /  h12;  ">
-                                    2020103123</li>
-                                <li class="event personal" style="grid-column:   mon;   grid-row:  h08   /  h10;  ">
-                                    2020104124</li>
-                                <li class="event personal" style="grid-column:   mon;   grid-row:  h16  /  h17;  ">
-                                    2020104214</li>
-                                <li class="event personal" style="grid-column:   sun;   grid-row:  h13  /  h15;  ">
-                                    2020107547</li>
-                                <li class="event personal" style="grid-column:   wed;   grid-row:  h10   /  h12;  ">
-                                    2020107476</li>
-
-
-
-
-                                <!--  DAYS OF THE WEEK  -->
-                                <li class="day sun">Seat 40</li>
-                                <li class="day mon">Seat 41</li>
-                                <li class="day tue">Seat 42</li>
-                                <li class="day wed">Seat 43</li>
-                                <li class="day thu">Seat 44</li>
-
-
-                                <!--  TIMES OF THE DAY  -->
-                                <li class="time h05">9:00 am</li>
-                                <li class="time h06">10:00 am</li>
-                                <li class="time h07">11:00 am</li>
-                                <li class="time h08">12:00 am</li>
-                                <li class="time h09">1:00 pm</li>
-                                <li class="time h10">2:00 pm</li>
-                                <li class="time h11">3:00 pm</li>
-                                <li class="time h12">4:00 pm</li>
-                                <li class="time h13">5:00 pm</li>
-                                <li class="time h14">6:00 pm</li>
-                                <li class="time h15">7:00 pm</li>
-                                <li class="time h16">8:00 pm</li>
-                                <li class="time h17">9:00 pm</li>
-
-                                <!--  TOP LEFT CORNER FILLER  -->
-                                <li class="corner"></li>
-
-                                <!--  EMPTY HOURLY FILLERS:
-    Helps us show the grid template lines, and create calendar funtionality later. One for every hour
-    cell (7 * 24), because our events are "position:absolute" and will sit over top of empty cells -->
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-
-                            </ul>
-                        </div>
 
                     </div>
-                </form>
-            </div>
+                </div>
 
 
-        </main>
+            </main>
 
 
         </div>

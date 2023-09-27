@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 18, 2023 at 06:54 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Sep 26, 2023 at 11:56 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,13 +42,15 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`, `reservation_count`) VALUES
-(1, 'admin', 'admin', 'admin@soar.com', NULL, 'admin', 0),
+(1, 'ricardojeyms', '123', 'richard@soar.com', NULL, 'admin', 0),
 (2, '2020103475', '123', 'jeaysmie.digo.m@bulsu.edu.ph', 'assets/img/profilejeays id picture bsu.jpg', 'student', 0),
 (3, '1234', '1234', 'digo.jeaysmie.m.3475@gmail.com', NULL, 'student', 0),
 (4, '123', '123', '123@gmail.com', NULL, 'student', 0),
 (5, 'nosection', '123', 'nosection@ga.com', NULL, 'student', 0),
 (6, '123456', '123', '123@gmail.com', NULL, 'student', 0),
-(7, '1234567', '123456', '123@gmail.com', NULL, 'student', 0);
+(7, '1234567', '123456', '123@gmail.com', NULL, 'student', 0),
+(8, 'mj23', '123', 'mj23@gmail.com', NULL, 'admin', 0),
+(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0);
 
 -- --------------------------------------------------------
 
@@ -57,10 +59,19 @@ INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`,
 --
 
 CREATE TABLE `admin` (
-  `admin_id` int(11) NOT NULL,
+  `admin_id` varchar(11) NOT NULL,
+  `isSuperAdmin` varchar(3) DEFAULT NULL,
   `rfid_no` varchar(50) DEFAULT NULL,
+  `department` varchar(10) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
+  `gender` varchar(10) NOT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `tel_no` varchar(15) DEFAULT NULL,
+  `fb_link` varchar(255) DEFAULT NULL,
+  `linkedIn_link` varchar(255) DEFAULT NULL,
+  `home_address` varchar(255) DEFAULT NULL,
+  `work_status` varchar(20) DEFAULT NULL,
   `account_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -68,8 +79,10 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `rfid_no`, `first_name`, `last_name`, `account_id`) VALUES
-(1, NULL, 'Papi', 'Chulo', 1);
+INSERT INTO `admin` (`admin_id`, `isSuperAdmin`, `rfid_no`, `department`, `first_name`, `last_name`, `gender`, `mobile_no`, `tel_no`, `fb_link`, `linkedIn_link`, `home_address`, `work_status`, `account_id`) VALUES
+('mj23', 'no', NULL, 'CICT', 'Michaela ', 'Jordan', 'Female', NULL, NULL, NULL, NULL, NULL, 'Temporary', 8),
+('ricardojeym', 'yes', NULL, 'CICT', 'Richard James', 'Bagay', 'Male', '0976263839', '794-2677', 'facebook.com/ricardojeyms', 'facebook.com/ricardojeyms', 'Barangay Balayong Malolos Bulacan', 'Permanent', 1),
+('robertooo', 'no', NULL, 'CLAW', 'Robert', 'Deniro', 'Male', NULL, NULL, NULL, NULL, NULL, 'Permanent', 9);
 
 -- --------------------------------------------------------
 
@@ -475,7 +488,7 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `history`
@@ -504,12 +517,6 @@ ALTER TABLE `reservation`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `admin`
---
-ALTER TABLE `admin`
-  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
 
 --
 -- Constraints for table `history`
@@ -552,8 +559,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-ALTER TABLE 'users'
-ADD 'age' INT,
-ADD 'contact_num' VARCHAR(15);
-
