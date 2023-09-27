@@ -21,7 +21,7 @@
 
     <div class="reservations">
         <?php
-        $query = "SELECT * FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE() ORDER BY date ASC LIMIT {$reservePerDay}";
+        $query = "SELECT * FROM reservation WHERE user_id = '{$_SESSION['user_id']}' AND date >= CURDATE()  ORDER BY reservation_id DESC LIMIT {$reservePerDay}";
         $result = mysqli_query($conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
@@ -74,7 +74,7 @@
                     }
                     // If not found in history or occupy table, display the Delete button
                     else {
-                        echo "<a href='#' class='btn btn-outline-danger btn-sm' onclick='confirmDelete({$row['reservation_id']}); return false;'>Delete</a>";
+                        echo "<a href='#' class='btn btn-outline-danger btn-sm' onclick='confirmDelete({$row['reservation_id']}); return false;'>Cancel</a>";
                     }
                 } else {
                     // Handle SQL error if needed

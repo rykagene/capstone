@@ -284,14 +284,14 @@ require 'assets/php/session.php';
 <script>
     function confirmDelete(reservationId) {
         Swal.fire({
-            title: 'Are you sure?',
+            title: 'Cancel reservation?',
             text: 'You will not be able to recover this reservation!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: "#a81c1c",
-            confirmButtonText: 'Delete Reservation',
-            cancelButtonText: 'Cancel',
-            cancelButtonColor: '#ddd',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            cancelButtonColor: '#d3d3d3',
         }).then((result) => {
             if (result.isConfirmed) {
                 // If confirmed, proceed with the deletion via AJAX
