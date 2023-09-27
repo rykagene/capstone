@@ -189,6 +189,8 @@ if ($reservation_status != '0') {
               </script>";
   }
 
+  
+
 
 
 
@@ -210,13 +212,43 @@ if ($reservation_status != '0') {
                   <div class="form-group">
                     <!-- <label for="date" class="text-muted">Reserve seat on</label> -->
                     <div class="row d-flex justify-content-center">
-
+<!-- 
                       <input type="text" id="date" class="form-control d-none" min="<?php echo date('Y-m-d') ?>"
-                        name="date" required="required">
+                        name="date" required="required"> -->
+                      
+  
+        <input type="text" id="date" class="form-control d-none" name="date" required="required">
+    
+
                     </div>
                   </div>
-                  <!-- date picker -->
-                  <script>
+                  
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let disabledDates;
+
+        // Fetch disabled dates from PHP
+        fetch('get_disabled_dates.php')
+            .then(response => response.json())
+            .then(data => {
+                disabledDates = data;
+
+                flatpickr("#date", {
+                    theme: "default",
+                    inline: true,
+                    dateFormat: "Y-m-d",
+                    minDate: "today",
+                    defaultDate: "today",
+                    disable: disabledDates // Use the fetched disabled dates
+                });
+            })
+            .catch(error => console.error('Error fetching disabled dates:', error));
+    });
+</script>
+                  <!-- <script>
                     flatpickr("#date", {
                       theme: "default",
                       inline: true,
@@ -225,7 +257,7 @@ if ($reservation_status != '0') {
                       defaultDate: "today"
 
                     });
-                  </script>
+                  </script> -->
                   <!-- end of date picker -->
 
 

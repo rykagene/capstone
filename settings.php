@@ -13,8 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $minDuration = $_POST['min_duration'];
     $maxDuration = $_POST['max_duration'];
     $reservePerDay = $_POST['reserve_per_day'];
+    $start_hour = $_POST['start_hour'];
+    $end_hour = $_POST['end_hour'];
 
-    $sql = "UPDATE `settings` SET `reservation` = '$reservation', `minDuration` = '$minDuration', `maxDuration` = '$maxDuration', `reservePerDay` = '$reservePerDay' WHERE `settings_id` = 1";
+   $sql = "UPDATE `settings` SET `reservation` = '$reservation', `start_hour` = '$start_hour', `end_hour` = '$end_hour', `minDuration` = '$minDuration', `maxDuration` = '$maxDuration', `reservePerDay` = '$reservePerDay' WHERE `settings_id` = 1";
+
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
@@ -65,7 +68,23 @@ $result = mysqli_query($conn, $sql);
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
+
+<style>
+    /* Custom CSS to change flatpickr selection color to gray and add 'x' text */
+.flatpickr-day.selected, .flatpickr-day.selected:focus {
+    background: lightgray !important;
+    color: #fff;
+    outline: 1px solid lightgray !important;
+    border: 1px solid lightgray !important;
+}
+
+
+</style>
 
 
 <body>
@@ -172,16 +191,42 @@ $result = mysqli_query($conn, $sql);
             echo "Error retrieving settings: " . mysqli_error($conn);
         }
 
-        // Close the result set
-        mysqli_free_result($result);
+        $sql2 = "SELECT * FROM `settings` WHERE `settings_id` = 1";
+        // Execute the query
+        $result2 = mysqli_query($conn, $sql2);
+
+        if ($result2) {
+            // Fetch the row
+            $row2 = mysqli_fetch_assoc($result2);
+
+            // Parse the JSON data to get an array of disabled dates
+            $disabledDates = json_decode($row2['disabled_dates']);
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
 
         // Close the database connection
         mysqli_close($conn);
         ?>
 
+    
+
         <main>
-            <div class="container mt-4">
-                <h3 class=""> Reservation</h3>
+        <div class="container mt-4">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="reservation-tab" data-toggle="tab" href="#reservation" role="tab" aria-controls="reservation" aria-selected="true">Reservation Settings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="modify-dates-tab" data-toggle="tab" href="#modify-dates" role="tab" aria-controls="modify-dates" aria-selected="false">Modify Dates</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="reservation" role="tabpanel" aria-labelledby="reservation-tab">
+      
+     
+      <div class="container mt-4">
+                
                 <br>
                 <form id="settings-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                     <!-- Enable Reservation -->
@@ -232,10 +277,110 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
 
+                    <!-- reservation hours -->
+                    <div class="form-group row">
+                        <label for="start_hour" class="col-sm-2 col-form-label">Reservation hours</label>
+                        <div class="col-sm">
+                            <input type="time" class="form-control" id="start_hour" name="start_hour"
+                                value="<?php echo $settings['start_hour']; ?>">
+                        </div>
+                      
+                        <div class="col-sm">
+                            <input type="time" class="form-control" id="end_hour" name="end_hour"
+                                value="<?php echo $settings['end_hour']; ?>">
+                        </div>
+                    </div>
+
+
+             
+
+
+                   
+
+
                     <button type="submit" class="btn btn-danger" name="apply" id="applyButton" disabled>Apply
                         Changes</button>
                 </form>
             </div>
+      </form>
+    </div>
+
+    <!-- second tab -->
+    <div class="tab-pane fade" id="modify-dates" role="tabpanel" aria-labelledby="modify-dates-tab">
+    <div class="container m-4">
+           
+    <form action="update_disabled_dates.php" method="post">
+        <!-- Disabled Dates -->
+        <div class="form-group row">
+            <label for="disabled_dates" class="col-sm-2 col-form-label">Disabled Dates</label>
+            <div class="col-sm-10">
+                <input type="text" id="disabled_dates" class="form-control d-none" name="disabled_dates" required="required">
+                <small class="form-text text-muted">Select multiple dates to be restrict on the reservation</small>
+            </div>
+        </div>
+        <script>
+  // Assuming $disabledDates is the array of disabled dates obtained from PHP
+  var disabledDates = <?php echo json_encode($disabledDates); ?>;
+
+  var input = document.getElementById('disabled_dates');
+
+  var formattedDates = disabledDates.map(function (date) {
+    return new Date(date).toISOString().split('T')[0];
+  });
+
+  input.value = JSON.stringify(formattedDates);
+
+  flatpickr("#disabled_dates", {
+  mode: "multiple",
+  dateFormat: "Y-m-d",
+  inline: true,
+  defaultDate: formattedDates,
+  onChange: function (selectedDates, dateStr, instance) {
+    var formattedSelectedDates = selectedDates.map(function(date) {
+      // Adjust date to UTC
+      var utcDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+      return utcDate.toISOString().split('T')[0];
+    });
+    document.getElementById('disabled_dates').value = JSON.stringify(formattedSelectedDates);
+  }
+});
+  // Submit form using AJAX when the button is clicked
+  $('form').on('submit', function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    var formData = $(this).serialize(); // Serialize form data
+
+    $.ajax({
+      type: 'POST',
+      url: $(this).attr('action'), // Get the form action URL
+      data: formData,
+      success: function (response) {
+        // Handle successful response
+        console.log('Form submitted successfully.', response);
+      },
+      error: function (xhr, status, error) {
+        // Handle error
+        console.error('Form submission failed. Status: ' + status + ', Error: ' + error);
+      }
+    });
+  });
+</script>
+
+        <button type="submit" class="btn btn-danger">Apply</button>
+    </form>
+</div>
+
+      </form>
+    </div>
+  </div>
+</div>
+            
+<br>
+<br>
+<br>
+
+          
+            
         </main>
 
 
@@ -265,42 +410,52 @@ $result = mysqli_query($conn, $sql);
 
 <!-- AJAX script -->
 <script>
-    $(document).ready(function () {
-        const settingsForm = $("#settings-form");
-        const applyButton = $("#applyButton");
+$(document).ready(function () {
+    const settingsForm = $("#settings-form");
+    const applyButton = $("#applyButton");
+    
 
-        // Store the initial values of the form fields
+    // Store the initial values of the form fields
         const initialValues = {
-            customRadio: <?php echo $settings['reservation']; ?>,
-            min_duration: <?php echo $settings['minDuration']; ?>,
-            max_duration: <?php echo $settings['maxDuration']; ?>,
-            reserve_per_day: <?php echo $settings['reservePerDay']; ?>
-        };
+        customRadio: <?php echo $settings['reservation']; ?>,
+        min_duration: <?php echo $settings['minDuration']; ?>,
+        max_duration: <?php echo $settings['maxDuration']; ?>,
+        reserve_per_day: <?php echo $settings['reservePerDay']; ?>,
+        start_hour: "<?php echo $settings['start_hour']; ?>",
+        end_hour: "<?php echo $settings['end_hour']; ?>",
+        
+        
+    };
 
-        // Function to check if any changes have been made
-        function hasChanges() {
-            const currentValues = {
-                customRadio: parseInt(settingsForm.find("input[name='customRadio']:checked").val()),
-                min_duration: parseInt(settingsForm.find("#min_duration").val()),
-                max_duration: parseInt(settingsForm.find("#max_duration").val()),
-                reserve_per_day: parseInt(settingsForm.find("#reserve_per_day").val())
-            };
 
-            return JSON.stringify(currentValues) !== JSON.stringify(initialValues);
+    // Function to check if any changes have been made
+    function hasChanges() {
+    const currentValues = {
+        customRadio: parseInt(settingsForm.find("input[name='customRadio']:checked").val()),
+        min_duration: parseInt(settingsForm.find("#min_duration").val()),
+        max_duration: parseInt(settingsForm.find("#max_duration").val()),
+        reserve_per_day: parseInt(settingsForm.find("#reserve_per_day").val()),
+        start_hour: settingsForm.find("input[name='start_hour']").val(),
+        end_hour: settingsForm.find("input[name='end_hour']").val(),
+       
+    };
+
+    return JSON.stringify(currentValues) !== JSON.stringify(initialValues);
+}
+
+
+    // Check if there are changes on form input
+    settingsForm.on("input", function () {
+        applyButton.prop("disabled", !hasChanges());
+    });
+
+    settingsForm.on("submit", function (event) {
+        if (!hasChanges()) {
+            event.preventDefault();
+            return;
         }
 
-        // Check if there are changes on form input
-        settingsForm.on("input", function () {
-            applyButton.prop("disabled", !hasChanges());
-        });
-
-        settingsForm.on("submit", function (event) {
-            if (!hasChanges()) {
-                event.preventDefault();
-                return;
-            }
-
-            event.preventDefault(); // Prevent the default form submission
+        event.preventDefault(); // Prevent the default form submission
 
             $.ajax({
                 url: "settings.php",
