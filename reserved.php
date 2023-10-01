@@ -25,6 +25,7 @@ $result = $conn -> query($sql);
     <!------------------------ ICONS -------------------------->
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+        
     
     
 
@@ -314,6 +315,7 @@ $result = $conn -> query($sql);
                                                 <th> End Time <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Action </th>
                                                 
                                             </tr>
                                         </thead>
@@ -327,7 +329,21 @@ $result = $conn -> query($sql);
                                                     <td><?php echo $row['start_time']; ?></td>
                                                     <td><?php echo $row['end_time']; ?></td>
                                                     <td><?php echo $row['user_id']; ?></td>
-                                                    <td><?php echo $row['seat_id']; ?></td>                                                     
+                                                    <td><?php echo $row['seat_id']; ?></td>
+                                                    <td>
+                                                        <!-- Edit Button  -->
+                                                        <button type="button" class="btn btn-warning edit-btn" data-toggle="modal" data-target="#editModal">         
+                                                            <i class="fa-solid fa-pen-to-square fa-sm" style="color: #ffffff;"></i>
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal">
+                                                            <i class="fa-regular fa-eye fa-sm"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="">
+                                                            <i class="fa-solid fa-trash fa-sm" style="color: #ffffff;"></i>
+                                                        </button>
+                                                        
+                                                    </td>                                                     
                                                 </tr>
                                             <?php
                                             }

@@ -129,8 +129,8 @@ require 'assets/php/session.php';
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-								  	<label>Phone number</label>
-								  	<input type="text" class="form-control" value="">
+								  	<label>Contact Number</label>
+								  	<input type="text" class="form-control" id="number-input" value="<?php echo $row["contact_num"]; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -142,30 +142,30 @@ require 'assets/php/session.php';
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Age</label>
-								  	<input type="text" class="form-control">
+								  	<input type="text" class="form-control" id="age-input" value="<?php echo $row["age"]; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>College</label>
-									  <?php
-                        // Function to fetch colleges from the database
-                        function getColleges($conn)
-                        {
-                            $colleges = array();
+									<?php
+                        			// Function to fetch colleges from the database
+                        			function getColleges($conn)
+                        			{
+                            			$colleges = array();
 
-                            $sql = "SELECT * FROM COLLEGE";
-                            $result = $conn->query($sql);
+                            			$sql = "SELECT * FROM COLLEGE";
+                            			$result = $conn->query($sql);
 
-                            if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                            $colleges[$row['college_code']] = $row['college_name'];
-                                }
-                            }
+                            			if ($result->num_rows > 0) {
+                            			while ($row = $result->fetch_assoc()) {
+                            			$colleges[$row['college_code']] = $row['college_name'];
+                                			}
+                            			}
 
-                            return $colleges;
-                        }
-                        ?>
+                            			return $colleges;
+                        			}
+                        			?>
 								  
 							<select class="form-control" id="floatingSelect" name="college_code" aria-label="Floating label select example" disabled>
 								<?php
@@ -315,10 +315,6 @@ require 'assets/php/session.php';
     <!------------------------ FOOTER ------------------------>
 
 
-	
-	
-
-	
 
 </body>
 </html>
@@ -345,8 +341,10 @@ document.getElementById('updateInfo').addEventListener('click', function() {
     if (result.isConfirmed) {
       const newFirstName = document.getElementById('firstname-input').value;
       const newLastName = document.getElementById('lastname-input').value;
+	  const newAge = document.getElementById('age-input').value;
+	  const newNumber = document.getElementById('number-input').value;
 
-      if (newFirstName.trim() === '' || newLastName.trim() === '') {
+      if (newFirstName.trim() === '' || newLastName.trim() === '' || newAge.trim() === '' || newNumber.trim() === '') {
         Swal.fire('Input Error', 'Please fill all the input fields first.', 'error');
         this.disabled = false; // Re-enable the button
         return;
@@ -358,7 +356,9 @@ document.getElementById('updateInfo').addEventListener('click', function() {
         dataType: 'json',
         data: {
           first_name: newFirstName,
-          last_name: newLastName
+          last_name: newLastName,
+		  contact_num: newNumber,
+		  age: newAge
         },
         success: function(response) {
           if (response.status === 'success') {

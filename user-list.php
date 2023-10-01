@@ -3,8 +3,11 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-$sql = "SELECT user_id, rfid_no, first_name, last_name, account_id, course_code, yearsec_id from users";
-$result = $conn -> query($sql);
+$sql = "SELECT u.user_id, u.rfid_no, u.first_name, u.last_name, u.account_id, u.course_code, u.yearsec_id, u.age, u.contact_num, a.picture, a.email
+        FROM users u
+        JOIN account a ON u.account_id = a.account_id";
+
+$result = $conn->query($sql);
 
 
 
@@ -22,6 +25,13 @@ $result = $conn -> query($sql);
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
+    <!-- Font Awesome -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+
+
 
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
@@ -105,172 +115,23 @@ $result = $conn -> query($sql);
             </div>
         </header>
         <!------------------------ END OF HEADER ------------------------>
+        <?php
+            // Retrieve the username from the session
+            $username = $_SESSION["username"];
+			
 
+            // Retrieve the user details from the database
+            $sql = "SELECT * FROM ACCOUNT 
+                    INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id   
+                    INNER JOIN COURSE ON USERS.course_code = COURSE.course_code
+                    INNER JOIN YEARSEC ON USERS.yearsec_id = YEARSEC.yearsec_id
+                    INNER JOIN COLLEGE ON COURSE.college_code = COLLEGE.college_code
+                    WHERE ACCOUNT.username = '$username'";
 
-
+            
+            ?>
 
         <main>
-            <div class="filter">
-                <form action="brw_history.php" method="GET">
-
-                    <div class="row">
-
-                        <div class="college">
-                            <label for="cars">College</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>College of Architecture and Fine Arts (CAFA)</option>
-                                <option>College of Arts and Letters (CAL)</option>
-                                <option>College of Business Administration (CBA)</option>
-                                <option>College of Criminal Justice Education (CCJE)</option>
-                                <option>College of Hospitaity and Tourism Management (CHTM)</option>
-                                <option>College of Information and Communications Technology (CICT)</option>
-                                <option>College of Industrial Technology (CIT)</option>
-                                <option>College of Law (CLaw)</option>
-                                <option>College of Nursing (CN)</option>
-                                <option>College of Engineering (COE)</option>
-                                <option>College of Education (COED)</option>
-                                <option>College of Science (CS)</option>
-                                <option>College of Exercise and Recreation (CSER)</option>
-                                <option>College of Social Sciences and Philosophy (CSSP)</option>
-                                <option>Graduate School (GS)</option>
-                            </select>
-                        </div>
-
-                        <div class="course">
-                            <label for="cars">Course</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <optgroup label="CAFA">
-                                    <option>Bachelor of Science in Architecture</option>
-                                    <option>Bachelor of Landscape Architecture</option>
-                                    <option>Bachelor of Fine Arts Major in Visual Communication</option>
-                                <optgroup label="CAL">
-                                    <option>Bachelor of Arts in Broadcasting</option>
-                                    <option>Bachelor of Arts in Journalism</option>
-                                    <option>Bachelor of Performing Arts (Theater Track)</option>
-                                    <option>Batsilyer ng Sining sa Malikhaing Pagsulat</option>
-                                <optgroup label="CBA">
-                                    <option>Bachelor of Science in Business Administration Major in Business Economics
-                                    </option>
-                                    <option>Bachelor of Science in Business Administration Major in Financial Management
-                                    </option>
-                                    <option>Bachelor of Science in Business Administration Major in Marketing Management
-                                    </option>
-                                    <option>Bachelor of Science in Entrepreneurship</option>
-                                    <option>Bachelor of Science in Accountancy</option>
-                                <optgroup label="CCJE">
-                                    <option>Bachelor of Arts in Legal Management</option>
-                                    <option>Bachelor of Science in Criminology</option>
-                                <optgroup label="CHTM">
-                                    <option>Bachelor of Science in Hospitality Management</option>
-                                    <option>Bachelor of Science in Tourism Management</option>
-                                <optgroup label="CICT">
-                                    <option>Bachelor of Science in Information Technology</option>
-                                    <option>Bachelor of Library and Information Science</option>
-                                    <option>Bachelor of Science in Information System</option>
-                                <optgroup label="CIT">
-                                    <option>Bachelor of Industrial Technology with specialization in Automotive</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Computer</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Drafting</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Electrical</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Electronics &
-                                        Communication Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Electronics
-                                        Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Food Processing
-                                        Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Mechanical</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Heating,
-                                        Ventilation, Air Conditioning and Refrigeration Technology (HVACR)</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Mechatronics
-                                        Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Welding Technology
-                                    </option>
-                                <optgroup label="CLaw">
-                                    <option>Bachelor of Laws</option>
-                                    <option>Juris Doctor</option>
-                                <optgroup label="CN">
-                                    <option>Bachelor of Science in Nursing</option>
-                                <optgroup label="COE">
-                                    <option>Bachelor of Science in Civil Engineering</option>
-                                    <option>Bachelor of Science in Computer Engineering</option>
-                                    <option>Bachelor of Science in Electrical Engineering</option>
-                                    <option>Bachelor of Science in Electronics Engineering</option>
-                                    <option>Bachelor of Science in Industrial Engineering</option>
-                                    <option>Bachelor of Science in Manufacturing Engineering</option>
-                                    <option>Bachelor of Science in Mechanical Engineering</option>
-                                    <option>Bachelor of Science in Mechatronics Engineering</option>
-                                <optgroup label="COED">
-                                    <option>Bachelor of Elementary Education</option>
-                                    <option>Bachelor of Early Childhood Education</option>
-                                    <option>Bachelor of Secondary Education Major in English minor in Mandarin</option>
-                                    <option>Bachelor of Secondary Education Major in English minor in Mandarin</option>
-                                    <option>Bachelor of Secondary Education Major in Sciences</option>
-                                    <option>Bachelor of Secondary Education Major in Mathematics</option>
-                                    <option>Bachelor of Secondary Education Major in Social Studies</option>
-                                    <option>Bachelor of Secondary Education Major in Values Education</option>
-                                    <option>Bachelor of Physical Education</option>
-                                    <option>Bachelor of Technology and Livelihood Education Major in Industrial Arts
-                                    </option>
-                                    <option>Bachelor of Technology and Livelihood Education Major in Information and
-                                        Communication Technology</option>
-                                    <option>Bachelor of Technology and Livelihood Education Major in Home Economics
-                                    </option>
-                                <optgroup label="CS">
-                                    <option>Bachelor of Science in Biology</option>
-                                    <option>Bachelor of Science in Environmental Science</option>
-                                    <option>Bachelor of Science in Food Technology</option>
-                                    <option>Bachelor of Science in Math with Specialization in Computer Science</option>
-                                    <option>Bachelor of Science in Math with Specialization in Applied Statistics
-                                    </option>
-                                    <option>Bachelor of Science in Math with Specialization in Business Applications
-                                    </option>
-                                <optgroup label="CSER">
-                                    <option>Bachelor of Science in Exercise and Sports Sciences with specialization in
-                                        Fitness and Sports Coaching</option>
-                                    <option>Bachelor of Science in Exercise and Sports Sciences with specialization in
-                                        Fitness and Sports Management</option>
-                                    <option>Certificate of Physical Education</option>
-                                <optgroup label="CSSP">
-                                    <option>Bachelor of Public Administration</option>
-                                    <option>Bachelor of Science in Social Work</option>
-                                    <option>Bachelor of Science in Psychology</option>
-                                <optgroup label="GS">
-                                    <option>Doctor of Education</option>
-                                    <option>Doctor of Philosophy</option>
-                                    <option>Doctor of Public Administration</option>
-                                    <option>Master in Physical Education</option>
-                                    <option>Master in Business Administration</option>
-                                    <option>Master in Public Administration</option>
-                                    <option>Master of Arts in Education</option>
-                                    <option>Master of Engineering Program</option>
-                                    <option>Master of Industrial Technology Management</option>
-                                    <option>Master of Science in Civil Engineering</option>
-                                    <option>Master of Science in Computer Engineering</option>
-                                    <option>Master of Science in Electronics and Communications Engineering</option>
-                                    <option>Master of Information Technology</option>
-                                    <option>Master of Manufacturing Engineering</option>
-                            </select>
-                        </div>
-
-                        <div class="floor" class="form-control">
-                            <label for="cars">User Type</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>Student</option>
-                                <option>Faculty</option>
-                                <option>Alumni</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-2">
-                            <button type="submit" class="buttons">Filter</button>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
 
             <div class="recent-grid">
                 <div class="history">
@@ -287,6 +148,7 @@ $result = $conn -> query($sql);
                                             <img src="assets/img/search.png" alt="Search">
                                         </div>
                                     </div>
+                                    
                                     <div class="export__file">
                                         <label for="export-file" class="export__file-btn" title="Export File">
                                             <img src="assets/img/export1.png" alt="Export" class="export_ic">
@@ -305,7 +167,10 @@ $result = $conn -> query($sql);
                                         </div>
                                     </div>
                                 </section>
+                                
+                                
                                 <section class="table__body">
+                                <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#addModal">Add User</button>
                                     <table id="customers_table">
                                         <thead>
                                             <tr>
@@ -316,6 +181,10 @@ $result = $conn -> query($sql);
                                                 <th> Account ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Course Code <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Year <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Age <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Contact No. <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Action </th>
+                                                
                                             </tr>
                                         </thead>
                                         <?php
@@ -329,7 +198,38 @@ $result = $conn -> query($sql);
                                                     <td><?php echo $row['last_name']; ?></td>
                                                     <td><?php echo $row['account_id']; ?></td>
                                                     <td><?php echo $row['course_code']; ?></td>
-                                                    <td><?php echo $row['yearsec_id']; ?></td>  
+                                                    <td><?php echo $row['yearsec_id']; ?></td> 
+                                                    <td><?php echo $row['age']; ?></td>  
+                                                    <td><?php echo $row['contact_num']; ?></td>
+                                                    <td>
+                                                        <!-- Edit Button  -->
+                                                        <button type="button" class="btn btn-warning edit-btn" data-toggle="modal" data-target="#editModal" 
+                                                            data-user-id="<?php echo $row['user_id']; ?>"
+                                                            data-rfid-no="<?php echo $row['rfid_no']; ?>"
+                                                            data-first-name="<?php echo $row['first_name']; ?>"
+                                                            data-last-name="<?php echo $row['last_name']; ?>"
+                                                            data-email="<?php echo $row['email']; ?>"
+
+                                                            >
+                                                            
+                                                            <i class="fa-solid fa-pen-to-square fa-sm" style="color: #ffffff;"></i>
+                                                        </button>
+
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal"                                                       
+                                                            data-user-id="<?php echo $row['user_id']; ?>"
+                                                            data-rfid-no="<?php echo $row['rfid_no']; ?>"
+                                                            data-first-name="<?php echo $row['first_name']; ?>"
+                                                            data-last-name="<?php echo $row['last_name']; ?>"
+                                                            data-picture="<?php echo $row['picture']; ?>"
+                                                            >
+                                                            <i class="fa-regular fa-eye fa-sm"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="">
+                                                            <i class="fa-solid fa-trash fa-sm" style="color: #ffffff;"></i>
+                                                        </button>
+                                                        
+                                                    </td>
+                                                    
                                                 </tr>
                                             <?php
                                             }
@@ -338,6 +238,7 @@ $result = $conn -> query($sql);
                                         }
                                         ?>
                                     </table>
+                                    
                                 </section>
 
                             </div>
@@ -350,7 +251,613 @@ $result = $conn -> query($sql);
         </main>
     </div>
 
+<!-- Modal for Add User -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>User ID</label>
+              <input  type="text" class="form-control" name="user_id" required="required" placeholder="User ID" autocomplete="off" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>RFID No.</label>
+              <input type="text" class="form-control" name="rfid_no" required="required" placeholder="RFID No." autocomplete="off" value="<?php  ?>">
+            </div>
+          </div>
+        </div>
+        
+       
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>First Name</label>
+              <input  type="text" class="form-control" name="first_name" required="required" placeholder="First Name" autocomplete="off" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input  type="text" class="form-control" name="last_name" required="required" placeholder="Last Name" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Course Code</label>
+              <input id="" type="text" class="form-control" name="course_code" required="required" placeholder="" autocomplete="off" value="<?php ?>">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Year</label>
+              <input id="" type="text" class="form-control" name="year" required="required" placeholder="" autocomplete="off" value="<?php  ?>">
+            </div>
+          </div>
+        </div>
+
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
+
+<!-- Modal for Edit/Update -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update User Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>User ID</label>
+              <input id="userID-input" type="text" class="form-control" name="user_id" required="required" placeholder="User ID" autocomplete="off" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>RFID No.</label>
+              <input id="rfidID-input" type="text" class="form-control" name="rfid_no" required="required" placeholder="RFID No." autocomplete="off" value="<?php  ?>">
+            </div>
+          </div>
+        </div>
+        
+       
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>First Name</label>
+              <input id="firstname-input" type="text" class="form-control" name="first_name" required="required" placeholder="First Name" autocomplete="off" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input id="lastname-input" type="text" class="form-control" name="last_name" required="required" placeholder="Last Name" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Course Code</label>
+              <input id="" type="text" class="form-control" name="course_code" required="required" placeholder="" autocomplete="off" value="<?php ?>">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Year</label>
+              <input id="" type="text" class="form-control" name="year" required="required" placeholder="" autocomplete="off" value="<?php  ?>">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Email</label>
+              <input id="email" type="text" class="form-control" name="e_mail" required="required" placeholder="" autocomplete="off" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>None</label>
+              <input id="" type="text" class="form-control" name="" required="required" placeholder="" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<!-- Modal for View -->
+<!-- Modal for View -->
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Appointment Informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fa fa-close"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+
+            <div class="row g-0">
+
+                <div class="col-md-8 border-right">
+
+                    <div class="status p-3">
+
+                        <table class="table table-borderless">
+                          
+                          <tbody>
+                            <tr>
+                           
+                              <td>
+                                  <div class="d-flex flex-column">
+
+                                    <span class="heading d-block">Hospital</span>
+                                    <span class="subheadings">Cairo Hospital</span>
+                                      
+
+                                  </div>
+                              </td>
+                              <td>
+                                   <div class="d-flex flex-column">
+
+                                    <span class="heading d-block">Time/Date</span>
+                                    <span class="subheadings">5:00PM 3-12-2020</span>
+                                      
+
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="d-flex flex-column">
+
+                                    <span class="heading d-block">Status</span>
+                                    <span class="subheadings"><i class="dots"></i> Booked</span>
+                                      
+
+                                  </div>
+                              </td>
+                            </tr>
+                            <tr>
+                             
+                              <td>
+                                  <div class="d-flex flex-column">
+
+                                    <span class="heading d-block">Speciality</span>
+                                    <span class="subheadings">Dental Clinic</span>
+                                      
+
+                                  </div>
+                              </td>
+                              <td>
+                                  <div class="d-flex flex-column">
+
+                                    <span class="heading d-block">Referring Doctor</span>
+                                    <span class="subheadings">Dr. Harry Pimn</span>
+                                      
+
+                                  </div>
+                              </td>
+                              <td>
+                                  
+
+                              </td>
+                            </tr>
+                            <tr>
+                               <td>
+                                   <div class="d-flex flex-column">
+                                    <span class="heading d-block">Contact</span>
+                                    <span class="subheadings">52, Maria Block, Victoria Road, CA USA</span>
+                                  </div>
+                               </td>  
+                          
+                              <td colspan="2">
+
+                                <div class="d-flex flex-column">
+                                    <span class="heading d-block">Reason of visiting</span>
+                                    <span class="subheadings">Lorem ipsum is placeholder text commonly used in the graphic, print.</span>
+                                  </div>
+                              </td>
+                             
+                            </tr>
+
+                            <tr>
+                               <td>
+                                   <div class="d-flex flex-column">
+                                    <span class="heading d-block">Direction</span>
+                                    <span class="d-block subheadings">Get direction by using</span>
+                                    <span class="d-flex flex-row">
+                                        
+                                        <img src="https://img.icons8.com/color/100/000000/google-maps.png" class="rounded" width="30" />
+
+                                        <img src="https://img.icons8.com/color/100/000000/pittsburgh-map.png" class="rounded" width="30" />
+
+                                    </span>
+
+                                  </div>
+                               </td>  
+                          
+                              <td colspan="2">
+
+                                <div class="d-flex flex-column">
+                                    <span class="heading d-block">Hospital Gallary</span>
+                                    <span class="d-flex flex-row gallery">
+                                        
+                                        <img src="https://i.imgur.com/VfRSLTm.jpg" width="50" class="rounded">
+                                        <img src="https://i.imgur.com/jb9Cy5h.jpg" width="50" class="rounded">
+                                        <img src="https://i.imgur.com/vBUz4HA.jpg" width="50" class="rounded">
+
+                                    </span>
+                                  </div>
+                              </td>
+                             
+                            </tr>
+                          </tbody>
+                        </table>
+
+                       
+                        
+                    </div>
+
+
+                    
+                    
+                </div>
+                <div class="col-md-4">
+
+                    <div class="p-2 text-center">
+
+                        <div class="profile">
+
+                            <img src="https://i.imgur.com/VfRSLTm.jpg" width="100" class="rounded-circle img-thumbnail">
+
+                            <span class="d-block mt-3 font-weight-bold">Dr. Samsung Philip.</span>
+
+                        </div>
+
+                        <div class="about-doctor">
+
+                            <table class="table table-borderless">
+                          
+                              <tbody>
+                                 <tr>
+                                    <td>
+                                      <div class="d-flex flex-column">
+
+                                        <span class="heading d-block">Education</span>
+                                        <span class="subheadings">University of Harward</span>
+                                          
+
+                                      </div>
+                                    </td>
+
+                                    <td>
+                                      <div class="d-flex flex-column">
+
+                                        <span class="heading d-block">Language</span>
+                                        <span class="subheadings">Spanish, English</span>
+                                          
+
+                                      </div>
+                                    </td>
+                                  </tr>
+
+
+                                  <tr>
+                                    <td>
+                                      <div class="d-flex flex-column">
+
+                                        <span class="heading d-block">Organisation</span>
+                                        <span class="subheadings">Accupunture</span>
+                                          
+
+                                      </div>
+                                    </td>
+
+                                    <td>
+                                      <div class="d-flex flex-column">
+
+                                        <span class="heading d-block">Specialist</span>
+                                        <span class="subheadings">Accupunture</span>
+                                          
+
+                                      </div>
+                                    </td>
+                                  </tr>
+                              </tbody>
+                           </table>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+
+
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+
+<div class="container d-flex justify-content-center mt-5">
+
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+Appointment Information
+</button>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="exampleModalLabel">Appointment Informations</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <span aria-hidden="true"><i class="fa fa-close"></i></span>
+</button>
+</div>
+<div class="modal-body">
+
+
+    <div class="row g-0">
+
+        <div class="col-md-8 border-right">
+
+            <div class="status p-3">
+
+                <table class="table table-borderless">
+                  
+                  <tbody>
+                    <tr>
+                   
+                      <td>
+                          <div class="d-flex flex-column">
+
+                            <span class="heading d-block">Hospital</span>
+                            <span class="subheadings">Cairo Hospital</span>
+                              
+
+                          </div>
+                      </td>
+                      <td>
+                           <div class="d-flex flex-column">
+
+                            <span class="heading d-block">Time/Date</span>
+                            <span class="subheadings">5:00PM 3-12-2020</span>
+                              
+
+                          </div>
+                      </td>
+                      <td>
+                          <div class="d-flex flex-column">
+
+                            <span class="heading d-block">Status</span>
+                            <span class="subheadings"><i class="dots"></i> Booked</span>
+                              
+
+                          </div>
+                      </td>
+                    </tr>
+                    <tr>
+                     
+                      <td>
+                          <div class="d-flex flex-column">
+
+                            <span class="heading d-block">Speciality</span>
+                            <span class="subheadings">Dental Clinic</span>
+                              
+
+                          </div>
+                      </td>
+                      <td>
+                          <div class="d-flex flex-column">
+
+                            <span class="heading d-block">Referring Doctor</span>
+                            <span class="subheadings">Dr. Harry Pimn</span>
+                              
+
+                          </div>
+                      </td>
+                      <td>
+                          
+
+                      </td>
+                    </tr>
+                    <tr>
+                       <td>
+                           <div class="d-flex flex-column">
+                            <span class="heading d-block">Contact</span>
+                            <span class="subheadings">52, Maria Block, Victoria Road, CA USA</span>
+                          </div>
+                       </td>  
+                  
+                      <td colspan="2">
+
+                        <div class="d-flex flex-column">
+                            <span class="heading d-block">Reason of visiting</span>
+                            <span class="subheadings">Lorem ipsum is placeholder text commonly used in the graphic, print.</span>
+                          </div>
+                      </td>
+                     
+                    </tr>
+
+                    <tr>
+                       <td>
+                           <div class="d-flex flex-column">
+                            <span class="heading d-block">Direction</span>
+                            <span class="d-block subheadings">Get direction by using</span>
+                            <span class="d-flex flex-row">
+                                
+                                <img src="https://img.icons8.com/color/100/000000/google-maps.png" class="rounded" width="30" />
+
+                                <img src="https://img.icons8.com/color/100/000000/pittsburgh-map.png" class="rounded" width="30" />
+
+                            </span>
+
+                          </div>
+                       </td>  
+                  
+                      <td colspan="2">
+
+                        <div class="d-flex flex-column">
+                            <span class="heading d-block">Hospital Gallary</span>
+                            <span class="d-flex flex-row gallery">
+                                
+                                <img src="https://i.imgur.com/VfRSLTm.jpg" width="50" class="rounded">
+                                <img src="https://i.imgur.com/jb9Cy5h.jpg" width="50" class="rounded">
+                                <img src="https://i.imgur.com/vBUz4HA.jpg" width="50" class="rounded">
+
+                            </span>
+                          </div>
+                      </td>
+                     
+                    </tr>
+                  </tbody>
+                </table>
+
+               
+                
+            </div>
+
+
+            
+            
+        </div>
+        <div class="col-md-4">
+
+            <div class="p-2 text-center">
+
+                <div class="profile">
+
+                    <img src="https://i.imgur.com/VfRSLTm.jpg" width="100" class="rounded-circle img-thumbnail">
+
+                    <span class="d-block mt-3 font-weight-bold">Dr. Samsung Philip.</span>
+
+                </div>
+
+                <div class="about-doctor">
+
+                    <table class="table table-borderless">
+                  
+                      <tbody>
+                         <tr>
+                            <td>
+                              <div class="d-flex flex-column">
+
+                                <span class="heading d-block">Education</span>
+                                <span class="subheadings">University of Harward</span>
+                                  
+
+                              </div>
+                            </td>
+
+                            <td>
+                              <div class="d-flex flex-column">
+
+                                <span class="heading d-block">Language</span>
+                                <span class="subheadings">Spanish, English</span>
+                                  
+
+                              </div>
+                            </td>
+                          </tr>
+
+
+                          <tr>
+                            <td>
+                              <div class="d-flex flex-column">
+
+                                <span class="heading d-block">Organisation</span>
+                                <span class="subheadings">Accupunture</span>
+                                  
+
+                              </div>
+                            </td>
+
+                            <td>
+                              <div class="d-flex flex-column">
+
+                                <span class="heading d-block">Specialist</span>
+                                <span class="subheadings">Accupunture</span>
+                                  
+
+                              </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                   </table>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+
+
+    </div>
+
+
+
+</div>
+
+</div>
+</div>
+</div>
+
+</body>
+
+<!-- MDB -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
@@ -360,214 +867,52 @@ $result = $conn -> query($sql);
     <script src="https://unpkg.com/xlsx-populate/browser/xlsx-populate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-    <script>
-        const search = document.querySelector('.input-group input'),
-    table_rows = document.querySelectorAll('tbody tr'),
-    table_headings = document.querySelectorAll('thead th');
 
-// 1. Searching for specific data of HTML table
-search.addEventListener('input', searchTable);
+<script>
+    $(document).ready(function () {
+        // Add a click event handler for the edit button
+        $(".edit-btn").click(function () {
+            // Get the user_id from the data attribute
+            var userId = $(this).data("user-id");
+            var rfidNo = $(this).data("rfid-no");
+            
+            var firstName = $(this).data("first-name");
+            var lastName = $(this).data("last-name");
+            var email = $(this).data("email");
 
-function searchTable() {
-    table_rows.forEach((row, i) => {
-        let table_data = row.textContent.toLowerCase(),
-            search_data = search.value.toLowerCase();
-
-        row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-        row.style.setProperty('--delay', i / 25 + 's');
-    })
-
-    document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
+            // Set the user_id value in the modal's input field
+            $("#userID-input").val(userId);
+            $("#rfidID-input").val(rfidNo);
+            $("#firstname-input").val(firstName);
+            $("#lastname-input").val(lastName);
+            $("#email").val(email);
+        });
     });
-}
-
-// 2. Sorting | Ordering data of HTML table
-
-table_headings.forEach((head, i) => {
-    let sort_asc = true;
-    head.onclick = () => {
-        table_headings.forEach(head => head.classList.remove('active'));
-        head.classList.add('active');
-
-        document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
-        table_rows.forEach(row => {
-            row.querySelectorAll('td')[i].classList.add('active');
-        })
-
-        head.classList.toggle('asc', sort_asc);
-        sort_asc = head.classList.contains('asc') ? false : true;
-
-        sortTable(i, sort_asc);
-    }
-})
 
 
-function sortTable(column, sort_asc) {
-    [...table_rows].sort((a, b) => {
-        let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
-            second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
+    $(document).ready(function () {
+    // Add a click event handler for the view button
+    $(".view-btn").click(function () {
+        // Get data attributes from the clicked button
+        var userId = $(this).data("user-id");
+        var rfidNo = $(this).data("rfid-no");
+        var firstName = $(this).data("first-name");
+        var lastName = $(this).data("last-name");
+        var picture = $(this).data("picture"); // Get the profile picture URL
 
-        return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
-    })
-        .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
-}
-
-// 3. Converting HTML table to PDF
-
-const pdf_btn = document.querySelector('#toPDF');
-const customers_table = document.querySelector('#customers_table');
-
-const toPDF = function (customers_table) {
-    const html_code = `
-    <link rel="stylesheet" href="assets/css/users.css" />
-    
-    <table id="customers_table">${customers_table.innerHTML}</table>
-    `;
-
-    const new_window = window.open();
-    new_window.document.write(html_code);
-
-    setTimeout(() => {
-        new_window.print();
-        new_window.close();
-    }, 400);
-}
-
-pdf_btn.onclick = () => {
-    toPDF(customers_table);
-}
-
-// 4. Converting HTML table to JSON
-
-const json_btn = document.querySelector('#toJSON');
-
-const toJSON = function (table) {
-    let table_data = [],
-        t_head = [],
-
-        t_headings = table.querySelectorAll('th'),
-        t_rows = table.querySelectorAll('tbody tr');
-
-    for (let t_heading of t_headings) {
-        let actual_head = t_heading.textContent.trim().split(' ');
-
-        t_head.push(actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase());
-    }
-
-    t_rows.forEach(row => {
-        const row_object = {},
-            t_cells = row.querySelectorAll('td');
-
-        t_cells.forEach((t_cell, cell_index) => {
-            const img = t_cell.querySelector('img');
-            if (img) {
-                row_object['customer image'] = decodeURIComponent(img.src);
-            }
-            row_object[t_head[cell_index]] = t_cell.textContent.trim();
-        })
-        table_data.push(row_object);
-    })
-
-    return JSON.stringify(table_data, null, 4);
-}
-
-json_btn.onclick = () => {
-    const json = toJSON(customers_table);
-    downloadFile(json, 'json')
-}
+        $("#profile-picture").attr("src", picture); // Set the profile picture src attribute
+        $("#full_name").text(firstName + " " + lastName); // Set the full name in the h4 element
+    });
+});
 
 
+</script>
 
-
-
-        const csv_btn = document.querySelector('#toCSV');
-const excel_btn = document.querySelector('#toEXCEL');
-
-const toCSV = function(table) {
-  const t_heads = table.querySelectorAll('th');
-  const headings = [...t_heads].map(head => {
-    let actual_head = head.textContent.trim().split(' ');
-    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-  }).join(',') + ',image name';
-
-  const tbody_rows = table.querySelectorAll('tbody tr');
-  const table_data = [...tbody_rows].map(row => {
-    const cells = row.querySelectorAll('td');
-    const data_without_img = [...cells].map(cell => cell.textContent.replace(/,/g, ".").trim()).join(',');
-    return data_without_img;
-  }).join('\n');
-
-  return headings + '\n' + table_data;
-};
-
-const toExcel = function(table) {
-  const excelRows = [];
-  
-  const t_heads = table.querySelectorAll('th');
-  const headings = [...t_heads].map(head => {
-    let actual_head = head.textContent.trim().split(' ');
-    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-  });
-  excelRows.push(headings);
-  
-  const tbody_rows = table.querySelectorAll('tbody tr');
-  [...tbody_rows].forEach(row => {
-    const cells = row.querySelectorAll('td');
-    const rowData = [...cells].map(cell => cell.textContent.trim());
-    excelRows.push(rowData);
-  });
-  
-  const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
-  
-  const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  return excelFile;
-};
-
-csv_btn.onclick = () => {
-  const csv = toCSV(customers_table);
-  downloadFile(csv, 'csv', 'customer_orders.csv');
-};
-
-excel_btn.onclick = () => {
-  const excel = toExcel(customers_table);
-  downloadFile(excel, 'excel', 'customer_orders.xlsx');
-};
-
-const downloadFile = function(data, fileType, fileName = '') {
-  const blob = new Blob([data], { type: fileType });
-  const url = URL.createObjectURL(blob);
-  
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-};
-
-    </script>
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
+</script>
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
+<script src="assets/js/export.js"></script>
+
+
 
 </html>
