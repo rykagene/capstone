@@ -12,68 +12,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = $_POST['password'];
 
   // Check if the user is an admin
-  $sql = "SELECT * FROM account WHERE username = '$username' AND password = '$password' AND account_type = 'admin'";
-  $result = $conn->query($sql);
+$sql = "SELECT * FROM account WHERE username = '$username' AND account_type = 'admin'";
+$result = $conn->query($sql);
 
-  // if admin account found
-  if ($result->num_rows == 1) {
+// if admin account found
+if ($result->num_rows == 1) {
+  // Fetch the admin details
+  $row = $result->fetch_assoc();
+  $stored_password = $row['password'];
 
-    // Fetch the admin details
-    $row = $result->fetch_assoc();
-    $account_id = $row['account_id'];
-    $reservation_count = $row['reservation_count'];
-    $sql2 = "SELECT * FROM admin WHERE account_id = '$account_id'";
-    $result2 = $conn->query($sql2);
-    $admin_row2 = $result2->fetch_assoc();
-    $first_name = $admin_row2['first_name'];
-    $last_name = $admin_row2['last_name'];
-    $admin_id = $row2['admin_id'];
-
-    // Set the session variables for admin
+  // Verify the provided password against the stored hash
+  if (password_verify($password, $stored_password)) {
+    // Passwords match, user is authenticated as admin
     $_SESSION["username"] = $username;
-    $_SESSION["password"] = $password;
-    $_SESSION["admin_id"] = $admin_id;
-    $_SESSION["first_name"] = $first_name;
-    $_SESSION["last_name"] = $last_name;
-    $_SESSION["reservation_count"] = $reservation_count;
+    $_SESSION["admin_id"] = $row['admin_id'];
+    $_SESSION["first_name"] = $row['first_name'];
+    $_SESSION["last_name"] = $row['last_name'];
+    $_SESSION["reservation_count"] = $row['reservation_count'];
     header("Location: admin.php");
     exit();
+  } else {
+    // Passwords don't match, login failed
+    $error_message = "Invalid username or password";
   }
+}
 
-  // Check if the user is a regular user
-  $sql = "SELECT * FROM account WHERE username = '$username' AND password = '$password'";
-  $result = $conn->query($sql);
+// Check if the user is a regular user
+$sql = "SELECT * FROM account WHERE username = '$username' AND account_type != 'admin'";
+$result = $conn->query($sql);
 
-  // Check if a matching user record is found
-  if ($result->num_rows == 1) {
-    // Fetch the user ID from the result
-    $row = $result->fetch_assoc();
-    $account_id = $row['account_id'];
-    $reservation_count = $row['reservation_count'];
-    $sql2 = "SELECT * FROM users WHERE account_id = '$account_id'";
-    $result2 = $conn->query($sql2);
-    $row2 = $result2->fetch_assoc();
-    $first_name = $row2['first_name'];
-    $last_name = $row2['last_name'];
-    $user_id = $row2['user_id'];
+// Check if a matching user record is found
+if ($result->num_rows == 1) {
+  // Fetch the user's data from the database
+  $row = $result->fetch_assoc();
+  $stored_password = $row['password'];
 
-
-    // Set the session variables for user
+  // Verify the provided password against the stored hash
+  if (password_verify($password, $stored_password)) {
+    // Passwords match, user is authenticated
     $_SESSION["username"] = $username;
-    $_SESSION["password"] = $password;
-    $_SESSION["user_id"] = $user_id;
-    $_SESSION["first_name"] = $first_name;
-    $_SESSION["last_name"] = $last_name;
-    $_SESSION["reservation_count"] = $reservation_count;
+    $_SESSION["user_id"] = $row['user_id'];
+    $_SESSION["first_name"] = $row['first_name'];
+    $_SESSION["last_name"] = $row['last_name'];
+    $_SESSION["reservation_count"] = $row['reservation_count'];
     header("Location: home.php");
     exit();
+  } else {
+    // Passwords don't match, login failed
+    $error_message = "Invalid username or password";
   }
+}
 
-  // Login failed
-  $error_message = "Invalid username or password";
+// Login failed
+$error_message = "Invalid username or password";
 }
 ?>
-
 
 
 <!DOCTYPE html>

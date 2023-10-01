@@ -557,3 +557,6 @@ ALTER TABLE 'users'
 ADD 'age' INT,
 ADD 'contact_num' VARCHAR(15);
 
+
+
+

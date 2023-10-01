@@ -271,6 +271,7 @@ $result = $conn -> query($sql);
                                         <input type="search" placeholder="Search Data...">
 
                                     </div>
+                                    
                                     <div class="export__file">
                                         <label for="export-file" class="export__file-btn" title="Export File"></label>
                                         <input type="checkbox" id="export-file">
@@ -316,7 +317,7 @@ $result = $conn -> query($sql);
                                                     <td><?php echo $row['seat_id']; ?></td> 
                                                     <td><?php echo $row['time_spent']; ?></td>  
                                                     <td>
-                                                    <button><p class="status pending"><a>Edit</a></p></button>
+                                                    <p class="status pending"><a>Edit</a></p>
                                                 </td>  
                                                 </tr>
                                             <?php
