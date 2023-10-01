@@ -27,15 +27,22 @@
   transition: width 300ms;
 }
 
-.sidebar a {
+/* .sidebar a {
   text-decoration: underline 0.15em rgba(0, 0, 0, 0);
   transition: text-decoration-color 300ms;
   text-underline-offset: 0.4em;
-}
+} */
 
-.sidebar a:hover{
-  text-decoration-color: rgb(233, 205, 81);
+/* .sidebar a:hover {
+  text-decoration-color: rgb(247, 247, 247);
+} */
 
+#tabButton a:hover {
+  background: #fff8f8d3;
+  color: var(--main-color);
+  border-radius: 20px 0px 0px 20px;
+  text-decoration: none;
+  transition: 400ms;
 }
 
 .sidebar-brand {
@@ -700,8 +707,6 @@ main {
 }
 /* -------------------------------------------- END OF SEATS INFORMATION  -------------------------------------------- */
 
-
-
 /* -------------------------------------------- RESERVED  -------------------------------------------- */
 #reserved main {
   margin-top: 85px;
@@ -849,8 +854,6 @@ main {
   color: rgb(32, 31, 30);
 }
 /* -------------------------------------------- END OF RESERVED  -------------------------------------------- */
-
-
 
 /* -------------------------------------------- USER LIST  -------------------------------------------- */
 #userList main {
@@ -1285,12 +1288,11 @@ main {
   height: auto;
 }
 
-#userList  .export__file-options label {
+#userList .export__file-options label {
   margin-bottom: 0;
 }
 
 /* -------------------------------------------- END OF USER LIST  -------------------------------------------- */
-
 
 /* -------------------------------------------- HISTORY -------------------------------------------- */
 
@@ -1602,7 +1604,7 @@ main {
 }
 
 @media (max-width: 1000px) {
-  #history  td:not(:first-of-type) {
+  #history td:not(:first-of-type) {
     min-width: 12.1rem;
   }
 }
@@ -1725,8 +1727,6 @@ main {
 
 /* -------------------------------------------- END OF HISTORY -------------------------------------------- */
 
-
-
 /* -------------------------------------------- ANALYTICS -------------------------------------------- */
 #analytics .graphBox {
   position: relative;
@@ -1789,6 +1789,9 @@ main {
   text-decoration: none;
 }
 
+.manage {
+  color: #ffffff;
+  cursor: pointer;
+}
+
 /* -------------------------------------------- END OF ANALYTICS -------------------------------------------- */
-
-

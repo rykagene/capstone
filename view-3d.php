@@ -21,6 +21,37 @@ $currentDateTime = date('Y-m-d H:i');
 $selectedDateTime = $date . ' ' . $start_time;
 $currentDateTime = date('Y-m-d H:i');
 
+// Fetch start_hour and end_hour from the settings table
+// E-library hours
+// E-library hours
+// E-library hours
+// E-library hours
+$settingsSql = "SELECT start_hour, end_hour FROM settings WHERE settings_id = 1"; // Assuming settings_id is 1, modify as needed
+$settingsResult = mysqli_query($conn, $settingsSql);
+
+if ($settingsResult && mysqli_num_rows($settingsResult) > 0) {
+    $settingsRow = mysqli_fetch_assoc($settingsResult);
+    $dbStartHour = $settingsRow['start_hour'];
+    $dbEndHour = $settingsRow['end_hour'];
+
+    // Compare with the provided start and end times
+    if ($start_time < $dbStartHour || $end_time > $dbEndHour) {
+        echo '<div class="d-flex justify-content-center align-items-center vh-100" data-aos="fade">
+            <div class="text-center">
+                <i class="bi bi-exclamation-circle-fill text-danger display-1"></i>
+                <h5 class="mt-3">Invalid Time Selection</h5>
+                <p>Please reserve a time from E-library hours.</p>
+            </div>
+        </div>';
+        exit(); // Exit early if the times are invalid
+    }
+}
+// end E-library hours
+// end E-library hours
+// end E-library hours
+// end E-library hours
+// end E-library hours
+
 // Compare the selected date and start time with the current date and time
 if (($date == date('Y-m-d')) && ($end_time <= date('H:i', strtotime($currentDateTime)))) {
     // Display the error message with alert()
@@ -32,6 +63,7 @@ if (($date == date('Y-m-d')) && ($end_time <= date('H:i', strtotime($currentDate
         </div>
     </div>';
 }
+
 
  else {
     // continue with the rest of the code to display the 3D view card and available seats

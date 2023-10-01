@@ -25,10 +25,11 @@ if ($result->num_rows == 1) {
   if (password_verify($password, $stored_password)) {
     // Passwords match, user is authenticated as admin
     $_SESSION["username"] = $username;
-    $_SESSION["admin_id"] = $row['admin_id'];
-    $_SESSION["first_name"] = $row['first_name'];
-    $_SESSION["last_name"] = $row['last_name'];
-    $_SESSION["reservation_count"] = $row['reservation_count'];
+    $_SESSION["password"] = $password;
+    $_SESSION["admin_id"] = $admin_id;
+    $_SESSION["first_name"] = $first_name;
+    $_SESSION["last_name"] = $last_name;
+    $_SESSION["reservation_count"] = $reservation_count;
     header("Location: admin.php");
     exit();
   } else {

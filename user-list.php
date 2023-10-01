@@ -36,11 +36,21 @@ $result = $conn->query($sql);
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    
+
 </head>
 
 
 <body>
+
+    <?php if ($_SESSION['isSuperAdmin'] === 'no') {
+        echo '<style type="text/css">
+       .sidebar-menu #hidden{
+           display: none;
+       }
+      </style>';
+    }
+    ; ?>
+
     <input type="checkbox" id="nav-toggle">
 
     <!------------------------ SIDEBAR ------------------------>
@@ -50,9 +60,9 @@ $result = $conn->query($sql);
             <h2> <span>SOAR Admin</span></h2>
         </div>
 
-        <div class="sidebar-menu">
+        <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php"><span class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -73,6 +83,10 @@ $result = $conn->query($sql);
                 <li> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
+                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                        href="manageAdmin.php"><span class="las la-users-cog"></span>
+                        <span>Manage Accounts</span></a>
+                </li>
                 <li class="logout"> <a href="toLogout.php">
                         <span>Logout</span></a>
                 </li>
@@ -80,7 +94,6 @@ $result = $conn->query($sql);
         </div>
     </div>
     <!------------------------ END OF SIDEBAR ------------------------>
-
 
     <div class="main-content">
 
@@ -98,10 +111,14 @@ $result = $conn->query($sql);
                 <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <div class="user-wrapper">
-                        <img src="assets/img/librarian.jpg" width="40px" height="40px" alt="">
-                        <div>
+                        <img src="<?php if ($_SESSION['gender'] == "Male") {
+                            echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
+                        } elseif ($_SESSION['gender'] == "Female") {
+                            echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
+                        } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
+                        <div id="user_admin">
                             <h4>
-                                <?php echo $_SESSION["first_name"] . ' ' . $_SESSION["last_name"]; ?>
+                                <?php echo $_SESSION["username"]; ?>
                             </h4>
                         </div>
                     </div>
@@ -110,7 +127,6 @@ $result = $conn->query($sql);
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
                     <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
-                    </ul>
                 </div>
             </div>
         </header>
@@ -198,40 +214,9 @@ $result = $conn->query($sql);
                                                     <td><?php echo $row['last_name']; ?></td>
                                                     <td><?php echo $row['account_id']; ?></td>
                                                     <td><?php echo $row['course_code']; ?></td>
-                                                    <td><?php echo $row['yearsec_id']; ?></td> 
-                                                    <td><?php echo $row['age']; ?></td>  
-                                                    <td><?php echo $row['contact_num']; ?></td>
-                                                    <td>
-                                                        <!-- Edit Button  -->
-                                                        <button type="button" class="btn btn-warning edit-btn" data-toggle="modal" data-target="#editModal" 
-                                                            data-user-id="<?php echo $row['user_id']; ?>"
-                                                            data-rfid-no="<?php echo $row['rfid_no']; ?>"
-                                                            data-first-name="<?php echo $row['first_name']; ?>"
-                                                            data-last-name="<?php echo $row['last_name']; ?>"
-                                                            data-email="<?php echo $row['email']; ?>"
-
-                                                            >
-                                                            
-                                                            <i class="fa-solid fa-pen-to-square fa-sm" style="color: #ffffff;"></i>
-                                                        </button>
-
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewModal"                                                       
-                                                            data-user-id="<?php echo $row['user_id']; ?>"
-                                                            data-rfid-no="<?php echo $row['rfid_no']; ?>"
-                                                            data-first-name="<?php echo $row['first_name']; ?>"
-                                                            data-last-name="<?php echo $row['last_name']; ?>"
-                                                            data-picture="<?php echo $row['picture']; ?>"
-                                                            >
-                                                            <i class="fa-regular fa-eye fa-sm"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="">
-                                                            <i class="fa-solid fa-trash fa-sm" style="color: #ffffff;"></i>
-                                                        </button>
-                                                        
-                                                    </td>
-                                                    
+                                                    <td><?php echo $row['yearsec_id']; ?></td>  
                                                 </tr>
-                                            <?php
+                                                <?php
                                             }
                                         } else {
                                             echo "<tr><td colspan='7'>No users found.</td></tr>";
@@ -867,48 +852,213 @@ Appointment Information
     <script src="https://unpkg.com/xlsx-populate/browser/xlsx-populate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+        const search = document.querySelector('.input-group input'),
+    table_rows = document.querySelectorAll('tbody tr'),
+    table_headings = document.querySelectorAll('thead th');
 
-<script>
-    $(document).ready(function () {
-        // Add a click event handler for the edit button
-        $(".edit-btn").click(function () {
-            // Get the user_id from the data attribute
-            var userId = $(this).data("user-id");
-            var rfidNo = $(this).data("rfid-no");
-            
-            var firstName = $(this).data("first-name");
-            var lastName = $(this).data("last-name");
-            var email = $(this).data("email");
+// 1. Searching for specific data of HTML table
+search.addEventListener('input', searchTable);
 
-            // Set the user_id value in the modal's input field
-            $("#userID-input").val(userId);
-            $("#rfidID-input").val(rfidNo);
-            $("#firstname-input").val(firstName);
-            $("#lastname-input").val(lastName);
-            $("#email").val(email);
-        });
+function searchTable() {
+    table_rows.forEach((row, i) => {
+        let table_data = row.textContent.toLowerCase(),
+            search_data = search.value.toLowerCase();
+
+        row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
+        row.style.setProperty('--delay', i / 25 + 's');
+    })
+
+    document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
+        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
     });
+}
+
+// 2. Sorting | Ordering data of HTML table
+
+table_headings.forEach((head, i) => {
+    let sort_asc = true;
+    head.onclick = () => {
+        table_headings.forEach(head => head.classList.remove('active'));
+        head.classList.add('active');
+
+        document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
+        table_rows.forEach(row => {
+            row.querySelectorAll('td')[i].classList.add('active');
+        })
+
+        head.classList.toggle('asc', sort_asc);
+        sort_asc = head.classList.contains('asc') ? false : true;
+
+        sortTable(i, sort_asc);
+    }
+})
 
 
-    $(document).ready(function () {
-    // Add a click event handler for the view button
-    $(".view-btn").click(function () {
-        // Get data attributes from the clicked button
-        var userId = $(this).data("user-id");
-        var rfidNo = $(this).data("rfid-no");
-        var firstName = $(this).data("first-name");
-        var lastName = $(this).data("last-name");
-        var picture = $(this).data("picture"); // Get the profile picture URL
+function sortTable(column, sort_asc) {
+    [...table_rows].sort((a, b) => {
+        let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
+            second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
 
-        $("#profile-picture").attr("src", picture); // Set the profile picture src attribute
-        $("#full_name").text(firstName + " " + lastName); // Set the full name in the h4 element
-    });
-});
+        return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+    })
+        .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+}
 
+// 3. Converting HTML table to PDF
+
+const pdf_btn = document.querySelector('#toPDF');
+const customers_table = document.querySelector('#customers_table');
+
+const toPDF = function (customers_table) {
+    const html_code = `
+    <link rel="stylesheet" href="assets/css/users.css" />
+    
+    <table id="customers_table">${customers_table.innerHTML}</table>
+    `;
+
+    const new_window = window.open();
+    new_window.document.write(html_code);
+
+    setTimeout(() => {
+        new_window.print();
+        new_window.close();
+    }, 400);
+}
+
+pdf_btn.onclick = () => {
+    toPDF(customers_table);
+}
+
+// 4. Converting HTML table to JSON
+
+const json_btn = document.querySelector('#toJSON');
+
+const toJSON = function (table) {
+    let table_data = [],
+        t_head = [],
+
+        t_headings = table.querySelectorAll('th'),
+        t_rows = table.querySelectorAll('tbody tr');
+
+    for (let t_heading of t_headings) {
+        let actual_head = t_heading.textContent.trim().split(' ');
+
+        t_head.push(actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase());
+    }
+
+    t_rows.forEach(row => {
+        const row_object = {},
+            t_cells = row.querySelectorAll('td');
+
+        t_cells.forEach((t_cell, cell_index) => {
+            const img = t_cell.querySelector('img');
+            if (img) {
+                row_object['customer image'] = decodeURIComponent(img.src);
+            }
+            row_object[t_head[cell_index]] = t_cell.textContent.trim();
+        })
+        table_data.push(row_object);
+    })
+
+    return JSON.stringify(table_data, null, 4);
+}
+
+json_btn.onclick = () => {
+    const json = toJSON(customers_table);
+    downloadFile(json, 'json')
+}
+
+
+
+
+
+        const csv_btn = document.querySelector('#toCSV');
+const excel_btn = document.querySelector('#toEXCEL');
+
+const toCSV = function(table) {
+  const t_heads = table.querySelectorAll('th');
+  const headings = [...t_heads].map(head => {
+    let actual_head = head.textContent.trim().split(' ');
+    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
+  }).join(',') + ',image name';
+
+  const tbody_rows = table.querySelectorAll('tbody tr');
+  const table_data = [...tbody_rows].map(row => {
+    const cells = row.querySelectorAll('td');
+    const data_without_img = [...cells].map(cell => cell.textContent.replace(/,/g, ".").trim()).join(',');
+    return data_without_img;
+  }).join('\n');
+
+  return headings + '\n' + table_data;
+};
+
+const toExcel = function(table) {
+  const excelRows = [];
+  
+  const t_heads = table.querySelectorAll('th');
+  const headings = [...t_heads].map(head => {
+    let actual_head = head.textContent.trim().split(' ');
+    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
+  });
+  excelRows.push(headings);
+  
+  const tbody_rows = table.querySelectorAll('tbody tr');
+  [...tbody_rows].forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const rowData = [...cells].map(cell => cell.textContent.trim());
+    excelRows.push(rowData);
+  });
+  
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
+  
+  const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  return excelFile;
+};
+
+csv_btn.onclick = () => {
+  const csv = toCSV(customers_table);
+  downloadFile(csv, 'csv', 'customer_orders.csv');
+};
+
+excel_btn.onclick = () => {
+  const excel = toExcel(customers_table);
+  downloadFile(excel, 'excel', 'customer_orders.xlsx');
+};
+
+const downloadFile = function(data, fileType, fileName = '') {
+  const blob = new Blob([data], { type: fileType });
+  const url = URL.createObjectURL(blob);
+  
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
 
 </script>
 
-</script>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
 <script src="assets/js/export.js"></script>

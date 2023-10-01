@@ -26,4 +26,3 @@ $config = array(
     'maintenance_mode' => getMaintenanceModeStatus(),
     // Add other configuration settings here
 );
-?>

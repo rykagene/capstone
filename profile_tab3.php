@@ -6,7 +6,8 @@
     // Fetch reservation history from the history table
     $history_query = "SELECT * FROM history 
                       INNER JOIN seat ON history.seat_id = seat.seat_id
-                      WHERE history.user_id = '{$_SESSION['user_id']}'";
+                      WHERE history.user_id = '{$_SESSION['user_id']}'
+                      ORDER BY reservation_id DESC";
     $history_result = mysqli_query($conn, $history_query);
 
     if (mysqli_num_rows($history_result) > 0) {
