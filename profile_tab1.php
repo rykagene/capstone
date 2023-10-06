@@ -66,15 +66,15 @@
 
                     // Check if the reservation is found in the history table
                     if ($history_count > 0) {
-                        echo "<a class='btn btn-sm btn-success'>Completed</a>";
+                        echo "<small class='text-success'>Completed</small>";
                     }
                     // Check if the reservation is found in the occupy table
                     elseif ($occupy_count > 0) {
-                        echo "<a class='btn btn-sm btn-warning' onclick='return false;' disabled>Occupying</a>";
+                        echo "<small class='text-warning' onclick='return false;' disabled>Occupying</small>";
                     }
                     // If not found in history or occupy table, display the Delete button
                     else {
-                        echo "<a href='#' class='btn btn-outline-danger btn-sm' onclick='confirmDelete({$row['reservation_id']}); return false;'>Cancel</a>";
+                        echo "<a href='#' class='btn text-danger btn-sm' onclick='confirmDelete({$row['reservation_id']}); return false;'>Cancel</a>";
                     }
                 } else {
                     // Handle SQL error if needed

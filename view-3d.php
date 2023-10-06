@@ -40,7 +40,7 @@ if ($settingsResult && mysqli_num_rows($settingsResult) > 0) {
             <div class="text-center">
                 <i class="bi bi-exclamation-circle-fill text-danger display-1"></i>
                 <h5 class="mt-3">Invalid Time Selection</h5>
-                <p>Please reserve a time from E-library hours.</p>
+                <p>Please reserve a time from E-library hours. '. date('g:i A' , strtotime($dbStartHour)) .' to '. date('g:i A', strtotime($dbEndHour)) .' </p>
             </div>
         </div>';
         exit(); // Exit early if the times are invalid

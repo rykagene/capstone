@@ -2,6 +2,7 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+require 'assets/php/occupancy_timer.php';
 
 ?>
 
@@ -263,9 +264,9 @@ require 'assets/php/session.php';
             <a class="nav-link active rounded-3" id="myReservation-tab" data-bs-toggle="pill" href="#myReservation" role="tab" aria-controls="myReservation" aria-selected="true">My Reservation</a>
         </li>
 
-        <li class="nav-item" role="presentation">
+        <!-- <li class="nav-item" role="presentation">
             <a class="nav-link  rounded-3" id="ongoing-tab" data-bs-toggle="pill" href="#ongoing" role="tab" aria-controls="ongoing" aria-selected="false">Occupying</a>
-        </li>
+        </li> -->
       
         <li class="nav-item" role="presentation">
             <a class="nav-link  rounded-3" id="history-tab" data-bs-toggle="pill" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
@@ -279,9 +280,9 @@ require 'assets/php/session.php';
         </div>
        
        <!-- Ongoing Tab -->
-        <div class="tab-pane fade" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
-            <?php include_once("profile_tab2.php"); ?>
-        </div>
+        <!-- <div class="tab-pane fade" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
+           
+        </div> -->
         
         <!-- History Tab -->
         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">          

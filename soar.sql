@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2023 at 02:30 PM
+-- Generation Time: Oct 06, 2023 at 04:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -138,15 +138,6 @@ CREATE TABLE `history` (
   `time_spent` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `history`
---
-
-INSERT INTO `history` (`history_id`, `reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `time_spent`) VALUES
-(34, 87, '2023-09-27', '11:01:52', '11:06:12', 2020103475, 2, '00:04:20'),
-(35, 87, '2023-09-27', '11:01:52', '11:06:13', 2020103475, 2, '00:04:20'),
-(36, 88, '2023-09-28', '00:00:00', '20:17:59', 123, 1, '00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -178,13 +169,6 @@ CREATE TABLE `occupy` (
   `isDone` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `occupy`
---
-
-INSERT INTO `occupy` (`occupy_id`, `reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `time_spent`, `isDone`) VALUES
-(88, 87, '2023-09-27', '11:01:52', '11:06:13', 2020103475, 2, '00:04:20', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -209,7 +193,12 @@ INSERT INTO `rating` (`rating_id`, `rating`, `review`, `date`, `user_id`) VALUES
 (3, 5, 'nice!', '2023-09-19', 2020103475),
 (4, 4, '', '2023-09-19', 2020103475),
 (5, 3, '', '2023-09-27', 2020103475),
-(6, 4, 'sfdgdfdsfsd', '2023-09-27', 2020103475);
+(6, 4, 'sfdgdfdsfsd', '2023-09-27', 2020103475),
+(7, 0, '', '2023-09-27', 2020103475),
+(8, 0, '', '2023-09-27', 2020103475),
+(9, 0, '', '2023-09-27', 2020103475),
+(10, 5, '', '2023-10-06', 123),
+(11, 0, '', '2023-10-06', 123);
 
 -- --------------------------------------------------------
 
@@ -226,14 +215,6 @@ CREATE TABLE `reservation` (
   `seat_id` int(11) DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `isDone`) VALUES
-(87, '2023-09-27', '10:47:00', '11:06:00', 2020103475, 2, 1),
-(88, '2023-09-28', '10:17:00', '12:17:00', 123, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -281,7 +262,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`settings_id`, `reservation`, `minDuration`, `maxDuration`, `reservePerDay`, `start_hour`, `end_hour`, `disabled_dates`) VALUES
-(1, 0, 1, 4, 4, '10:00:00', '17:00:00', '[\"2023-10-01\",\"2023-10-08\",\"2023-10-15\",\"2023-10-22\",\"2023-10-29\",\"2023-10-07\",\"2023-10-14\",\"2023-10-28\",\"2023-10-21\",\"2023-09-02\",\"2023-09-09\",\"2023-09-16\",\"2023-09-23\",\"2023-09-30\",\"2023-11-05\",\"2023-11-12\",\"2023-11-19\",\"2023-11-26\",\"2023-12-03\",\"2023-12-10\",\"2023-12-17\",\"2023-12-24\",\"2023-12-31\",\"2023-12-02\",\"2023-12-09\",\"2023-12-16\",\"2023-12-30\",\"2023-12-23\",\"2023-12-25\",\"2023-11-25\",\"2023-11-18\",\"2023-11-11\",\"2023-11-04\",\"2024-01-07\",\"2024-01-14\",\"2024-01-21\",\"2024-01-28\",\"2024-01-06\",\"2024-01-13\",\"2024-01-20\",\"2024-01-27\",\"2024-02-03\",\"2024-02-10\",\"2024-02-17\",\"2023-09-24\",\"2023-09-17\",\"2023-09-10\",\"2023-09-03\",\"2023-08-27\"]');
+(1, 0, 1, 4, 4, '10:00:00', '17:00:00', '[\"2024-01-13\",\"2024-01-20\",\"2024-01-27\",\"2024-02-03\",\"2024-02-10\",\"2024-02-17\"]');
 
 -- --------------------------------------------------------
 
@@ -493,25 +474,25 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `occupy`
 --
 ALTER TABLE `occupy`
-  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- Constraints for dumped tables

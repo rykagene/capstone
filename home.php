@@ -1,3 +1,12 @@
+<?php
+session_start();
+require 'assets/php/connect.php';
+require 'assets/php/session.php';
+require 'assets/php/occupancy_timer.php';
+
+?>
+
+
 <!-- <?php if (
         !isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"])
         && !isset($_SESSION["last_name"])
@@ -11,6 +20,7 @@
         display: block;
        }
       </style>';
+      
     } else {
         
         echo '<style type="text/css">
@@ -69,8 +79,6 @@
         <?php include 'assets/php/header.php'; ?>
 
         <!------------------------ END HEADER --------------------->
-
-
         <!------------------------ COVER ------------------------>
         <div id="home" class="parallax-home">
             <img class="banner" src="assets/img/lib building_bg.jpg" id="lib-front">

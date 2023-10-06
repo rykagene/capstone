@@ -2,6 +2,7 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+require 'assets/php/occupancy_timer.php';
 ?>
 
 

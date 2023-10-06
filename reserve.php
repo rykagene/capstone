@@ -2,6 +2,7 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
+require 'assets/php/occupancy_timer.php';
 
 // Fetch the reservation status from the settings table
 $settings_query = "SELECT reservation FROM settings WHERE settings_id = '1'";
@@ -199,7 +200,7 @@ if ($reservation_status != '0') {
 
   <div class="wrapper">
     <div class="container-fluid">
-      <div class="row  bg-light mt-3 mb-3">
+      <div class="row">
         <div class="col-lg-4">
           <!-------------------------DATE & TIME PICKER CARD DIV--------------------->
           <div id="dateTimeDiv" class="card" data-aos="fade-right">
@@ -351,7 +352,6 @@ if ($reservation_status != '0') {
 
   <!------------------------ FOOTER ------------------------>
 
-  <?php include 'assets/php/footer.php'; ?>
   <!------------------------ FOOTER ------------------------>
 
 

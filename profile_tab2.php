@@ -43,7 +43,7 @@
             // Add View Details button
             echo "<div class='col'>";
             // echo "<a href='#' class='btn btn-outline-danger btn-sm' onclick='markReservationAsDone({$row['reservation_id']}); return false;'>Mark as Done</a>";
-            echo "<a href='timer.php' class='btn btn-outline-danger btn-sm'; return false;'>Expand Timer</a>";
+            echo "<a href='timer.php' class='btn btn-danger btn-sm'; return false;'>View Time</a>";
             echo "</div>";
 
             echo "</div>";
