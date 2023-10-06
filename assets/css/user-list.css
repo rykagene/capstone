@@ -662,3 +662,88 @@ tbody td.active {
   color: #ffffff;
   cursor: pointer;
 }
+
+
+/* MODAL VIEW */
+.close:focus{
+
+  outline: 1px dotted #fff !important;
+}
+
+.modal-body {
+
+ padding: 0rem !important;
+}
+
+.modal-title{
+
+color: #fff;
+}
+
+.modal-header{
+
+  background: #9C27B0;
+color: #fff !important;
+}
+
+.fa-close{
+color: #fff;
+}
+
+.heading{
+
+  font-weight: 500 !important;
+}
+
+.subheadings{
+  font-size: 12px;
+color: #9c27b0;
+}
+
+
+.dots {
+height: 10px;
+width: 10px;
+background-color: green;
+border-radius: 50%;
+display: inline-block;
+margin-right: 5px;
+}
+
+.gallery img{
+
+margin-right: 10px;
+}
+
+.fs-9{
+  font-size: 9px;
+}
+
+.modal-content {
+  max-height: 70vh; /* Adjust the max-height as needed */
+  overflow-y: auto;
+}
+
+/* Ensure the padding is applied to modal-body */
+.modal-body {
+  padding: 1rem !important;
+}
+
+.modal-content {
+  max-height: 70vh; /* Adjust the max-height as needed */
+  overflow-y: auto;
+}
+
+/* Adjust font size */
+.modal-title {
+  font-size: 18px; /* Adjust font size as needed */
+}
+
+.subheadings {
+  font-size: 12px; /* Adjust font size as needed */
+}
+
+/* Remove padding from modal-body */
+.modal-body {
+  padding: 0; /* Remove padding to maximize content space */
+}

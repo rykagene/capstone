@@ -25,8 +25,8 @@ $result = $conn->query($sql);
     <!------------------------ ICONS -------------------------->
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-
-
+    
+    
 
 </head>
 
@@ -328,7 +328,7 @@ $result = $conn->query($sql);
                                                 <th> End Time <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
-
+                                                
                                             </tr>
                                         </thead>
                                         <?php
@@ -336,24 +336,12 @@ $result = $conn->query($sql);
                                             while ($row = $result->fetch_assoc()) {
                                                 ?>
                                                 <tr>
-                                                    <td class="studno">
-                                                        <?php echo $row['reservation_id']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['date']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['start_time']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['end_time']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['user_id']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['seat_id']; ?>
-                                                    </td>
+                                                    <td class="studno"><?php echo $row['reservation_id']; ?></td>
+                                                    <td><?php echo $row['date']; ?></td>
+                                                    <td><?php echo $row['start_time']; ?></td>
+                                                    <td><?php echo $row['end_time']; ?></td>
+                                                    <td><?php echo $row['user_id']; ?></td>
+                                                    <td><?php echo $row['seat_id']; ?></td>                                                     
                                                 </tr>
                                                 <?php
                                             }
