@@ -384,6 +384,8 @@ require 'assets/php/occupancy_timer.php';
     </div>
 
     <script type="module" src="assets/js/main.js"></script>
+    <script src="assets/js/clock.js"></script>
+
 
 </body>
 
