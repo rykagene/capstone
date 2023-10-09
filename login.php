@@ -28,10 +28,11 @@ if ($result->num_rows == 1) {
     $_SESSION["username"] = $username;
     $_SESSION["user_id"] = $row['user_id'];
     $_SESSION["first_name"] = $row['first_name'];
-    $_SESSION["admin_id"] = $admin_id;
+    $_SESSION["account_type"] = $row['account_type'];
+    // $_SESSION["admin_id"] = $admin_id;
     $_SESSION["last_name"] = $row['last_name'];
     $_SESSION["reservation_count"] = $row['reservation_count'];
-    header("Location: admin.php");
+    header("Location: home.php");
     exit();
   } else {
     // Passwords don't match, login failed
@@ -932,7 +933,7 @@ $error_message = "Invalid username or passwordz";
   </script>
 
   <!------------------------ For Sliding  ------------------------>
-  <script src="assets/js/login2.js"></script>
+  <script src="assets/js/login.js"></script>
 
   <!-- Javascript file -->
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>

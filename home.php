@@ -105,7 +105,7 @@ require 'assets/php/occupancy_timer.php';
             </a>
         </div>
 
-        <div id="clock">
+        <div class="col" id="clock">
             <div class="clock">
                 <div class="hour">
                     <div class="hr" id="hr"></div>

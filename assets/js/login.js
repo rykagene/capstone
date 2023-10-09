@@ -20,23 +20,43 @@ toggle_btn.forEach((btn) => {
   });
 });
 
+let currentIndex = 0;  // Add a variable to keep track of the current image index
+
 function moveSlider() {
-  let index = this.dataset.value;
+  bullets[currentIndex].classList.remove("active");  // Remove the active class from the current bullet
+  images[currentIndex].classList.remove("show");  // Hide the current image
 
-  let currentImage = document.querySelector(`.img-${index}`);
-  images.forEach((img) => img.classList.remove("show"));
-  currentImage.classList.add("show");
+  currentIndex = parseInt(this.dataset.value) - 1;  // Update the current index based on the clicked bullet
+  if (currentIndex < 0) currentIndex = images.length - 1;  // Handle wrap-around to the last image
 
-  const textSlider = document.querySelector(".text-group");
-  textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
-
-  bullets.forEach((bull) => bull.classList.remove("active"));
-  this.classList.add("active");
+  images[currentIndex].classList.add("show");  // Show the new current image
+  bullets[currentIndex].classList.add("active");  // Update the bullet for the new current image
 }
 
+// Automatically slide to the next image every 1 second
+function autoSlide() {
+  const nextIndex = (currentIndex + 1) % images.length;  // Calculate the index of the next image
+
+  bullets[currentIndex].classList.remove("active");  // Remove the active class from the current bullet
+  images[currentIndex].classList.remove("show");  // Hide the current image
+
+  currentIndex = nextIndex;  // Update the current index to the next image
+  images[currentIndex].classList.add("show");  // Show the new current image
+  bullets[currentIndex].classList.add("active");  // Update the bullet for the new current image
+}
+
+// Set up the interval to automatically slide the carousel every 3 second
+let slideInterval = setInterval(autoSlide, 3000);
+
+// Stop the automatic sliding when a bullet is clicked
 bullets.forEach((bullet) => {
-  bullet.addEventListener("click", moveSlider);
+  bullet.addEventListener("click", () => {
+    clearInterval(slideInterval);  // Clear the automatic sliding interval
+    moveSlider.call(bullet);  // Manually move to the clicked image
+    slideInterval = setInterval(autoSlide, 3000);  // Restart the automatic sliding
+  });
 });
+
 
 // Function to validate existence user_id on db
 function checkUserIdAvailability() {
@@ -60,7 +80,7 @@ function checkUserIdAvailability() {
 }
 // Function to validate password fields
 function validatePasswords() {
-	var password = $('#password').val();
+	var password = $('#new_password').val();
 	var confirm_password = $('#confirm_password').val();
 	if (password !== confirm_password) {
 		$('#confirm_password').addClass('is-invalid');
@@ -74,4 +94,4 @@ function validatePasswords() {
 }
 
 $('#user_id').on('change', checkUserIdAvailability);
-$('#password, #confirm_password').on('change', validatePasswords);
+$('#new_password, #confirm_password').on('change', validatePasswords);
