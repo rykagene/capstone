@@ -26,6 +26,7 @@ if ($result->num_rows == 1) {
   if (password_verify($password, $stored_password)) {
     // Passwords match, user is authenticated
     $_SESSION["username"] = $username;
+    $_SESSION["account_type"] = $row['account_type'];
     $_SESSION["user_id"] = $row['user_id'];
     $_SESSION["first_name"] = $row['first_name'];
     $_SESSION["admin_id"] = $admin_id;
