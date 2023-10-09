@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $account_type = $row['account_type'];       
 
     // Set the session variables for admin
+    $_SESSION["account_id"] = $account_id;
     $_SESSION["username"] = $username;
     $_SESSION["password"] = $password;
     $_SESSION["admin_id"] = $admin_id;
