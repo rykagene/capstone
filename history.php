@@ -142,7 +142,7 @@ $result = $conn->query($sql);
                     <a class="nav-link active" id="table-tab" data-toggle="tab" href="#table-content" role="tab" aria-controls="table-content" aria-selected="true">All</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="archive-tab" data-toggle="tab" href="#archive-content" role="tab" aria-controls="archive-content" aria-selected="false">Archive</a>
+                    <a class="nav-link" id="archive-tab" data-toggle="tab" href="#archive-content" role="tab" aria-controls="archive-content" aria-selected="false">Archived</a>
                 </li>
             </ul>
 
@@ -414,6 +414,7 @@ $result = $conn->query($sql);
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
 <script src="assets/js/export.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -453,7 +454,12 @@ $result = $conn->query($sql);
 
         // Validate date inputs
         if (!startDateStr || !endDateStr) {
-            alert("Please enter both start and end dates.");
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please enter both start and end dates.',
+            
+          })
             return;
         }
 
