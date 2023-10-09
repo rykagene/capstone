@@ -37,16 +37,16 @@ if ($account_type === 'student') {
 } else if ($account_type === 'faculty'){
   // Handle non-student account type (e.g., alumni, faculty)
   // Add your code to handle non-student data here
-  $courseCode = 'faculty';
-  $year_level = 100;
-  $section = 'none';
-  $section_group = 'none';
+  $courseCode = 'FACULTY';
+  $year_level = 0;
+  $section = 'NONE';
+  $section_group = 'NONE';
 }
 else if ($account_type === 'alumni'){
-  $courseCode = 'alumni';
-  $year_level = 100;
-  $section = 'none';
-  $section_group = 'none';
+  $courseCode = 'ALUMNI';
+  $year_level = 0;
+  $section = 'NONE';
+  $section_group = 'NONE';
 }
 // $courseCode = mysqli_real_escape_string($conn, $_POST['courseCode']);
 // $year_level = mysqli_real_escape_string($conn, $_POST['year_level']);

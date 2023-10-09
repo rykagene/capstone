@@ -18,7 +18,7 @@ main {
   min-height: 100vh;
   overflow: hidden;
   background-color: #eff3fc;
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@ main {
   position: relative;
   width: 100%;
   max-width: 1320px;
-  height: 740px;
+  height: 800px;
   background-color: #fff;
   border-radius: 1.3rem;
   box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
