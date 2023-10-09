@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2023 at 04:05 PM
+-- Generation Time: Oct 09, 2023 at 05:56 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,6 +36,15 @@ CREATE TABLE `account` (
   `account_type` varchar(255) DEFAULT NULL,
   `reservation_count` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`, `reservation_count`) VALUES
+(1, 'ricardojeyms', '123', 'richard@soar.com', NULL, 'admin', 0),
+(8, 'mj23', '123', 'mj23@gmail.com', NULL, 'admin', 0),
+(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0);
 
 -- --------------------------------------------------------
 
