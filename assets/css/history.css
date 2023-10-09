@@ -662,3 +662,32 @@ tbody td.active {
   color: #ffffff;
   cursor: pointer;
 }
+
+
+
+.btn.btn-rounded {
+  border-radius: 50px;
+}  
+
+.container{
+  
+  margin-top:100px;
+}
+
+/* Add this CSS in your stylesheet */
+.input-group {
+    display: flex;
+    align-items: center;
+    
+}
+
+.input-group input[type="search"] {
+    flex: 1; /* Allow the input to expand and fill the available space */
+    padding: 8px; /* Adjust the padding as needed */
+}
+
+.input-group .search-icon {
+    width: 24px; /* Adjust the icon size as needed */
+    margin-left: 8px; /* Add some spacing between the input and the icon */
+    cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+}
