@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2023 at 04:51 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Oct 09, 2023 at 08:20 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,7 @@ CREATE TABLE `account` (
   `picture` varchar(255) DEFAULT NULL,
   `account_type` varchar(255) DEFAULT NULL,
   `reservation_count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
@@ -50,7 +50,9 @@ INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`,
 (6, '123456', '123', '123@gmail.com', NULL, 'student', 0),
 (7, '1234567', '123456', '123@gmail.com', NULL, 'student', 0),
 (8, 'mj23', '123', 'mj23@gmail.com', NULL, 'admin', 0),
-(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0);
+(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0),
+(10, '3030', '$2y$10$yPh9WR/txTZO6uNGjCS01.i2UKWNy8dFHghb4Y1NXF3iHRUsZkeOO', 'tifa@gmail.com', NULL, 'admin', 0),
+(11, '7777', '$2y$10$HM2ajDWHl.gxA/CKDxiKcOjl4K5zh97UwA1eVtEaAqwNRiQO/N68G', 'cloud@gmail.com', NULL, 'student', 0);
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,7 @@ CREATE TABLE `admin` (
   `home_address` varchar(255) DEFAULT NULL,
   `work_status` varchar(20) DEFAULT NULL,
   `account_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -93,7 +95,7 @@ INSERT INTO `admin` (`admin_id`, `isSuperAdmin`, `rfid_no`, `department`, `first
 CREATE TABLE `college` (
   `college_code` varchar(50) NOT NULL,
   `college_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `college`
@@ -112,7 +114,7 @@ CREATE TABLE `course` (
   `course_code` varchar(50) NOT NULL,
   `course_name` varchar(255) DEFAULT NULL,
   `college_code` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
@@ -136,7 +138,18 @@ CREATE TABLE `history` (
   `user_id` int(11) DEFAULT NULL,
   `seat_id` int(11) DEFAULT NULL,
   `time_spent` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`history_id`, `reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `time_spent`) VALUES
+(34, 87, '2023-09-27', '11:01:52', '11:06:12', 2020103475, 2, '00:04:20'),
+(35, 87, '2023-09-27', '11:01:52', '11:06:13', 2020103475, 2, '00:04:20'),
+(36, 88, '2023-09-28', '00:00:00', '20:17:59', 123, 1, '00:00:00'),
+(37, 89, '2023-10-09', '00:00:00', '23:26:13', 7777, 2, '00:00:00'),
+(38, 90, '2023-10-24', '00:00:00', '17:44:51', 7777, 1, '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -149,7 +162,7 @@ CREATE TABLE `news` (
   `picture` varchar(255) DEFAULT NULL,
   `content` text DEFAULT NULL,
   `date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -167,7 +180,14 @@ CREATE TABLE `occupy` (
   `seat_id` int(11) DEFAULT NULL,
   `time_spent` time DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `occupy`
+--
+
+INSERT INTO `occupy` (`occupy_id`, `reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `time_spent`, `isDone`) VALUES
+(88, 87, '2023-09-27', '11:01:52', '11:06:13', 2020103475, 2, '00:04:20', 1);
 
 -- --------------------------------------------------------
 
@@ -181,7 +201,7 @@ CREATE TABLE `rating` (
   `review` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rating`
@@ -193,12 +213,7 @@ INSERT INTO `rating` (`rating_id`, `rating`, `review`, `date`, `user_id`) VALUES
 (3, 5, 'nice!', '2023-09-19', 2020103475),
 (4, 4, '', '2023-09-19', 2020103475),
 (5, 3, '', '2023-09-27', 2020103475),
-(6, 4, 'sfdgdfdsfsd', '2023-09-27', 2020103475),
-(7, 0, '', '2023-09-27', 2020103475),
-(8, 0, '', '2023-09-27', 2020103475),
-(9, 0, '', '2023-09-27', 2020103475),
-(10, 5, '', '2023-10-06', 123),
-(11, 0, '', '2023-10-06', 123);
+(6, 4, 'sfdgdfdsfsd', '2023-09-27', 2020103475);
 
 -- --------------------------------------------------------
 
@@ -214,7 +229,17 @@ CREATE TABLE `reservation` (
   `user_id` int(11) DEFAULT NULL,
   `seat_id` int(11) DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `isDone`) VALUES
+(87, '2023-09-27', '10:47:00', '11:06:00', 2020103475, 2, 1),
+(88, '2023-09-28', '10:17:00', '12:17:00', 123, 1, 1),
+(89, '2023-10-09', '15:57:00', '16:57:00', 7777, 2, 1),
+(90, '2023-10-24', '11:45:00', '12:45:00', 7777, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -227,7 +252,7 @@ CREATE TABLE `seat` (
   `seat_number` varchar(50) DEFAULT NULL,
   `data_surface` varchar(255) NOT NULL,
   `status` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `seat`
@@ -255,14 +280,14 @@ CREATE TABLE `settings` (
   `start_hour` time NOT NULL,
   `end_hour` time NOT NULL,
   `disabled_dates` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `settings`
 --
 
 INSERT INTO `settings` (`settings_id`, `reservation`, `minDuration`, `maxDuration`, `reservePerDay`, `start_hour`, `end_hour`, `disabled_dates`) VALUES
-(1, 0, 1, 4, 4, '10:00:00', '17:00:00', '[\"2024-01-13\",\"2024-01-20\",\"2024-01-27\",\"2024-02-03\",\"2024-02-10\",\"2024-02-17\"]');
+(1, 0, 1, 4, 4, '10:00:00', '17:00:00', '[\"2023-10-01\",\"2023-10-08\",\"2023-10-15\",\"2023-10-22\",\"2023-10-29\",\"2023-10-07\",\"2023-10-14\",\"2023-10-28\",\"2023-10-21\",\"2023-09-02\",\"2023-09-09\",\"2023-09-16\",\"2023-09-23\",\"2023-09-30\",\"2023-11-05\",\"2023-11-12\",\"2023-11-19\",\"2023-11-26\",\"2023-12-03\",\"2023-12-10\",\"2023-12-17\",\"2023-12-24\",\"2023-12-31\",\"2023-12-02\",\"2023-12-09\",\"2023-12-16\",\"2023-12-30\",\"2023-12-23\",\"2023-12-25\",\"2023-11-25\",\"2023-11-18\",\"2023-11-11\",\"2023-11-04\",\"2024-01-07\",\"2024-01-14\",\"2024-01-21\",\"2024-01-28\",\"2024-01-06\",\"2024-01-13\",\"2024-01-20\",\"2024-01-27\",\"2024-02-03\",\"2024-02-10\",\"2024-02-17\",\"2023-09-24\",\"2023-09-17\",\"2023-09-10\",\"2023-09-03\",\"2023-08-27\"]');
 
 -- --------------------------------------------------------
 
@@ -277,21 +302,25 @@ CREATE TABLE `users` (
   `last_name` varchar(255) DEFAULT NULL,
   `account_id` int(11) DEFAULT NULL,
   `course_code` varchar(50) DEFAULT NULL,
-  `yearsec_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `yearsec_id` int(11) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `contact_number` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_id`, `course_code`, `yearsec_id`) VALUES
-(0, NULL, 'nosection', 'nosection', 5, NULL, NULL),
-(123, NULL, 'noCourse', 'noCourse', 4, NULL, 9),
-(1234, NULL, 'JEAYSMIE', 'DIGO', 3, 'BSIT', 9),
-(123456, NULL, '1234', '1234', 6, NULL, NULL),
-(1234567, NULL, 'noCourses', 'noCourses', 7, NULL, NULL),
-(2020103475, '12345', 'Jeaysmie', 'Digo', 2, 'BSIT', 9),
-(2023000001, NULL, 'admin', 'admin', 1, NULL, NULL);
+INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_id`, `course_code`, `yearsec_id`, `age`, `contact_number`) VALUES
+(0, NULL, 'nosection', 'nosection', 5, NULL, NULL, NULL, NULL),
+(123, NULL, 'noCourse', 'noCourse', 4, NULL, 9, NULL, NULL),
+(1234, NULL, 'JEAYSMIE', 'DIGO', 3, 'BSIT', 9, NULL, NULL),
+(3030, NULL, 'Tifa', 'Lockhart', 10, NULL, NULL, NULL, NULL),
+(7777, NULL, 'Cloud', 'Strife', 11, NULL, NULL, NULL, NULL),
+(123456, NULL, '1234', '1234', 6, NULL, NULL, NULL, NULL),
+(1234567, NULL, 'noCourses', 'noCourses', 7, NULL, NULL, NULL, NULL),
+(2020103475, '12345', 'Jeaysmie', 'Digo', 2, 'BSIT', 9, NULL, NULL),
+(2023000001, NULL, 'admin', 'admin', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -304,7 +333,7 @@ CREATE TABLE `yearsec` (
   `year_level` int(11) DEFAULT NULL,
   `section` varchar(10) DEFAULT NULL,
   `section_group` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `yearsec`
@@ -468,31 +497,31 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `occupy`
 --
 ALTER TABLE `occupy`
-  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `occupy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- Constraints for dumped tables
@@ -539,5 +568,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
