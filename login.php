@@ -11,33 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['login_password'];
 
-  // Check if the user is an admin
-// $sql = "SELECT * FROM account WHERE username = '$username' AND account_type = 'admin'";
-// $result = $conn->query($sql);
-
-// // if admin account found
-// if ($result->num_rows == 1) {
-//   // Fetch the admin details
-//   $row = $result->fetch_assoc();
-//   $stored_password = $row['password'];
-
-//   // Verify the provided password against the stored hash
-//   if (password_verify($password, $stored_password)) {
-//     // Passwords match, user is authenticated as admin
-//     $_SESSION["username"] = $username;
-//     $_SESSION["password"] = $password;
-//     $_SESSION["admin_id"] = $admin_id;
-//     $_SESSION["first_name"] = $first_name;
-//     $_SESSION["last_name"] = $last_name;
-//     $_SESSION["reservation_count"] = $reservation_count;
-//     header("Location: admin.php");
-//     exit();
-//   } else {
-//     // Passwords don't match, login failed
-//     $error_message = "Invalid username or passwords";
-//   }
-// }
-
 // Check if the user is a regular user
 $sql = "SELECT * FROM account WHERE username = '$username' AND account_type != 'admin'";
 $result = $conn->query($sql);
@@ -55,9 +28,10 @@ if ($result->num_rows == 1) {
     $_SESSION["username"] = $username;
     $_SESSION["user_id"] = $row['user_id'];
     $_SESSION["first_name"] = $row['first_name'];
+    $_SESSION["admin_id"] = $admin_id;
     $_SESSION["last_name"] = $row['last_name'];
     $_SESSION["reservation_count"] = $row['reservation_count'];
-    header("Location: home.php");
+    header("Location: admin.php");
     exit();
   } else {
     // Passwords don't match, login failed
@@ -396,66 +370,6 @@ $error_message = "Invalid username or passwordz";
   
 </script>
 
-
-<!-- Add this script within the <head> or at the end of your HTML file -->
-<script>
-  // Function to log input values to the console
-  function logInputValues() {
-    const form = document.getElementById('register-form'); // Change the form ID accordingly
-
-    // Log the input values
-    console.log('First Name:', form.firstName.value);
-    console.log('Last Name:', form.lastName.value);
-    console.log('ID Number:', form.user_id.value);
-    console.log('Course:', form.courseCode.value);
-    console.log('Year Level:', form.year_level.value);
-    console.log('Section:', form.section.value);
-    console.log('Section Group:', form.sectionGroup.value);
-    console.log('Password:', form.new_password.value);
-    console.log('Confirm Password:', form.confirm_password.value);
-
-    // Fetch year_level, section, and section_group from the form
-    const year_level = form.year_level.value;
-    const section = form.section.value;
-    const section_group = form.sectionGroup.value;
-
-    // Log year_level, section, and section_group to the console
-    console.log('Year Level:', year_level);
-    console.log('Section:', section);
-    console.log('Section Group:', section_group);
-
-    // Send an AJAX request to retrieve yearsec_id based on provided parameters
-    // const xhr = new XMLHttpRequest();
-    // xhr.onreadystatechange = function() {
-    //   if (xhr.readyState === XMLHttpRequest.DONE) {
-    //     if (xhr.status === 200) {
-    //       // Parse the response as JSON
-    //       const response = JSON.parse(xhr.responseText);
-    //       const yearsec_id = response.yearsec_id;
-    //       console.log('Yearsec ID:', yearsec_id);
-    //     } else {
-    //       console.error('Error retrieving yearsec_id:', xhr.status);
-    //     }
-    //   }
-    // };
-
-    // // Construct the URL for the AJAX request
-    // const url = `retrieve_yearsec_id.php?year_level=${encodeURIComponent(year_level)}&section=${encodeURIComponent(section)}&section_group=${encodeURIComponent(section_group)}`;
-    // xhr.open('GET', url);
-    // xhr.send();
-  }
-
-  // Capture form submission and log input values
-  const registerForm = document.getElementById('register-form'); // Change the form ID accordingly
-  if (registerForm) {
-    registerForm.addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent the default form submission behavior
-      logInputValues(); // Log the input values to the console
-      // Now you can proceed with your form submission logic
-      // For example, you can submit the form using AJAX
-    });
-  }
-</script>
 
 <!-- Modal -->
 
