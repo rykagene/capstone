@@ -213,52 +213,6 @@ require 'assets/php/session.php';
             </div>
         </div>
 
-        <!-- Popup for DELETE ACCOUNT BUTTON superadmin permission -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Super Admin Permission</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-body" style="padding:40px 50px;">
-                            <img class="warningDelete" src="assets/img/warning_icon.png" alt="">
-                            <p style="font-size: 1.5vh;">Once your account is deleted, all of its resources and data
-                                will be
-                                <span style="font-weight: bold;">permanently</span> deleted.
-                            </p>
-                            <p>Before deleting your account, please backup any data or information that you wish to
-                                retain.</p>
-                            <form role="form" style="margin-top: 40px;">
-                                <div class="form-group">
-                                    <label for="usrname"><span class="glyphicon glyphicon-user"></span>
-                                        Super Admin Username</label>
-                                    <input type="text" class="form-control" id="SA_username-input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="psw"><span class="glyphicon glyphicon-eye-open"></span>
-                                        Super Admin Key</label>
-                                    <input type="password" class="form-control" id="SA_password-input">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <form id="checkForm">
-                                <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-                                <a id="delete_BTN" type="submit" class="btn btn-danger"
-                                    onclick="checkInput()">Delete</a>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <main>
 
             <?php
@@ -267,8 +221,8 @@ require 'assets/php/session.php';
             $password = $_SESSION["password"];
 
             $query = "SELECT * FROM ACCOUNT 
-                          INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id 
-                          WHERE ACCOUNT.username = '$username' AND ACCOUNT.password = '$password'";
+                      INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id 
+                      WHERE ACCOUNT.username = '$username' AND ACCOUNT.password = '$password'";
             $result = mysqli_query($conn, $query);
             ?>
 
@@ -372,17 +326,6 @@ require 'assets/php/session.php';
                                                 </a>
                                             </li>
                                         </ul>
-
-                                        <div class="adminButton">
-                                            <div class="adminButtons">
-                                                <button class="deleteAcc btn" data-toggle="modal" type="button"
-                                                    data-target="#deleteModal">Delete
-                                                    Account</button>
-                                            </div>
-                                            <p class="note1"><span style="font-weight:800; color:red;">Note:
-                                                </span><span style="font-weight:800;">Super
-                                                    Admin</span> authorization is required to delete this account!</p>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
