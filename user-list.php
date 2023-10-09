@@ -3,7 +3,7 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-$sql = "SELECT u.user_id, u.rfid_no, u.first_name, u.last_name, u.account_id, u.course_code, u.yearsec_id, u.age, u.contact_num, a.picture, a.email
+$sql = "SELECT u.user_id, u.rfid_no, u.first_name, u.last_name, u.account_id, u.course_code, u.yearsec_id, u.age, u.contact_number, a.picture, a.email,  a.account_type
         FROM users u
         JOIN account a ON u.account_id = a.account_id";
 
@@ -36,6 +36,7 @@ $result = $conn->query($sql);
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 </head>
 
@@ -192,13 +193,13 @@ $result = $conn->query($sql);
                                             <tr>
                                                 <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> RFID No. <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th></th>
                                                 <th> First Name <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Last Name <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Account ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Course Code <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Year <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Age <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Contact No. <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> User Type <span class="icon-arrow">&UpArrow;</span></th>
+                                                
                                                 <th> Action </th>
                                                 
                                             </tr>
@@ -210,11 +211,25 @@ $result = $conn->query($sql);
                                                 <tr>
                                                     <td class="studno"><?php echo $row['user_id']; ?></td>
                                                     <td><?php echo $row['rfid_no']; ?></td>
+                                                    <td><img src="<?php echo $row['picture']; ?>" alt=""></td>
                                                     <td><?php echo $row['first_name']; ?></td>
                                                     <td><?php echo $row['last_name']; ?></td>
-                                                    <td><?php echo $row['account_id']; ?></td>
                                                     <td><?php echo $row['course_code']; ?></td>
                                                     <td><?php echo $row['yearsec_id']; ?></td>  
+                                                    <td><p class="user-type <?php echo strtolower($row['account_type']); ?>"><?php echo $row['account_type']; ?></p></td>
+  
+                                                     
+                                                    <td>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
+                                                      <i class="bi bi-eye-fill text-primary" style="font-size: 1.3em;"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
+                                                      <i class="bi bi-pencil-square text-warning" style="font-size: 1.3em;"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
+                                                      <i class="bi bi-trash-fill text-danger" style="font-size: 1.3em;"></i>
+                                                    </button>
+                                                    </td>
                                                 </tr>
                                                 <?php
                                             }
@@ -235,6 +250,7 @@ $result = $conn->query($sql);
 
         </main>
     </div>
+    
 
 <!-- Modal for Add User -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -395,452 +411,8 @@ $result = $conn->query($sql);
 </body>
 
 <!-- Modal for View -->
-<!-- Modal for View -->
-<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Appointment Informations</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"><i class="fa fa-close"></i></span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
 
-            <div class="row g-0">
 
-                <div class="col-md-8 border-right">
-
-                    <div class="status p-3">
-
-                        <table class="table table-borderless">
-                          
-                          <tbody>
-                            <tr>
-                           
-                              <td>
-                                  <div class="d-flex flex-column">
-
-                                    <span class="heading d-block">Hospital</span>
-                                    <span class="subheadings">Cairo Hospital</span>
-                                      
-
-                                  </div>
-                              </td>
-                              <td>
-                                   <div class="d-flex flex-column">
-
-                                    <span class="heading d-block">Time/Date</span>
-                                    <span class="subheadings">5:00PM 3-12-2020</span>
-                                      
-
-                                  </div>
-                              </td>
-                              <td>
-                                  <div class="d-flex flex-column">
-
-                                    <span class="heading d-block">Status</span>
-                                    <span class="subheadings"><i class="dots"></i> Booked</span>
-                                      
-
-                                  </div>
-                              </td>
-                            </tr>
-                            <tr>
-                             
-                              <td>
-                                  <div class="d-flex flex-column">
-
-                                    <span class="heading d-block">Speciality</span>
-                                    <span class="subheadings">Dental Clinic</span>
-                                      
-
-                                  </div>
-                              </td>
-                              <td>
-                                  <div class="d-flex flex-column">
-
-                                    <span class="heading d-block">Referring Doctor</span>
-                                    <span class="subheadings">Dr. Harry Pimn</span>
-                                      
-
-                                  </div>
-                              </td>
-                              <td>
-                                  
-
-                              </td>
-                            </tr>
-                            <tr>
-                               <td>
-                                   <div class="d-flex flex-column">
-                                    <span class="heading d-block">Contact</span>
-                                    <span class="subheadings">52, Maria Block, Victoria Road, CA USA</span>
-                                  </div>
-                               </td>  
-                          
-                              <td colspan="2">
-
-                                <div class="d-flex flex-column">
-                                    <span class="heading d-block">Reason of visiting</span>
-                                    <span class="subheadings">Lorem ipsum is placeholder text commonly used in the graphic, print.</span>
-                                  </div>
-                              </td>
-                             
-                            </tr>
-
-                            <tr>
-                               <td>
-                                   <div class="d-flex flex-column">
-                                    <span class="heading d-block">Direction</span>
-                                    <span class="d-block subheadings">Get direction by using</span>
-                                    <span class="d-flex flex-row">
-                                        
-                                        <img src="https://img.icons8.com/color/100/000000/google-maps.png" class="rounded" width="30" />
-
-                                        <img src="https://img.icons8.com/color/100/000000/pittsburgh-map.png" class="rounded" width="30" />
-
-                                    </span>
-
-                                  </div>
-                               </td>  
-                          
-                              <td colspan="2">
-
-                                <div class="d-flex flex-column">
-                                    <span class="heading d-block">Hospital Gallary</span>
-                                    <span class="d-flex flex-row gallery">
-                                        
-                                        <img src="https://i.imgur.com/VfRSLTm.jpg" width="50" class="rounded">
-                                        <img src="https://i.imgur.com/jb9Cy5h.jpg" width="50" class="rounded">
-                                        <img src="https://i.imgur.com/vBUz4HA.jpg" width="50" class="rounded">
-
-                                    </span>
-                                  </div>
-                              </td>
-                             
-                            </tr>
-                          </tbody>
-                        </table>
-
-                       
-                        
-                    </div>
-
-
-                    
-                    
-                </div>
-                <div class="col-md-4">
-
-                    <div class="p-2 text-center">
-
-                        <div class="profile">
-
-                            <img src="https://i.imgur.com/VfRSLTm.jpg" width="100" class="rounded-circle img-thumbnail">
-
-                            <span class="d-block mt-3 font-weight-bold">Dr. Samsung Philip.</span>
-
-                        </div>
-
-                        <div class="about-doctor">
-
-                            <table class="table table-borderless">
-                          
-                              <tbody>
-                                 <tr>
-                                    <td>
-                                      <div class="d-flex flex-column">
-
-                                        <span class="heading d-block">Education</span>
-                                        <span class="subheadings">University of Harward</span>
-                                          
-
-                                      </div>
-                                    </td>
-
-                                    <td>
-                                      <div class="d-flex flex-column">
-
-                                        <span class="heading d-block">Language</span>
-                                        <span class="subheadings">Spanish, English</span>
-                                          
-
-                                      </div>
-                                    </td>
-                                  </tr>
-
-
-                                  <tr>
-                                    <td>
-                                      <div class="d-flex flex-column">
-
-                                        <span class="heading d-block">Organisation</span>
-                                        <span class="subheadings">Accupunture</span>
-                                          
-
-                                      </div>
-                                    </td>
-
-                                    <td>
-                                      <div class="d-flex flex-column">
-
-                                        <span class="heading d-block">Specialist</span>
-                                        <span class="subheadings">Accupunture</span>
-                                          
-
-                                      </div>
-                                    </td>
-                                  </tr>
-                              </tbody>
-                           </table>
-                            
-                        </div>
-                        
-                    </div>
-                    
-                </div>
-                
-
-
-            </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Button trigger modal -->
-
-<div class="container d-flex justify-content-center mt-5">
-
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-Appointment Information
-</button>
-
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="exampleModalLabel">Appointment Informations</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-  <span aria-hidden="true"><i class="fa fa-close"></i></span>
-</button>
-</div>
-<div class="modal-body">
-
-
-    <div class="row g-0">
-
-        <div class="col-md-8 border-right">
-
-            <div class="status p-3">
-
-                <table class="table table-borderless">
-                  
-                  <tbody>
-                    <tr>
-                   
-                      <td>
-                          <div class="d-flex flex-column">
-
-                            <span class="heading d-block">Hospital</span>
-                            <span class="subheadings">Cairo Hospital</span>
-                              
-
-                          </div>
-                      </td>
-                      <td>
-                           <div class="d-flex flex-column">
-
-                            <span class="heading d-block">Time/Date</span>
-                            <span class="subheadings">5:00PM 3-12-2020</span>
-                              
-
-                          </div>
-                      </td>
-                      <td>
-                          <div class="d-flex flex-column">
-
-                            <span class="heading d-block">Status</span>
-                            <span class="subheadings"><i class="dots"></i> Booked</span>
-                              
-
-                          </div>
-                      </td>
-                    </tr>
-                    <tr>
-                     
-                      <td>
-                          <div class="d-flex flex-column">
-
-                            <span class="heading d-block">Speciality</span>
-                            <span class="subheadings">Dental Clinic</span>
-                              
-
-                          </div>
-                      </td>
-                      <td>
-                          <div class="d-flex flex-column">
-
-                            <span class="heading d-block">Referring Doctor</span>
-                            <span class="subheadings">Dr. Harry Pimn</span>
-                              
-
-                          </div>
-                      </td>
-                      <td>
-                          
-
-                      </td>
-                    </tr>
-                    <tr>
-                       <td>
-                           <div class="d-flex flex-column">
-                            <span class="heading d-block">Contact</span>
-                            <span class="subheadings">52, Maria Block, Victoria Road, CA USA</span>
-                          </div>
-                       </td>  
-                  
-                      <td colspan="2">
-
-                        <div class="d-flex flex-column">
-                            <span class="heading d-block">Reason of visiting</span>
-                            <span class="subheadings">Lorem ipsum is placeholder text commonly used in the graphic, print.</span>
-                          </div>
-                      </td>
-                     
-                    </tr>
-
-                    <tr>
-                       <td>
-                           <div class="d-flex flex-column">
-                            <span class="heading d-block">Direction</span>
-                            <span class="d-block subheadings">Get direction by using</span>
-                            <span class="d-flex flex-row">
-                                
-                                <img src="https://img.icons8.com/color/100/000000/google-maps.png" class="rounded" width="30" />
-
-                                <img src="https://img.icons8.com/color/100/000000/pittsburgh-map.png" class="rounded" width="30" />
-
-                            </span>
-
-                          </div>
-                       </td>  
-                  
-                      <td colspan="2">
-
-                        <div class="d-flex flex-column">
-                            <span class="heading d-block">Hospital Gallary</span>
-                            <span class="d-flex flex-row gallery">
-                                
-                                <img src="https://i.imgur.com/VfRSLTm.jpg" width="50" class="rounded">
-                                <img src="https://i.imgur.com/jb9Cy5h.jpg" width="50" class="rounded">
-                                <img src="https://i.imgur.com/vBUz4HA.jpg" width="50" class="rounded">
-
-                            </span>
-                          </div>
-                      </td>
-                     
-                    </tr>
-                  </tbody>
-                </table>
-
-               
-                
-            </div>
-
-
-            
-            
-        </div>
-        <div class="col-md-4">
-
-            <div class="p-2 text-center">
-
-                <div class="profile">
-
-                    <img src="https://i.imgur.com/VfRSLTm.jpg" width="100" class="rounded-circle img-thumbnail">
-
-                    <span class="d-block mt-3 font-weight-bold">Dr. Samsung Philip.</span>
-
-                </div>
-
-                <div class="about-doctor">
-
-                    <table class="table table-borderless">
-                  
-                      <tbody>
-                         <tr>
-                            <td>
-                              <div class="d-flex flex-column">
-
-                                <span class="heading d-block">Education</span>
-                                <span class="subheadings">University of Harward</span>
-                                  
-
-                              </div>
-                            </td>
-
-                            <td>
-                              <div class="d-flex flex-column">
-
-                                <span class="heading d-block">Language</span>
-                                <span class="subheadings">Spanish, English</span>
-                                  
-
-                              </div>
-                            </td>
-                          </tr>
-
-
-                          <tr>
-                            <td>
-                              <div class="d-flex flex-column">
-
-                                <span class="heading d-block">Organisation</span>
-                                <span class="subheadings">Accupunture</span>
-                                  
-
-                              </div>
-                            </td>
-
-                            <td>
-                              <div class="d-flex flex-column">
-
-                                <span class="heading d-block">Specialist</span>
-                                <span class="subheadings">Accupunture</span>
-                                  
-
-                              </div>
-                            </td>
-                          </tr>
-                      </tbody>
-                   </table>
-                    
-                </div>
-                
-            </div>
-            
-        </div>
-        
-
-
-    </div>
-
-
-
-</div>
-
-</div>
-</div>
-</div>
-
-</body>
 
 <!-- MDB -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -857,191 +429,6 @@ Appointment Information
     table_rows = document.querySelectorAll('tbody tr'),
     table_headings = document.querySelectorAll('thead th');
 
-// 1. Searching for specific data of HTML table
-search.addEventListener('input', searchTable);
-
-function searchTable() {
-    table_rows.forEach((row, i) => {
-        let table_data = row.textContent.toLowerCase(),
-            search_data = search.value.toLowerCase();
-
-        row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-        row.style.setProperty('--delay', i / 25 + 's');
-    })
-
-    document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-        visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
-    });
-}
-
-// 2. Sorting | Ordering data of HTML table
-
-table_headings.forEach((head, i) => {
-    let sort_asc = true;
-    head.onclick = () => {
-        table_headings.forEach(head => head.classList.remove('active'));
-        head.classList.add('active');
-
-        document.querySelectorAll('td').forEach(td => td.classList.remove('active'));
-        table_rows.forEach(row => {
-            row.querySelectorAll('td')[i].classList.add('active');
-        })
-
-        head.classList.toggle('asc', sort_asc);
-        sort_asc = head.classList.contains('asc') ? false : true;
-
-        sortTable(i, sort_asc);
-    }
-})
-
-
-function sortTable(column, sort_asc) {
-    [...table_rows].sort((a, b) => {
-        let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
-            second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
-
-        return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
-    })
-        .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
-}
-
-// 3. Converting HTML table to PDF
-
-const pdf_btn = document.querySelector('#toPDF');
-const customers_table = document.querySelector('#customers_table');
-
-const toPDF = function (customers_table) {
-    const html_code = `
-    <link rel="stylesheet" href="assets/css/users.css" />
-    
-    <table id="customers_table">${customers_table.innerHTML}</table>
-    `;
-
-    const new_window = window.open();
-    new_window.document.write(html_code);
-
-    setTimeout(() => {
-        new_window.print();
-        new_window.close();
-    }, 400);
-}
-
-pdf_btn.onclick = () => {
-    toPDF(customers_table);
-}
-
-// 4. Converting HTML table to JSON
-
-const json_btn = document.querySelector('#toJSON');
-
-const toJSON = function (table) {
-    let table_data = [],
-        t_head = [],
-
-        t_headings = table.querySelectorAll('th'),
-        t_rows = table.querySelectorAll('tbody tr');
-
-    for (let t_heading of t_headings) {
-        let actual_head = t_heading.textContent.trim().split(' ');
-
-        t_head.push(actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase());
-    }
-
-    t_rows.forEach(row => {
-        const row_object = {},
-            t_cells = row.querySelectorAll('td');
-
-        t_cells.forEach((t_cell, cell_index) => {
-            const img = t_cell.querySelector('img');
-            if (img) {
-                row_object['customer image'] = decodeURIComponent(img.src);
-            }
-            row_object[t_head[cell_index]] = t_cell.textContent.trim();
-        })
-        table_data.push(row_object);
-    })
-
-    return JSON.stringify(table_data, null, 4);
-}
-
-json_btn.onclick = () => {
-    const json = toJSON(customers_table);
-    downloadFile(json, 'json')
-}
-
-
-
-
-
-        const csv_btn = document.querySelector('#toCSV');
-const excel_btn = document.querySelector('#toEXCEL');
-
-const toCSV = function(table) {
-  const t_heads = table.querySelectorAll('th');
-  const headings = [...t_heads].map(head => {
-    let actual_head = head.textContent.trim().split(' ');
-    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-  }).join(',') + ',image name';
-
-  const tbody_rows = table.querySelectorAll('tbody tr');
-  const table_data = [...tbody_rows].map(row => {
-    const cells = row.querySelectorAll('td');
-    const data_without_img = [...cells].map(cell => cell.textContent.replace(/,/g, ".").trim()).join(',');
-    return data_without_img;
-  }).join('\n');
-
-  return headings + '\n' + table_data;
-};
-
-const toExcel = function(table) {
-  const excelRows = [];
-  
-  const t_heads = table.querySelectorAll('th');
-  const headings = [...t_heads].map(head => {
-    let actual_head = head.textContent.trim().split(' ');
-    return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-  });
-  excelRows.push(headings);
-  
-  const tbody_rows = table.querySelectorAll('tbody tr');
-  [...tbody_rows].forEach(row => {
-    const cells = row.querySelectorAll('td');
-    const rowData = [...cells].map(cell => cell.textContent.trim());
-    excelRows.push(rowData);
-  });
-  
-  const workbook = XLSX.utils.book_new();
-  const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
-  
-  const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  return excelFile;
-};
-
-csv_btn.onclick = () => {
-  const csv = toCSV(customers_table);
-  downloadFile(csv, 'csv', 'customer_orders.csv');
-};
-
-excel_btn.onclick = () => {
-  const excel = toExcel(customers_table);
-  downloadFile(excel, 'excel', 'customer_orders.xlsx');
-};
-
-const downloadFile = function(data, fileType, fileName = '') {
-  const blob = new Blob([data], { type: fileType });
-  const url = URL.createObjectURL(blob);
-  
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-};
-
-</script>
 
 
 

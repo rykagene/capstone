@@ -674,20 +674,21 @@ tbody td.active {
   margin-top:100px;
 }
 
-/* Add this CSS in your stylesheet */
+
 .input-group {
     display: flex;
     align-items: center;
     
 }
 
+/* Fix search icon */
 .input-group input[type="search"] {
-    flex: 1; /* Allow the input to expand and fill the available space */
-    padding: 8px; /* Adjust the padding as needed */
+    flex: 1; 
+    padding: 8px; 
 }
 
 .input-group .search-icon {
-    width: 24px; /* Adjust the icon size as needed */
-    margin-left: 8px; /* Add some spacing between the input and the icon */
-    cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+    width: 24px; 
+    margin-left: 8px; 
+    cursor: pointer; 
 }

@@ -512,29 +512,34 @@ tbody tr.hide td img {
   transition: 0.2s ease-in-out 0.5s;
 }
 
-.status {
+.user-type {
   padding: 0.4rem 0;
   border-radius: 2rem;
   text-align: center;
 }
 
-.status.delivered {
+.user-type.alumni {
   background-color: #86e49d;
   color: #006b21;
 }
 
-.status.cancelled {
+.user-type.admin {
   background-color: #d893a3;
   color: #b30021;
 }
 
-.status.pending {
+.user-type.faculty {
   background-color: #ebc474;
 }
 
-.status.shipped {
+.user-type.student {
   background-color: #6fcaea;
 }
+
+
+
+
+
 
 @media (max-width: 1000px) {
   td:not(:first-of-type) {
@@ -682,7 +687,7 @@ color: #fff;
 
 .modal-header{
 
-  background: #9C27B0;
+  background: #a81c1c;
 color: #fff !important;
 }
 
@@ -747,3 +752,13 @@ margin-right: 10px;
 .modal-body {
   padding: 0; /* Remove padding to maximize content space */
 }
+
+.btn.btn-rounded {
+  border-radius: 50px;
+}  
+
+.container{
+  
+  margin-top:100px;
+}
+
