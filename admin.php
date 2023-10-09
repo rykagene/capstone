@@ -6,7 +6,7 @@ require 'assets/php/connect.php';
 if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"]) 
 && !isset($_SESSION["last_name"]) &&!isset($_SESSION["reservation_count"])) {
 
-      header('Location: login_admin.php');
+      header('Location: loginAdmin.php');
       exit();
 
 }
