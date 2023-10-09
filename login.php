@@ -9,38 +9,12 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Retrieve the form data
   $username = $_POST['username'];
-  $password = $_POST['password'];
-
-  // Check if the user is an admin
-$sql = "SELECT * FROM account WHERE username = '$username' AND account_type = 'admin'";
-$result = $conn->query($sql);
-
-// if admin account found
-if ($result->num_rows == 1) {
-  // Fetch the admin details
-  $row = $result->fetch_assoc();
-  $stored_password = $row['password'];
-
-  // Verify the provided password against the stored hash
-  if (password_verify($password, $stored_password)) {
-    // Passwords match, user is authenticated as admin
-    $_SESSION["username"] = $username;
-    $_SESSION["password"] = $password;
-    $_SESSION["admin_id"] = $admin_id;
-    $_SESSION["first_name"] = $first_name;
-    $_SESSION["last_name"] = $last_name;
-    $_SESSION["reservation_count"] = $reservation_count;
-    header("Location: admin.php");
-    exit();
-  } else {
-    // Passwords don't match, login failed
-    $error_message = "Invalid username or password";
-  }
-}
+  $password = $_POST['login_password'];
 
 // Check if the user is a regular user
 $sql = "SELECT * FROM account WHERE username = '$username' AND account_type != 'admin'";
 $result = $conn->query($sql);
+
 
 // Check if a matching user record is found
 if ($result->num_rows == 1) {
@@ -54,18 +28,19 @@ if ($result->num_rows == 1) {
     $_SESSION["username"] = $username;
     $_SESSION["user_id"] = $row['user_id'];
     $_SESSION["first_name"] = $row['first_name'];
+    $_SESSION["admin_id"] = $admin_id;
     $_SESSION["last_name"] = $row['last_name'];
     $_SESSION["reservation_count"] = $row['reservation_count'];
-    header("Location: home.php");
+    header("Location: admin.php");
     exit();
   } else {
     // Passwords don't match, login failed
-    $error_message = "Invalid username or password";
+    $error_message = "Invalid username or passwords";
   }
 }
 
 // Login failed
-$error_message = "Invalid username or password";
+$error_message = "Invalid username or passwordz";
 }
 ?>
 
@@ -81,153 +56,254 @@ $error_message = "Invalid username or password";
   <!------------------------ CSS Link ------------------------>
   <link rel="stylesheet" href="assets/css/login.css" />
   <!------------------------ Bootstrap 5.3.0 ------------------------>
-  <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" /> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    
+  </script>
+  <style>
+    .box {
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  height: 800px;
+  background-color: #fff;
+  border-radius: 1.3rem;
+  box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+}
+.sign-up-form {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  transition: opacity 0.02s 0.4s;
+}
+
+  </style>
 
 </head>
 
 <body>
-  <main>
-    <div class="box">
-      <div class="inner-box">
-        <div class="forms-wrap">
+  <script></script>
+<main>
+  <div class="box">
+    <div class="inner-box">
+      <div class="forms-wrap">
 
-          <!-- LOGIN FORM -->
-          <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" autocomplete="on" class="sign-in-form">
-            <div class="logo">
-              <img src="assets/img/elib logo.png" alt="easyclass" />
-              <h4>SOAR</h4>
+        <!-- LOGIN FORM -->
+        <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>" autocomplete="on" class="sign-in-form needs-validation" novalidate>
+          <div class="logo">
+            <img src="assets/img/elib logo.png" alt="easyclass" />
+            <h4>SOAR</h4>
+          </div>
+
+          <div class="heading">
+            <h2>Welcome Back</h2>
+            <h6>Not registered yet?</h6>
+            <a href="#" class="toggle">Sign up</a>
+          </div>
+
+          <div class="actual-form">
+            <div class="form-floating mb-3">
+              <input type="text" name="username" class="form-control" id="username" autocomplete="on" required>
+              <label for="username">Username</label>
             </div>
 
-            <div class="heading">
-              <h2>Welcome Back</h2>
-              <h6>Not registred yet?</h6>
-              <a href="#" class="toggle">Sign up</a>
+            <div class="form-floating mb-3">
+              <input type="password" name="login_password" class="form-control" id="login_password"  autocomplete="off" required>
+              <label for="login_password">Password</label>
             </div>
 
-            <div class="actual-form">
-              <div class="input-wrap">
-                <input type="text" name="username" class="input-field" autocomplete="off" required />
-                <label>Username</label>
-              </div>
-
-              <div class="input-wrap">
-                <input type="password" name="password" class="input-field" autocomplete="off" required />
-                <label>Password</label>
-              </div>
-
-              <?php if (isset($error_message)) { ?>
-                <p style="color:red">
-                  <?php echo $error_message; ?>
-                </p>
-              <?php } ?>
-
-              <input type="submit" value="Sign In" class="sign-btn" />
-              <p class="text">
-                <a href="#">Forgot Password?</a>
+            <?php if (isset($error_message)) { ?>
+              <p style="color:red">
+                <?php echo $error_message; ?>
               </p>
+            <?php } ?>
+            <p class="text">
+              <a href="#">Forgot Password?</a>
+            </p>
+            <button type="submit" style="background-color: #a81c1c;"class="btn sign-btn text-white">Login</button>
+            <div class="invalid-feedback">
+              Invalid username or password.
             </div>
-          </form>
-          <!-- END OF LOGIN FORM -->
+            
+          </div>
+        </form>
+        <!-- END OF LOGIN FORM -->
 
 
-          <!-- REGISTER FORM -->
-          <form action="toRegister.php" method="POST" id="register-form" autocomplete="off" class="sign-up-form">
-            <div class="logo">
-              <img src="assets/img/elib logo.png" alt="easyclass" />
-              <h4>SOAR</h4>
-            </div>
+        <!-- REGISTER FORM -->
+        
+        <form action="toRegister.php" method="POST" id="register-form" autocomplete="off" class="sign-up-form needs-validation" novalidate> 
+          <div class="logo">
+    <img src="assets/img/elib logo.png" alt="easyclass" />
+    <h4>SOAR</h4>
+  </div>
 
-            <div class="heading">
-              <h6>Already have an account?</h6>
-              <a href="#" class="toggle">Sign in</a>
-            </div>
+  <div class="heading">
+    <h6>Already have an account?</h6>
+    <a href="#" class="toggle">Sign in</a>
+  </div>
 
-            <div class="actual-form">
-              <div class="input-wrap">
-                <input type="text" name="firstName" minlength="4" class="input-field" autocomplete="off" required />
-                <label>First Name</label>
-              </div>
-
-              <div class="input-wrap">
-                <input type="text" name="lastName" class="input-field" autocomplete="off" required />
-                <label>Last Name</label>
-              </div>
-              <div class="input-wrap">
-
-                <input type="text" class="input-field" id="user_id" name="user_id" required>
-                <label>ID Number</label>
-                <div class="invalid-feedback" style="padding-top: 2.2rem!important;">
-                  Sorry, but this ID number already exist.
-                </div>
-              </div>
+  <div class="actual-form">
+  <div class="row mb-3">
+  <div class="col">
+    <div class="form-floating">
+      <input type="text" name="firstName" minlength="4" class="form-control" id="firstName" autocomplete="off" required>
+      <label for="firstName">First Name</label>
+    </div>
+  </div>
+  <div class="col">
+    <div class="form-floating">
+      <input type="text" name="lastName" class="form-control" id="lastName" autocomplete="off" required>
+      <label for="lastName">Last Name</label>
+    </div>
+  </div>
+</div>
 
 
+<div class="row mb-3">
+    <div class="col">
+      <div class="form-floating">
+      <select name="account_type" class="form-select" id="account_type" autocomplete="off" required>
+      <option selected disabled></option>
+        <option value="student">Regular Student</option>
+        <option value="alumni">Old Student</option>
+        <option value="faculty">Faculty</option>
+      </select>
+      <label for="account_type">Type</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <input type="text" name="user_id" class="form-control" id="user_id" autocomplete="off" required>
+        <label for="user_id">ID Number</label>
+        <div class="invalid-feedback">
+      Sorry, it's already used.
+    </div>
+      </div>
+    </div>
+  </div>
 
-              <!-- <div class="input-wrap">
-                            <input type="text" name="user_id" id="user_id" class="form-control" required>
-                            <label for="user_id">User ID</label>
-                            <div class="invalid-feedback">User ID already exists.</div>
-                          </div> -->
+  <div class="row mb-3">
+  <div class="col">
+    <div class="form-floating">
+      <select name="courseCode" class="form-select" id="courseCode" autocomplete="off">
+      <option selected disabled></option>
+        <option value="BSIT">BSIT</option>
+        <option value="BLIS">BLIS</option>
+      </select>
+      <label for="courseCode">Course</label>
+    </div>
+  </div>
+</div>
 
 
-
-              <div class="input-wrap">
-                <input type="email" name="email" class="input-field" autocomplete="off" required />
-                <label>Email</label>
-              </div>
-
-              <!-- <div class="input-wrap">
-                <input type="text" name="username" minlength="4" class="input-field" autocomplete="off" required />
-                <label>Username</label>
-              </div> -->
-
-              <div class="input-wrap">
-                <input type="password" name="password" id="password" minlength="3" class="input-field"
-                  autocomplete="off" required />
-                <label>Password</label>
-              </div>
-
-              <div class="input-wrap">
-                <input type="password" id="confirm_password" minlength="3" class="input-field" autocomplete="off"
-                  required />
-                <label>Confirm Password</label>
-                <div id="password_error" class="invalid-feedback" style="padding-top: 2.2rem!important;">
-                  Passwords do not match.
-                </div>
-              </div>
-
-
-              <!-- <div class="input-wrap">
-                <select name="courseCode" class="input-field">
-                  <option style="display:none"></option>
-                  <option value="BSIT">BSIT</option>
-                  <option value="BLIS">BLIS</option>
-   
-                </select>
-                <label>Course</label>
-              </div> -->
-
-              <input type="submit" value="Sign Up" class="sign-btn" id="register-btn" />
-
-              <p class="text">
-                By signing up, I agree to the
-                <a href="#" data-bs-toggle="modal" data-bs-target="#terms">Terms of Services</a> and
-                <a href="#" data-bs-toggle="modal" data-bs-target="#privacy">Privacy Policy</a>
-              </p>
-            </div>
-          </form>
-          <!-- END OF REGISTER FORM -->
+    <div class="row mb-3">
+      <div class="col">
+        <div class="form-floating">
+          <select name="year_level" class="form-select" id="year_level">
+          <option selected disabled></option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+            <option value="5">5th Year</option>
+          </select>
+          <label for="year_level">Year</label>
         </div>
+      </div>
+      <div class="col">
+        <div class="form-floating">
+        <select name="section" class="form-select" id="section">
+        <option selected disabled></option>
+          <?php
 
-        <div class="carousel">
+            for ($i = 65; $i <= 90; $i++) {
+              $optionValue = chr($i); // Convert ASCII value to character (A-Z)
+              echo "<option value='$optionValue'>$optionValue</option>";
+            }
+          ?>
+        </select>
+
+          <label for="section">Section</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating">
+          <select name="section_group" class="form-select" id="section_group">
+          <option selected disabled></option>
+            <option value="1">G1</option>
+            <option value="2">G2</option>
+            <!-- Add more section groups if needed -->
+          </select>
+          <label for="section_group">Group</label>
+        </div>
+      </div>
+    </div>
+<!--   -->
+<div class="row mb-3">
+    <div class="col">
+      <div class="form-floating">
+        <input type="email" name="email" class="form-control" id="email" autocomplete="off" required>
+        <label for="email">Email</label>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col">
+      <div class="form-floating">
+        <input type="password" name="new_password" class="form-control" id="new_password" autocomplete="off" required>
+        <label for="new_password">Password</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <div class="form-floating">
+        <!-- Update name to match the backend -->
+        <input type="password" name="confirm_password" class="form-control" id="confirm_password" autocomplete="off" required>
+        <label for="confirm_password">Confirm Password</label>
+      </div>
+      <div class="invalid-feedback">
+        Passwords do not match.
+      </div>
+    </div>
+  </div>
+<p class="text">
+      By signing up, I agree to the
+      <a href="#" data-bs-toggle="modal" data-bs-target="#terms"><b>Terms of Services</b></a> and
+      <a href="#" data-bs-toggle="modal" data-bs-target="#privacy"><b>Privacy Policy</b></a>
+    </p>
+
+    <div class="row mb-3">
+    <div class="col">
+      <button type="submit" style="background-color: #a81c1c;" class="btn text-white sign-btn" id="register-btn">Sign Up</button>
+    </div>
+  </div>
+
+  
+  </div>
+</form>
+
+      </div>
+
+
+       <div class="carousel">
           <div class="images-wrapper">
             <img src="assets/img/image1.png" class="image img-1 show" alt="" />
             <img src="assets/img/image2.png" class="image img-2" alt="" />
             <img src="assets/img/image3.png" class="image img-3" alt="" />
           </div>
-
           <div class="text-slider">
             <div class="text-wrap">
               <div class="text-group">
@@ -236,7 +312,6 @@ $error_message = "Invalid username or password";
                 <h2>Enjoy.</h2>
               </div>
             </div>
-
             <div class="bullets">
               <span class="active" data-value="1"></span>
               <span data-value="2"></span>
@@ -244,9 +319,60 @@ $error_message = "Invalid username or password";
             </div>
           </div>
         </div>
-      </div>
+
+      
     </div>
-  </main>
+  </div>
+</main>
+
+<script>
+  // Enable Bootstrap's floating labels
+  (function () {
+    'use strict';
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation');
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+  })();
+  
+  $(document).ready(function () {
+    $('#account_type').change(function () {
+      var accountType = $(this).val();
+      var courseField = $('#courseCode');
+      var yearLevelField = $('#year_level');
+      var sectionField = $('#section');
+      var sectionGroupField = $('#section_group');
+
+      // Disable or enable fields based on the selected account type
+      if (accountType !== 'student') {
+        courseField.prop('disabled', true);
+        yearLevelField.prop('disabled', true);
+        sectionField.prop('disabled', true);
+        sectionGroupField.prop('disabled', true);
+      } else {
+        courseField.prop('disabled', false);
+        yearLevelField.prop('disabled', false);
+        sectionField.prop('disabled', false);
+        sectionGroupField.prop('disabled', false);
+      }
+    });
+  });
+
+  
+</script>
+
+
+<!-- Modal -->
+
 
 
   <!-- Modal -->
@@ -761,11 +887,16 @@ $error_message = "Invalid username or password";
   </div>
 
   <script>
-    $(document).ready(function () {
-      // Listen for form submission
-      $("#register-form").submit(function (e) {
+  $(document).ready(function () {
+    // Listen for form submission
+    $("#register-form").submit(function (e) {
+      // Check if the form is valid
+      if (this.checkValidity() === false) {
         e.preventDefault(); // Prevent the default form submission
-
+        e.stopPropagation();
+        // Trigger Bootstrap validation styles
+        $(this).addClass('was-validated');
+      } else {
         // Perform Ajax request
         $.ajax({
           url: $(this).attr("action"),
@@ -775,7 +906,12 @@ $error_message = "Invalid username or password";
             Swal.fire({
               icon: "success",
               title: "Registration Success!",
-              text: "Please login in order to proceed.",
+              text: "Please input your credentials to login!",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(function () {
+              // Reload the page after the alert is closed
+              location.reload();
             });
           },
           error: function () {
@@ -787,14 +923,16 @@ $error_message = "Invalid username or password";
             });
           }
         });
-      });
+      }
     });
-  </script>
+  });
+</script>
+
 
   </script>
 
   <!------------------------ For Sliding  ------------------------>
-  <script src="assets/js/login.js"></script>
+  <script src="assets/js/login2.js"></script>
 
   <!-- Javascript file -->
   <script src="assets/bootstrap/js/bootstrap.min.js"></script>
