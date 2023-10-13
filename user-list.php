@@ -149,8 +149,20 @@ $result = $conn->query($sql);
             ?>
 
         <main>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="table-tab" data-toggle="tab" href="#table-content" role="tab" aria-controls="table-content" aria-selected="true">All</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="archive-tab" data-toggle="tab" href="#archive-content" role="tab" aria-controls="archive-content" aria-selected="false">Archived</a>
+                </li>
+            </ul>
 
-            <div class="recent-grid">
+            <!-- Tab content -->
+            <div class="tab-content" id="myTabsContent">
+                <!-- Table Tab Content -->
+                <div class="recent-grid">
                 <div class="history">
                     <div class="card">
 
@@ -187,7 +199,7 @@ $result = $conn->query($sql);
                                 
                                 
                                 <section class="table__body">
-                                <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#addModal">Add User</button>
+                                
                                     <table id="customers_table">
                                         <thead>
                                             <tr>
@@ -199,7 +211,6 @@ $result = $conn->query($sql);
                                                 <th> Course Code <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Year <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> User Type <span class="icon-arrow">&UpArrow;</span></th>
-                                                
                                                 <th> Action </th>
                                                 
                                             </tr>
@@ -220,8 +231,21 @@ $result = $conn->query($sql);
   
                                                      
                                                     <td>
-                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
-                                                      <i class="bi bi-eye-fill text-primary" style="font-size: 1.3em;"></i>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon view_user"
+                                                            data-toggle="modal" data-target="#modalView"
+                                                            data-userid="<?php echo $row['user_id']; ?>"                                                           
+                                                            data-firstname="<?php echo $row['first_name']; ?>"
+                                                            data-lastname="<?php echo $row['last_name']; ?>"
+                                                            data-picture="<?php echo $row['picture']; ?>"
+                                                            data-email="<?php echo $row['email']; ?> "
+                                                            data-rfidno="<?php echo $row['rfid_no']; ?> "
+                                                            data-course="<?php echo $row['course_code']; ?> "
+                                                            data-contactno="<?php echo $row['contact_number']; ?> "
+                                                            data-age="<?php echo $row['age']; ?> "
+                                                            
+                                                            >
+    
+                                                        <i class="bi bi-eye-fill text-primary" style="font-size: 1.4em;"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-light btn-rounded btn-icon">
                                                       <i class="bi bi-pencil-square text-warning" style="font-size: 1.3em;"></i>
@@ -246,209 +270,148 @@ $result = $conn->query($sql);
                     </div>
                 </div>
             </div>
+                
+
+
+
+
+
+
+
+            </div>
+                </div>
+
+                <!-- Archive Tab Content -->
+                <div class="tab-pane fade" id="archive-content" role="tabpanel" aria-labelledby="archive-tab">
+                    <!-- archive content here -->
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
 
 
         </main>
     </div>
     
 
-<!-- Modal for Add User -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New User</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>User ID</label>
-              <input  type="text" class="form-control" name="user_id" required="required" placeholder="User ID" autocomplete="off" required>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>RFID No.</label>
-              <input type="text" class="form-control" name="rfid_no" required="required" placeholder="RFID No." autocomplete="off" value="<?php  ?>">
-            </div>
-          </div>
-        </div>
-        
-       
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>First Name</label>
-              <input  type="text" class="form-control" name="first_name" required="required" placeholder="First Name" autocomplete="off" >
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Last Name</label>
-              <input  type="text" class="form-control" name="last_name" required="required" placeholder="Last Name" autocomplete="off">
-            </div>
-          </div>
-        </div>
-
-        
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Course Code</label>
-              <input id="" type="text" class="form-control" name="course_code" required="required" placeholder="" autocomplete="off" value="<?php ?>">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Year</label>
-              <input id="" type="text" class="form-control" name="year" required="required" placeholder="" autocomplete="off" value="<?php  ?>">
-            </div>
-          </div>
-        </div>
-
-        
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add</button>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-
-<!-- Modal for Edit/Update -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update User Information</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>User ID</label>
-              <input id="userID-input" type="text" class="form-control" name="user_id" required="required" placeholder="User ID" autocomplete="off" required>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>RFID No.</label>
-              <input id="rfidID-input" type="text" class="form-control" name="rfid_no" required="required" placeholder="RFID No." autocomplete="off" value="<?php  ?>">
-            </div>
-          </div>
-        </div>
-        
-       
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>First Name</label>
-              <input id="firstname-input" type="text" class="form-control" name="first_name" required="required" placeholder="First Name" autocomplete="off" >
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Last Name</label>
-              <input id="lastname-input" type="text" class="form-control" name="last_name" required="required" placeholder="Last Name" autocomplete="off">
-            </div>
-          </div>
-        </div>
-
-        
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Course Code</label>
-              <input id="" type="text" class="form-control" name="course_code" required="required" placeholder="" autocomplete="off" value="<?php ?>">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Year</label>
-              <input id="" type="text" class="form-control" name="year" required="required" placeholder="" autocomplete="off" value="<?php  ?>">
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Email</label>
-              <input id="email" type="text" class="form-control" name="e_mail" required="required" placeholder="" autocomplete="off" >
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>None</label>
-              <input id="" type="text" class="form-control" name="" required="required" placeholder="" autocomplete="off">
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-
 <!-- Modal for View -->
+<!--- modal view--->
+<div class="modal fade" id="modalView" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="text-right"> <i class="bi bi-x-lg close" data-dismiss="modal"></i></div>
+               
+                <div class="px-4 py-5">
+                    <img src="" id="user-picture" alt="user picture" class="rounded-circle p-1 bg-secondary mb-3" width="10" style="width: 100px; height: 100px;">
+                    
+                    <h5 class="text-uppercase" id="name_view"></h5>
+
+                <h6 class="mt-2 theme-color mb-5" id="userID_view"></h6>
+
+                <span class="font-weight-bold theme-color">User Information</span>
+                <div class="mb-3">
+                    <hr class="new1">
+                </div>
+
+                
+
+                <div class="d-flex justify-content-between">
+                    <small id="rfid_view">RFID No.:  </small>
+                    <small id="contact_view"></small>
+                </div>
+                
+
+                <div class="d-flex justify-content-between">
+                    <small id="course_view">Course: </small>
+                    <small >Year and Section: </small>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <small id="">College</small>
+                    <small id="age_view">Age: </small>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <small id="email_view"></small>
+                    <small > </small>
+                </div>
+                
+                
+
+                
+                
+                                   
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
-
-<!-- MDB -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-    crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/xlsx-populate/browser/xlsx-populate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-    <script>
-        const search = document.querySelector('.input-group input'),
-    table_rows = document.querySelectorAll('tbody tr'),
-    table_headings = document.querySelectorAll('thead th');
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
 
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
 <script src="assets/js/export.js"></script>
+<script>
+$(document).ready(function() {
+    
+    $('.view_user').click(function() {
+        // Get the data attributes from the clicked button
+        var userId = $(this).data('userid');
+        var email = $(this).data('email');
+        var firstName = $(this).data('firstname');
+        var lastName = $(this).data('lastname');
+        var rfidNo = $(this).data('rfidno');
+        var contactNo = $(this).data('contactno');
+        var courseCode = $(this).data('course');
+        var pictureUrl = $(this).data('picture'); 
+        var age = $(this).data('age');
+        
+        
+
+        // Set the retrieved values in the modal
+        $('#userID_view').text("User ID: " + userId);
+        $('#email_view').text("Email:     " + email);
+        $('#name_view').text(firstName + " " +  lastName);
+        $('#user-picture').attr('src', pictureUrl);
+        $('#rfid_view').text("RFID Number:     " + rfidNo);
+        $('#course_view').text("Course:     " + courseCode);
+        $('#contact_view').text("Contact No.:     " + rfidNo);
+        $('#age_view').text("Age:     " + age);
+        $('#seat_view').text(seatId);
+        
+    });
+});
+
+</script>
 
 
 

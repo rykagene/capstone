@@ -21,10 +21,16 @@ $result = $conn->query($sql);
     <!------------------------ CSS Link ------------------------>
     <link rel="stylesheet" type="text/css" href="assets/css/reserved.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
 
     <!------------------------ ICONS -------------------------->
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     
 
@@ -123,172 +129,24 @@ $result = $conn->query($sql);
 
 
         <main>
-            <div class="filter">
-                <form action="brw_history.php" method="GET">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="table-tab" data-toggle="tab" href="#table-content" role="tab" aria-controls="table-content" aria-selected="true">All</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="archive-tab" data-toggle="tab" href="#archive-content" role="tab" aria-controls="archive-content" aria-selected="false">Archived</a>
+                </li>
+            </ul>
 
-                    <div class="row">
-
-                        <div class="college">
-                            <label for="cars">College</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>College of Architecture and Fine Arts (CAFA)</option>
-                                <option>College of Arts and Letters (CAL)</option>
-                                <option>College of Business Administration (CBA)</option>
-                                <option>College of Criminal Justice Education (CCJE)</option>
-                                <option>College of Hospitaity and Tourism Management (CHTM)</option>
-                                <option>College of Information and Communications Technology (CICT)</option>
-                                <option>College of Industrial Technology (CIT)</option>
-                                <option>College of Law (CLaw)</option>
-                                <option>College of Nursing (CN)</option>
-                                <option>College of Engineering (COE)</option>
-                                <option>College of Education (COED)</option>
-                                <option>College of Science (CS)</option>
-                                <option>College of Exercise and Recreation (CSER)</option>
-                                <option>College of Social Sciences and Philosophy (CSSP)</option>
-                                <option>Graduate School (GS)</option>
-                            </select>
-                        </div>
-
-                        <div class="course">
-                            <label for="cars">Course</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <optgroup label="CAFA">
-                                    <option>Bachelor of Science in Architecture</option>
-                                    <option>Bachelor of Landscape Architecture</option>
-                                    <option>Bachelor of Fine Arts Major in Visual Communication</option>
-                                <optgroup label="CAL">
-                                    <option>Bachelor of Arts in Broadcasting</option>
-                                    <option>Bachelor of Arts in Journalism</option>
-                                    <option>Bachelor of Performing Arts (Theater Track)</option>
-                                    <option>Batsilyer ng Sining sa Malikhaing Pagsulat</option>
-                                <optgroup label="CBA">
-                                    <option>Bachelor of Science in Business Administration Major in Business Economics
-                                    </option>
-                                    <option>Bachelor of Science in Business Administration Major in Financial Management
-                                    </option>
-                                    <option>Bachelor of Science in Business Administration Major in Marketing Management
-                                    </option>
-                                    <option>Bachelor of Science in Entrepreneurship</option>
-                                    <option>Bachelor of Science in Accountancy</option>
-                                <optgroup label="CCJE">
-                                    <option>Bachelor of Arts in Legal Management</option>
-                                    <option>Bachelor of Science in Criminology</option>
-                                <optgroup label="CHTM">
-                                    <option>Bachelor of Science in Hospitality Management</option>
-                                    <option>Bachelor of Science in Tourism Management</option>
-                                <optgroup label="CICT">
-                                    <option>Bachelor of Science in Information Technology</option>
-                                    <option>Bachelor of Library and Information Science</option>
-                                    <option>Bachelor of Science in Information System</option>
-                                <optgroup label="CIT">
-                                    <option>Bachelor of Industrial Technology with specialization in Automotive</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Computer</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Drafting</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Electrical</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Electronics &
-                                        Communication Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Electronics
-                                        Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Food Processing
-                                        Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Mechanical</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Heating,
-                                        Ventilation, Air Conditioning and Refrigeration Technology (HVACR)</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Mechatronics
-                                        Technology</option>
-                                    <option>Bachelor of Industrial Technology with specialization in Welding Technology
-                                    </option>
-                                <optgroup label="CLaw">
-                                    <option>Bachelor of Laws</option>
-                                    <option>Juris Doctor</option>
-                                <optgroup label="CN">
-                                    <option>Bachelor of Science in Nursing</option>
-                                <optgroup label="COE">
-                                    <option>Bachelor of Science in Civil Engineering</option>
-                                    <option>Bachelor of Science in Computer Engineering</option>
-                                    <option>Bachelor of Science in Electrical Engineering</option>
-                                    <option>Bachelor of Science in Electronics Engineering</option>
-                                    <option>Bachelor of Science in Industrial Engineering</option>
-                                    <option>Bachelor of Science in Manufacturing Engineering</option>
-                                    <option>Bachelor of Science in Mechanical Engineering</option>
-                                    <option>Bachelor of Science in Mechatronics Engineering</option>
-                                <optgroup label="COED">
-                                    <option>Bachelor of Elementary Education</option>
-                                    <option>Bachelor of Early Childhood Education</option>
-                                    <option>Bachelor of Secondary Education Major in English minor in Mandarin</option>
-                                    <option>Bachelor of Secondary Education Major in English minor in Mandarin</option>
-                                    <option>Bachelor of Secondary Education Major in Sciences</option>
-                                    <option>Bachelor of Secondary Education Major in Mathematics</option>
-                                    <option>Bachelor of Secondary Education Major in Social Studies</option>
-                                    <option>Bachelor of Secondary Education Major in Values Education</option>
-                                    <option>Bachelor of Physical Education</option>
-                                    <option>Bachelor of Technology and Livelihood Education Major in Industrial Arts
-                                    </option>
-                                    <option>Bachelor of Technology and Livelihood Education Major in Information and
-                                        Communication Technology</option>
-                                    <option>Bachelor of Technology and Livelihood Education Major in Home Economics
-                                    </option>
-                                <optgroup label="CS">
-                                    <option>Bachelor of Science in Biology</option>
-                                    <option>Bachelor of Science in Environmental Science</option>
-                                    <option>Bachelor of Science in Food Technology</option>
-                                    <option>Bachelor of Science in Math with Specialization in Computer Science</option>
-                                    <option>Bachelor of Science in Math with Specialization in Applied Statistics
-                                    </option>
-                                    <option>Bachelor of Science in Math with Specialization in Business Applications
-                                    </option>
-                                <optgroup label="CSER">
-                                    <option>Bachelor of Science in Exercise and Sports Sciences with specialization in
-                                        Fitness and Sports Coaching</option>
-                                    <option>Bachelor of Science in Exercise and Sports Sciences with specialization in
-                                        Fitness and Sports Management</option>
-                                    <option>Certificate of Physical Education</option>
-                                <optgroup label="CSSP">
-                                    <option>Bachelor of Public Administration</option>
-                                    <option>Bachelor of Science in Social Work</option>
-                                    <option>Bachelor of Science in Psychology</option>
-                                <optgroup label="GS">
-                                    <option>Doctor of Education</option>
-                                    <option>Doctor of Philosophy</option>
-                                    <option>Doctor of Public Administration</option>
-                                    <option>Master in Physical Education</option>
-                                    <option>Master in Business Administration</option>
-                                    <option>Master in Public Administration</option>
-                                    <option>Master of Arts in Education</option>
-                                    <option>Master of Engineering Program</option>
-                                    <option>Master of Industrial Technology Management</option>
-                                    <option>Master of Science in Civil Engineering</option>
-                                    <option>Master of Science in Computer Engineering</option>
-                                    <option>Master of Science in Electronics and Communications Engineering</option>
-                                    <option>Master of Information Technology</option>
-                                    <option>Master of Manufacturing Engineering</option>
-                            </select>
-                        </div>
-
-                        <div class="floor" class="form-control">
-                            <label for="cars">User Type</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>Student</option>
-                                <option>Faculty</option>
-                                <option>Alumni</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-2">
-                            <button type="submit" class="buttons">Filter</button>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-
-            <div class="recent-grid">
+            <!-- Tab content -->
+            <div class="tab-content" id="myTabsContent">
+                <!-- Table Tab Content -->
+                <div class="tab-pane fade show active" id="table-content" role="tabpanel" aria-labelledby="table-tab">
+                
+                <div class="recent-grid">
                 <div class="history">
                     <div class="card">
-
                         <div class="card-body">
                             <div class="table-responsive">
 
@@ -297,9 +155,10 @@ $result = $conn->query($sql);
                                     <div class="input-group">
                                         <input type="search" placeholder="Search Data...">
                                         <div class="search-icon">
-                                            <img src="assets/img/search.png" alt="Search">
+                                            <img src="assets/img/search.png" alt="Search" >
                                         </div>
                                     </div>
+                                    
                                     <div class="export__file">
                                         <label for="export-file" class="export__file-btn" title="Export File">
                                             <img src="assets/img/export1.png" alt="Export" class="export_ic">
@@ -318,35 +177,93 @@ $result = $conn->query($sql);
                                         </div>
                                     </div>
                                 </section>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-info text-white" id="basic-addon1"><i
+                                                        class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="start_date" placeholder="Start Date" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-info text-white" id="basic-addon1"><i
+                                                        class="fas fa-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" id="end_date" placeholder="End Date" readonly>
+                                        </div>
+                                    </div>
+                                    <div class= "ml-5">
+                                        <button id="filter" class="btn btn-outline-info btn-sm">Filter</button>
+                                        <button id="reset" class="btn btn-outline-warning btn-sm ">Reset</button>
+                                    </div>
+                                </div>
+                                
                                 <section class="table__body">
                                     <table id="customers_table">
                                         <thead>
                                             <tr>
                                                 <th> Reservation ID <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
+                                                <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Date <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> Start Time <span class="icon-arrow">&UpArrow;</span></th>
                                                 <th> End Time <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
-                                                <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
-                                                
+                                                <th> Action </th>
                                             </tr>
                                         </thead>
                                         <?php
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
                                                 ?>
-                                                <tr>
-                                                    <td class="studno"><?php echo $row['reservation_id']; ?></td>
-                                                    <td><?php echo $row['date']; ?></td>
-                                                    <td><?php echo $row['start_time']; ?></td>
-                                                    <td><?php echo $row['end_time']; ?></td>
-                                                    <td><?php echo $row['user_id']; ?></td>
-                                                    <td><?php echo $row['seat_id']; ?></td>                                                     
+                                                <tr id="reservation_row_<?php echo $row['reservation_id']; ?>">                                                 
+                                                    <td class="studno">
+                                                        <?php echo $row['reservation_id']; ?>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                        <?php echo $row['user_id']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['seat_id']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['date']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['start_time']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['end_time']; ?>
+                                                    </td>
+                                                    
+                                                    
+                                                    
+                                                    <td>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon view_history"
+                                                            data-toggle="modal" data-target="#staticBackdrop"
+                                                            data-date="<?php echo $row['date']; ?>"
+                                                            data-starttime="<?php echo $row['start_time']; ?>"
+                                                            data-endtime="<?php echo $row['end_time']; ?>"
+                                                            
+                                                            >
+    
+                                                        <i class="bi bi-eye-fill text-primary" style="font-size: 1.4em;"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
+                                                        <i class="bi bi-trash-fill text-danger" style="font-size: 1.4em;"></i>
+                                                    </button>
+                                                    
+                                                    
+                                                    </td>
                                                 </tr>
                                                 <?php
                                             }
                                         } else {
-                                            echo "<tr><td colspan='7'>No users found.</td></tr>";
+                                            echo "<tr><td colspan='7'>No history found.</td></tr>";
                                         }
                                         ?>
                                     </table>
@@ -357,7 +274,14 @@ $result = $conn->query($sql);
                     </div>
                 </div>
             </div>
+                </div>
 
+                <!-- Archive Tab Content -->
+                <div class="tab-pane fade" id="archive-content" role="tabpanel" aria-labelledby="archive-tab">
+                    <!-- archive content here -->
+                </div>
+            </div>
+            
 
         </main>
 
@@ -375,6 +299,40 @@ $result = $conn->query($sql);
 <script src="https://unpkg.com/xlsx-populate/browser/xlsx-populate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-table2excel/dist/jquery.table2excel.min.js"></script>
 <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    <!-- Datepicker -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <!-- Momentjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <script>
+    $(function() {
+        $("#start_date").datepicker({
+            "dateFormat": "yy-mm-dd"
+        });
+        $("#end_date").datepicker({
+            "dateFormat": "yy-mm-dd"
+        });
+    });
+    </script>
+
+
+
+
+
+
 <script>
     const search = document.querySelector('.input-group input'),
         table_rows = document.querySelectorAll('tbody tr'),
