@@ -5,7 +5,7 @@ require 'assets/php/session.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $newPass = $_POST['newPass'];
+    $newPass = password_hash($_POST['newPass'],PASSWORD_DEFAULT);
 
     if (isset($_SESSION['selected_admin']) == TRUE) {
         $account_id = $_SESSION['selected_admin'];

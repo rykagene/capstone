@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lastName = $_POST['lastName'];
     $email = $_POST['email'];
     $gender = $_POST['gender'];
-    $password = $_POST['password'];
+    $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
     $department = $_POST['department'];
     $employmentSTS = $_POST['employmentSTS'];
     $position = $_POST['position'];

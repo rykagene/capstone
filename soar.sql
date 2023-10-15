@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2023 at 09:28 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Oct 15, 2023 at 11:05 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,19 +35,20 @@ CREATE TABLE `account` (
   `picture` varchar(255) DEFAULT NULL,
   `account_type` varchar(255) DEFAULT NULL,
   `reservation_count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
 --
 
 INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`, `reservation_count`) VALUES
-(1, 'ricardojeyms', '123', 'richard@soar.com', NULL, 'admin', 0),
-(8, 'mj23', '123', 'mj23@gmail.com', NULL, 'admin', 0),
-(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0),
+(1, 'ricardojeyms', '$2y$10$21Nsa5xTf5CQ.DfiUWM0xuxp7MsINW7DyQWhOfI2TiNq5L3wm2cye', 'richard@soar.com', NULL, 'admin', 0),
+(8, 'mj23', '$2y$10$3Dq.7xWhJ2vtM1UVR9nmSeR2DchdRmQLyfK/nO9wjjY.QOdEAs//e', 'mj23@gmail.com', NULL, 'admin', 0),
+(9, 'robertooo', '$2y$10$xJ3QMeO6eDXwBtvLHrsyrel.BAmbmuukB3vZB/5SdRFDrSsEd55KK', 'robert@gmail.com', NULL, 'admin', 0),
 (19, '3030', '$2y$10$1A2qthrmbJ5LKWka1xuuruACm8AGqPu8sILhdnoxZ9hbMzoG5606y', 'tifa@gmail.com', 'assets/img/profile3059def6aaa5eba65ac68c26731821ca.jpg', 'student', 0),
 (21, '7777', '$2y$10$e.xI/C4JTp9aShfpMxeIu.4q/iAmMzH0JJuWfcrq0CSH8VWAC/6mW', 'cloud@gmail.com', 'assets/img/profilecloud-strife-playable-character-ff7remake-wiki-guide-small.jpg', 'student', 0),
-(23, '4040', '$2y$10$oXs00rYeFlj9qBmyKd2aO.KAsS1.VvC8k4lLAfZhlcw/0ovBX164e', 'mina@gmail.com', NULL, 'faculty', 0);
+(23, '4040', '$2y$10$oXs00rYeFlj9qBmyKd2aO.KAsS1.VvC8k4lLAfZhlcw/0ovBX164e', 'mina@gmail.com', NULL, 'faculty', 0),
+(26, 'lbj', '$2y$10$tSWF9Rnkh5.X2c/UYDFSNenSZy5ZEIdpiN3pEW3LCEZrWMHO7Rf4y', 'lbj@gmail.com', NULL, 'admin', 0);
 
 -- --------------------------------------------------------
 
@@ -70,13 +71,14 @@ CREATE TABLE `admin` (
   `home_address` varchar(255) DEFAULT NULL,
   `work_status` varchar(20) DEFAULT NULL,
   `account_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`admin_id`, `isSuperAdmin`, `rfid_no`, `department`, `first_name`, `last_name`, `gender`, `mobile_no`, `tel_no`, `fb_link`, `linkedIn_link`, `home_address`, `work_status`, `account_id`) VALUES
+('lbj', 'no', NULL, 'CAL', 'lebron', 'james', 'Male', NULL, NULL, NULL, NULL, NULL, 'Permanent', 26),
 ('mj23', 'no', NULL, 'CICT', 'Michaela ', 'Jordan', 'Female', NULL, NULL, NULL, NULL, NULL, 'Temporary', 8),
 ('ricardojeym', 'yes', NULL, 'CICT', 'Richard James', 'Bagay', 'Male', '0976263839', '794-2677', 'facebook.com/ricardojeyms', 'facebook.com/ricardojeyms', 'Barangay Balayong Malolos Bulacan', 'Permanent', 1),
 ('robertooo', 'no', NULL, 'CLAW', 'Robert', 'Deniro', 'Male', NULL, NULL, NULL, NULL, NULL, 'Permanent', 9);
@@ -90,7 +92,7 @@ INSERT INTO `admin` (`admin_id`, `isSuperAdmin`, `rfid_no`, `department`, `first
 CREATE TABLE `college` (
   `college_code` varchar(50) NOT NULL,
   `college_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `college`
@@ -109,7 +111,7 @@ CREATE TABLE `course` (
   `course_code` varchar(50) NOT NULL,
   `course_name` varchar(255) DEFAULT NULL,
   `college_code` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `course`
@@ -137,7 +139,7 @@ CREATE TABLE `history` (
   `seat_id` int(11) DEFAULT NULL,
   `time_spent` time DEFAULT NULL,
   `is_archived` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -150,7 +152,7 @@ CREATE TABLE `news` (
   `picture` varchar(255) DEFAULT NULL,
   `content` text DEFAULT NULL,
   `date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -168,7 +170,7 @@ CREATE TABLE `occupy` (
   `seat_id` int(11) DEFAULT NULL,
   `time_spent` time DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -182,7 +184,7 @@ CREATE TABLE `rating` (
   `review` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -199,7 +201,7 @@ CREATE TABLE `reservation` (
   `seat_id` int(11) DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL,
   `is_archived` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reservation`
@@ -221,7 +223,7 @@ CREATE TABLE `seat` (
   `seat_number` varchar(50) DEFAULT NULL,
   `data_surface` varchar(255) NOT NULL,
   `status` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `seat`
@@ -249,7 +251,7 @@ CREATE TABLE `settings` (
   `start_hour` time NOT NULL,
   `end_hour` time NOT NULL,
   `disabled_dates` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `settings`
@@ -275,7 +277,7 @@ CREATE TABLE `users` (
   `age` int(11) DEFAULT NULL,
   `contact_number` varchar(20) DEFAULT NULL,
   `is_archived` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -296,7 +298,7 @@ CREATE TABLE `yearsec` (
   `year_level` int(11) DEFAULT NULL,
   `section` varchar(10) DEFAULT NULL,
   `section_group` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `yearsec`
@@ -669,7 +671,7 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `history`
