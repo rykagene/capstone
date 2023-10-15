@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2023 at 05:56 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Oct 15, 2023 at 09:28 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,7 @@ CREATE TABLE `account` (
   `picture` varchar(255) DEFAULT NULL,
   `account_type` varchar(255) DEFAULT NULL,
   `reservation_count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `account`
@@ -44,7 +44,10 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`account_id`, `username`, `password`, `email`, `picture`, `account_type`, `reservation_count`) VALUES
 (1, 'ricardojeyms', '123', 'richard@soar.com', NULL, 'admin', 0),
 (8, 'mj23', '123', 'mj23@gmail.com', NULL, 'admin', 0),
-(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0);
+(9, 'robertooo', '123', 'robert@gmail.com', NULL, 'admin', 0),
+(19, '3030', '$2y$10$1A2qthrmbJ5LKWka1xuuruACm8AGqPu8sILhdnoxZ9hbMzoG5606y', 'tifa@gmail.com', 'assets/img/profile3059def6aaa5eba65ac68c26731821ca.jpg', 'student', 0),
+(21, '7777', '$2y$10$e.xI/C4JTp9aShfpMxeIu.4q/iAmMzH0JJuWfcrq0CSH8VWAC/6mW', 'cloud@gmail.com', 'assets/img/profilecloud-strife-playable-character-ff7remake-wiki-guide-small.jpg', 'student', 0),
+(23, '4040', '$2y$10$oXs00rYeFlj9qBmyKd2aO.KAsS1.VvC8k4lLAfZhlcw/0ovBX164e', 'mina@gmail.com', NULL, 'faculty', 0);
 
 -- --------------------------------------------------------
 
@@ -67,7 +70,7 @@ CREATE TABLE `admin` (
   `home_address` varchar(255) DEFAULT NULL,
   `work_status` varchar(20) DEFAULT NULL,
   `account_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -87,7 +90,7 @@ INSERT INTO `admin` (`admin_id`, `isSuperAdmin`, `rfid_no`, `department`, `first
 CREATE TABLE `college` (
   `college_code` varchar(50) NOT NULL,
   `college_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `college`
@@ -106,7 +109,7 @@ CREATE TABLE `course` (
   `course_code` varchar(50) NOT NULL,
   `course_name` varchar(255) DEFAULT NULL,
   `college_code` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
@@ -132,8 +135,9 @@ CREATE TABLE `history` (
   `end_time` time DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `seat_id` int(11) DEFAULT NULL,
-  `time_spent` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `time_spent` time DEFAULT NULL,
+  `is_archived` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -146,7 +150,7 @@ CREATE TABLE `news` (
   `picture` varchar(255) DEFAULT NULL,
   `content` text DEFAULT NULL,
   `date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -164,7 +168,7 @@ CREATE TABLE `occupy` (
   `seat_id` int(11) DEFAULT NULL,
   `time_spent` time DEFAULT NULL,
   `isDone` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -178,7 +182,7 @@ CREATE TABLE `rating` (
   `review` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -193,8 +197,18 @@ CREATE TABLE `reservation` (
   `end_time` time DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `seat_id` int(11) DEFAULT NULL,
-  `isDone` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `isDone` tinyint(4) NOT NULL,
+  `is_archived` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `date`, `start_time`, `end_time`, `user_id`, `seat_id`, `isDone`, `is_archived`) VALUES
+(96, '2023-10-16', '11:20:00', '12:20:00', 3030, 1, 0, 0),
+(97, '2023-10-16', '13:01:00', '15:01:00', 7777, 4, 0, 1),
+(98, '2023-10-17', '13:02:00', '15:02:00', 7777, 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -207,7 +221,7 @@ CREATE TABLE `seat` (
   `seat_number` varchar(50) DEFAULT NULL,
   `data_surface` varchar(255) NOT NULL,
   `status` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `seat`
@@ -235,7 +249,7 @@ CREATE TABLE `settings` (
   `start_hour` time NOT NULL,
   `end_hour` time NOT NULL,
   `disabled_dates` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `settings`
@@ -259,8 +273,17 @@ CREATE TABLE `users` (
   `course_code` varchar(50) DEFAULT NULL,
   `yearsec_id` int(11) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
-  `contact_number` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `contact_number` varchar(20) DEFAULT NULL,
+  `is_archived` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `rfid_no`, `first_name`, `last_name`, `account_id`, `course_code`, `yearsec_id`, `age`, `contact_number`, `is_archived`) VALUES
+(3030, '202010', 'Tifa', 'Lockhart', 19, 'BSIT', 261, 21, '09453661518', 0),
+(7777, '202011', 'Cloud', 'Strife', 21, 'BLIS', 113, 23, '09453661517', 0);
 
 -- --------------------------------------------------------
 
@@ -273,7 +296,7 @@ CREATE TABLE `yearsec` (
   `year_level` int(11) DEFAULT NULL,
   `section` varchar(10) DEFAULT NULL,
   `section_group` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `yearsec`
@@ -646,13 +669,13 @@ ALTER TABLE `yearsec`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `occupy`
@@ -670,7 +693,7 @@ ALTER TABLE `rating`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- Constraints for dumped tables
