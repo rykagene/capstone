@@ -293,6 +293,10 @@ main {
   margin: 20px 20px;
 }
 
+.review-list-container{
+  overflow-y: scroll;
+}
+
 .review {
   border: 1px solid transparent;
   border-radius: 5px;
@@ -558,6 +562,7 @@ main {
 .date {
   position: absolute;
   left: 880px;
+  width: 6vh;
 }
 
 .review p {
