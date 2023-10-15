@@ -7,6 +7,6 @@ if ($_SESSION['account_type'] == "admin") {
 } else {
 	session_unset();
 	session_destroy();
-	header('Location: login.php');
+	header('Location: home.php');
 }
 ?>

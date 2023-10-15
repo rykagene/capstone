@@ -299,6 +299,22 @@ main {
 	box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.7);
 }
 
+.reviews {
+	border: 1px solid transparent;
+	border-radius: 5px;
+	color: #777;
+	display: flex;
+	font-size: 12px;
+	align-items: center;
+	padding: 10px;
+	margin: 5px 0;
+}
+
+.reviews:hover {
+	border: 1px solid #ddd;
+	box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.7);
+}
+
 .progress {
 	background-color: rgba(100, 100, 100, 0.2);
 	border-radius: 5px;
@@ -484,7 +500,7 @@ main {
 
 
 .review-list-container {
-  height: 45vh;
+  height: 35vh;
   overflow-y: auto;
   margin-top: 20px;
   border: 1px solid #ccc;
@@ -498,16 +514,25 @@ main {
   margin-bottom: 20px;
 }
 
+.reviews {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+}
+
+.reviews {
+  margin-bottom: 20px;
+}
+
 .review-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+  position: relative;
 }
 
 .star-rating {
   font-size: 1.2em;
-  font-weight: bold;
   margin-left: auto;
 
 }
@@ -515,18 +540,23 @@ main {
 .review-text {
   margin-top: 5px;
   padding-left: 40px;
+  font-size: 1.1em;
+  position: relative;
 }
 
 .name {
-  font-size: 1.2em;
+  font-size: 1.3em;
+    font-weight: bold;
 }
 
 .date {
-  margin-left: 20px;
+  position: absolute;
+  left: 880px;
 }
 
 .review p {
   margin: 0;
+  position: relative;
 }
 
 .dashboard {
@@ -550,6 +580,6 @@ main {
 }
 
 .print-report a.buttons:hover {
-  background-color: darkred; /* Darker red color on hover */
+  background-color: darkred; 
   color: #fff;
 }

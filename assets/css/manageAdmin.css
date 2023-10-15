@@ -227,59 +227,62 @@ header label span {
   color: #fff;
 }
 /* --------- END OF HEADER --------- */
-main {
+
+/* --------- MAIN CONTENT --------- */
+.main {
   margin-top: 85px;
   padding: 2rem 1.5rem;
   background: #f1f5f9;
   min-height: calc(100vh - 90px);
+  height: 100vh;
 }
 
-.row {
+.main .row {
   display: flex;
   width: 100%;
   height: 7rem;
 }
 
-.row label {
+.main .row label {
   font-size: 1.5rem;
 }
 
-.type,
-.department,
-.accStatus,
-.col-md-2 button {
+.main .type,
+.main .department,
+.main .accStatus,
+.main .col-md-2 button {
   margin-left: 2rem;
   width: 15rem;
 }
 
-.accStatus,
-.type {
+.main .accStatus,
+.main .type {
   width: 13rem;
 }
 
-.searchBar {
+.main .searchBar {
   margin-left: 20px;
   padding-top: 40px;
   float: right;
 }
 
-.searchBar form {
+.main .searchBar form {
   margin: 50px;
 }
-.searchBar input {
+.main .searchBar input {
   outline: none;
   margin: 0 auto;
 }
 
-.searchBar input[type="search"] {
+.main .searchBar input[type="search"] {
   font-family: inherit;
   font-size: 100%;
 }
-.searchBar input::-webkit-search-decoration,
-.searchBar input::-webkit-search-cancel-button {
+.main .searchBar input::-webkit-search-decoration,
+.main .searchBar input::-webkit-search-cancel-button {
   display: none;
 }
-.searchBar input[type="search"] {
+.main .searchBar input[type="search"] {
   padding: 9px 10px 9px 32px;
   width: 40px;
   background: #fffefe
@@ -295,7 +298,7 @@ main {
   -moz-transition: all 0.5s;
   transition: all 0.5s;
 }
-.searchBar input[type="search"]:focus {
+.main .searchBar input[type="search"]:focus {
   width: 250px;
   background-color: #fff;
   border-color: #d33d3d;
@@ -305,15 +308,15 @@ main {
   box-shadow: 0 0 5px rgba(246, 109, 109, 0.5);
 }
 
-.filterBTN {
+.main .filterBTN {
   margin-left: 30px;
 }
 
-.form-control {
+.main .form-control {
   cursor: pointer;
 }
 
-.filterButton {
+.main .filterButton {
   width: 12rem;
   height: 2.4rem;
   border-radius: 10px;
@@ -327,50 +330,50 @@ main {
   margin-top: 2.8rem;
 }
 
-.filterButton:hover {
+.main .filterButton:hover {
   background-color: #dd5656;
 }
 
-.filterButton a {
+.main .filterButton a {
   color: #f9f9f9;
   transform: scale(1.1);
 }
 
-.filterButton a:hover {
+.main .filterButton a:hover {
   color: #fff;
 }
 
-.recent-grid {
+.main .recent-grid {
   margin-top: 1.5rem;
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: 100% auto;
 }
 
-.studno {
+.main .studno {
   color: #dd5656;
   font-weight: 500;
 }
 
-.card {
+.main .card {
   background: #fff;
   border-radius: 5px;
-  height: 73vh;
+  height: 70vh;
 }
 
-.card-header,
-.card-body {
+.main .card-header,
+.main .card-body {
   padding: 1rem;
 }
 
-.card-header {
+.main .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #f0f0f0;
 }
 
-.card-header button {
+.main .card-header button {
   background: var(--main-color);
   border-radius: 10px;
   color: #fff;
@@ -379,44 +382,44 @@ main {
   border: 1px solid var(--main-color);
 }
 
-table {
+.main table {
   border-collapse: collapse;
 }
 
-thead td {
+.main thead td {
   font-weight: 700;
 }
 
-td {
+.main td {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   color: #222;
 }
 
-.table-responsive {
+.main .table-responsive {
   width: 100%;
   height: 40rem;
 }
 
-.recent-grid thead {
+.main .recent-grid thead {
   position: sticky;
   top: 0;
   background: white;
 }
 
-table tr:hover td,
-table tr:focus td {
+.main table tr:hover td,
+.main table tr:focus td {
   background-color: #eee;
 }
-table tr:hover td ul,
-table tr:focus td ul {
+.main table tr:hover td ul,
+.main table tr:focus td ul {
   display: block;
 }
-table tr.bold:hover td {
+.main table tr.bold:hover td {
   background-color: #fff;
 }
 
-.cancel {
+.main .cancel {
   display: inline-block;
   outline: 0;
   text-align: center;
@@ -433,18 +436,18 @@ table tr.bold:hover td {
   border: 1px solid rgb(138, 136, 134);
 }
 
-.cancel:hover {
+.main .cancel:hover {
   background-color: rgb(243, 242, 241);
   color: rgb(32, 31, 30);
 }
 
-.statusIMG {
+.main .statusIMG {
   height: 10px;
   width: 10px;
   margin-right: 10px;
 }
 
-#container {
+.main #container {
   width: 50px;
   height: 50px;
   background-color: transparent;
@@ -461,20 +464,20 @@ table tr.bold:hover td {
   justify-content: space-between;
 }
 
-#container .text {
+.main #container .text {
   border: none;
   background: none;
   font-size: 18px;
   font-weight: 400;
 }
 
-#container #menu-wrap {
+.main #container #menu-wrap {
   position: relative;
   height: 25px;
   width: 25px;
 }
 
-#container #menu-wrap .dots {
+.main #container #menu-wrap .dots {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -496,9 +499,9 @@ table tr.bold:hover td {
   z-index: 1;
 }
 
-#container #menu-wrap .dots > div,
-#container #menu-wrap .dots > div:after,
-#container #menu-wrap .dots > div:before {
+.main #container #menu-wrap .dots > div,
+.main #container #menu-wrap .dots > div:after,
+.main #container #menu-wrap .dots > div:before {
   height: 6px;
   width: 6px;
   background-color: rgba(49, 49, 49, 0.8);
@@ -508,7 +511,7 @@ table tr.bold:hover td {
   transition: 0.5s;
 }
 
-#container #menu-wrap .dots > div {
+.main #container #menu-wrap .dots > div {
   position: relative;
 }
 
@@ -519,14 +522,14 @@ table tr.bold:hover td {
   left: 0;
 }
 
-#container #menu-wrap .dots > div:before {
+.main #container #menu-wrap .dots > div:before {
   content: "";
   position: absolute;
   top: calc((25px / 2) - (6px / 2));
   left: 0;
 }
 
-#container #menu-wrap .menu {
+.main #container #menu-wrap .menu {
   position: absolute;
   right: -10px;
   top: calc(-12px + 50px);
@@ -553,15 +556,15 @@ table tr.bold:hover td {
   visibility: hidden;
 }
 
-#container #menu-wrap .menu ul {
+.main #container #menu-wrap .menu ul {
   list-style: none;
 }
 
-#container #menu-wrap .menu ul li {
+.main #container #menu-wrap .menu ul li {
   margin: 15px 0;
 }
 
-#container #menu-wrap .menu ul li .link {
+.main #container #menu-wrap .menu ul li .link {
   text-decoration: none;
   color: rgba(49, 49, 49, 0.85);
   background: none;
@@ -570,7 +573,7 @@ table tr.bold:hover td {
   visibility: hidden;
 }
 
-#container #menu-wrap .toggler {
+.main #container #menu-wrap .toggler {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -583,13 +586,13 @@ table tr.bold:hover td {
   z-index: 2;
 }
 
-#container #menu-wrap .toggler:hover + .dots > div,
-#container #menu-wrap .toggler:hover + .dots > div:after,
-#container #menu-wrap .toggler:hover + .dots > div:before {
+.main #container #menu-wrap .toggler:hover + .dots > div,
+.main #container #menu-wrap .toggler:hover + .dots > div:after,
+.main #container #menu-wrap .toggler:hover + .dots > div:before {
   background-color: rgba(49, 49, 49, 0.6);
 }
 
-#container #menu-wrap .toggler:checked + .dots > div {
+.main #container #menu-wrap .toggler:checked + .dots > div {
   -webkit-transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812))
     translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
   -ms-transform: translateX(calc(((25px / 2) - (6px / 2)) * -0.7071067812))
@@ -598,7 +601,7 @@ table tr.bold:hover td {
     translateY(calc(((25px / 2) - (6px / 2)) * -0.7071067812));
 }
 
-#container #menu-wrap .toggler:checked + .dots > div:after {
+.main #container #menu-wrap .toggler:checked + .dots > div:after {
   -webkit-transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812))
     translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
   -ms-transform: translateX(calc(((25px / 2) - (6px / 2)) * 0.7071067812))
@@ -607,7 +610,7 @@ table tr.bold:hover td {
     translateY(calc((2 * (25px / 2) - (6px / 2)) * 0.7071067812));
 }
 
-#container #menu-wrap .toggler:checked + .dots > div:before {
+.main #container #menu-wrap .toggler:checked + .dots > div:before {
   -webkit-transform: translateX(
       calc(2 * (((25px / 2) - (6px / 2)) * 0.7071067812))
     )
@@ -624,16 +627,16 @@ table tr.bold:hover td {
     );
 }
 
-#container #menu-wrap .toggler:checked:hover + .dots > div,
-#container #menu-wrap .toggler:checked:hover + .dots > div:after,
-#container #menu-wrap .toggler:checked:hover + .dots > div:before {
+.main #container #menu-wrap .toggler:checked:hover + .dots > div,
+.main#container #menu-wrap .toggler:checked:hover + .dots > div:after,
+.main #container #menu-wrap .toggler:checked:hover + .dots > div:before {
   background-color: rgba(49, 49, 49, 0.6);
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 
-#container #menu-wrap .toggler:checked ~ .menu {
+.main #container #menu-wrap .toggler:checked ~ .menu {
   background: white;
   opacity: 1;
   visibility: visible;
@@ -645,7 +648,7 @@ table tr.bold:hover td {
   z-index: 4;
 }
 
-#container #menu-wrap .toggler:checked ~ .menu ul .link {
+.main #container #menu-wrap .toggler:checked ~ .menu ul .link {
   background: none;
   border: none;
   opacity: 1;
@@ -655,20 +658,20 @@ table tr.bold:hover td {
   transition: 0.5s ease 0.3s;
 }
 
-#container #menu-wrap .toggler:checked ~ .menu ul .link:hover {
+.main #container #menu-wrap .toggler:checked ~ .menu ul .link:hover {
   color: #b92929;
   -webkit-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
 }
 
-#container #menu-wrap .toggler:not(:checked) ~ .menu {
+.main #container #menu-wrap .toggler:not(:checked) ~ .menu {
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 
-#container #menu-wrap .toggler:not(:checked) ~ .menu ul .link {
+.main #container #menu-wrap .toggler:not(:checked) ~ .menu ul .link {
   opacity: 0;
   visibility: hidden;
   -webkit-transition: 0.1s;
@@ -677,10 +680,11 @@ table tr.bold:hover td {
 }
 
 @media (max-width: 600px) {
-  #container {
+  .main #container {
     position: absolute;
     top: 50px;
     width: calc(100% - 40px);
     margin: 0;
   }
 }
+/* --------- END OF MAIN CONTENT --------- */

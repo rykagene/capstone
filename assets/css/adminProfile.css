@@ -230,7 +230,7 @@ header .dropdown-menu > li > a {
 /* --------- END OF HEADER --------- */
 
 main {
-  margin-top: 85px;
+  margin-top: 35px;
   padding: 2rem 1.5rem;
   background: #f1f5f9;
   height: 100vh;
@@ -324,6 +324,7 @@ main #note {
 
 .note2 {
   font-size: small;
+  display: none;
 }
 
 .suspendAcc {

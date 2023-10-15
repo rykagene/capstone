@@ -1,39 +1,11 @@
 <?php
 session_start();
 require 'assets/php/connect.php';
-require 'assets/php/session.php';
-require 'assets/php/occupancy_timer.php';
+// require 'assets/php/session.php';
+
 
 ?>
 
-
-<!-- <?php if (
-        !isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"])
-        && !isset($_SESSION["last_name"])
-    ) {
-        echo '<style type="text/css">
-       .header-navigation #hidden{
-           display: none;
-       }
-
-       .header-navigation #show{
-        display: block;
-       }
-      </style>';
-      
-    } else {
-        
-        echo '<style type="text/css">
-       .header-navigation #hidden{
-           display: block;
-       }
-
-       .header-navigation #show{
-        display: none;
-       }
-      </style>';
-    }
-    ; ?> -->
 
 <!DOCTYPE HTML>
 <html>
@@ -76,7 +48,23 @@ require 'assets/php/occupancy_timer.php';
 
         <!------------------------ HEADER --------------------->
 
-        <?php include 'assets/php/header.php'; ?>
+        <?php 
+        // if the user was not logged in
+        if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"]) 
+        && !isset($_SESSION["last_name"]) &&!isset($_SESSION["reservation_count"])) {
+            require 'assets/php/header_notLogged.php';
+            
+
+        } else {
+            require 'assets/php/header.php';
+            require 'assets/php/occupancy_timer.php';
+        }
+
+        ?>
+
+
+
+  
 
         <!------------------------ END HEADER --------------------->
         <!------------------------ COVER ------------------------>

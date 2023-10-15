@@ -5,9 +5,9 @@
 if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"]) 
 && !isset($_SESSION["last_name"]) &&!isset($_SESSION["reservation_count"])) {
 //   echo '<style type="text/css">
-//       .wrapper .hidden{
+//       .header-navigation a {
 //           display: none;
-//       }
+//       // }
 //       </style>'; // reserve and account button is hidden if the user was not logged in
       header('Location: login.php');
       exit();

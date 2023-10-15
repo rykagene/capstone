@@ -83,6 +83,7 @@ $result = $conn->query($sql);
 
 
 <body>
+    
 <?php if ($_SESSION['isSuperAdmin'] === 'no') {
     echo '<style type="text/css">
        .sidebar-menu #hidden{
@@ -119,6 +120,9 @@ $result = $conn->query($sql);
                 </li>
                 <li> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
+                </li>
+                <li> <a href="adminReviews.php"><span class="las la-history"></span>
+                        <span>Reviews</span></a>
                 </li>
                 <li> <a href="analytics.php"><span
                             class="las la-chart-bar"></span>

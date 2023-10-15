@@ -6,8 +6,13 @@ require 'assets/php/session.php';
 //Retrieve selected admin account from manage.php
 $admin_account = $_GET['admin'];
 $_SESSION['selected_admin'] = $admin_account;
-?>
 
+//Retrieve admin account from database
+$query = "SELECT * FROM ACCOUNT 
+                INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id 
+                WHERE ACCOUNT.account_id = '$admin_account'";
+$result = mysqli_query($conn, $query);
+?>
 
 
 <!DOCTYPE HTML>
@@ -43,16 +48,6 @@ $_SESSION['selected_admin'] = $admin_account;
            display: none;
        }
       </style>';
-        echo '<style type="text/css">
-      .note2{
-          display: block;
-      }
-     </style>';
-        echo '<style type="text/css">
-     .saveBTN2{
-         display: none;
-     }
-    </style>';
     }
     ; ?>
 
@@ -88,7 +83,7 @@ $_SESSION['selected_admin'] = $admin_account;
                 <li> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a class="active"
                         href="manageAdmin.php"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
@@ -109,7 +104,7 @@ $_SESSION['selected_admin'] = $admin_account;
                 <label for="nav-toggle">
                     <span class="la la-bars"></span>
                 </label>
-                Your Profile
+                Manage
             </h2>
 
             <div class="dropdown">
@@ -218,18 +213,7 @@ $_SESSION['selected_admin'] = $admin_account;
             </div>
         </form>
 
-        <main>
-
-            <?php
-            // Retrieve the username from the session
-            $username = $_SESSION["username"];
-            $password = $_SESSION["password"];
-
-            $query = "SELECT * FROM ACCOUNT 
-                      INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id 
-                      WHERE ACCOUNT.username = '$username' AND ACCOUNT.password = '$password'";
-            $result = mysqli_query($conn, $query);
-            ?>
+        <main style="margin-top:85px;">
 
             <div class="main-body">
                 <div class="row">
@@ -250,7 +234,7 @@ $_SESSION['selected_admin'] = $admin_account;
                                         } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="110">
                                         <div class="mt-3">
                                             <h4>
-                                                <?php echo ucwords($_SESSION["first_name"] . ' ' . $_SESSION["last_name"]); ?>
+                                                <?php echo ucwords($row["first_name"] . ' ' . $row["last_name"]); ?>
                                             </h4>
                                             <p class="text-secondary mb-1">Administrator</p>
                                         </div>
@@ -399,10 +383,6 @@ $_SESSION['selected_admin'] = $admin_account;
 
                                     <hr class="my-4">
 
-                                    <p class="note2"><span style="font-weight:800; color:red;">Note: </span>These fields
-                                        requires <span style="font-weight:800;">Super Admin</span> authorization to
-                                        modify!
-                                    </p>
                                     <div class="row mb-2">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0 fieldTxt">First Name</h6>
@@ -525,7 +505,7 @@ $_SESSION['selected_admin'] = $admin_account;
                                             </div>
                                         </div>
 
-                                        <div class="row ml-auto saveBTN2">
+                                        <div class="row ml-auto">
                                             <button id="updateInfo2" data-toggle="modal" data-target="#updateInfo2"
                                                 class="saveBTN" type="button">Save changes</button>
                                         </div>
@@ -618,7 +598,7 @@ $_SESSION['selected_admin'] = $admin_account;
         });
         Swal.fire({
             title: "Saved!",
-            text: "Your information has been updated",
+            text: "Your information has beed updated",
             icon: "success"
         }).then((result) => {
             if (result.isConfirmed) {
@@ -627,6 +607,31 @@ $_SESSION['selected_admin'] = $admin_account;
         })
     });
 
+
+
+
+
+    document.getElementById('delete_BTN').addEventListener('click', function (update1) {
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+
+        const SA_username = document.getElementById("SA_username-input").value;
+        const SA_password = document.getElementById("SA_password-input").value;
+
+        $.ajax({
+            url: 'toDeleteAdmin.php',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                SA_username: SA_username,
+                SA_password: SA_password
+            },
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
 
     // Function to show Swal alerts based on response status
     document.getElementById('updateInfo2_BTN').addEventListener('click', function (update1) {
@@ -663,29 +668,6 @@ $_SESSION['selected_admin'] = $admin_account;
             }
         })
     });
-
-
-
-
-
-    document.getElementById('delete_BTN').addEventListener('click', function (update1) {
-        // Disable the button to prevent multiple clicks
-        this.disabled = true;
-
-        const SA_username = document.getElementById("SA_username-input").value;
-        const SA_password = document.getElementById("SA_password-input").value;
-
-        $.ajax({
-            url: 'toDeleteAdmin.php',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                SA_username: SA_username,
-                SA_password: SA_password
-            },
-        });
-    });
 </script>
-
 
 </html>

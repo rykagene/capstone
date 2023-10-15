@@ -234,35 +234,66 @@ require 'assets/php/session.php';
                 </div>
             </div>
         </div>
+        <?php
+        // Check if the POST parameter is set
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buttonValue'])) {
+            $buttonValue = $_POST['buttonValue'];
+            $phpVariable = $buttonValue;
+            echo $phpVariable;
+            exit;
+        }
+        $phpVariable = "Initial Value";
+        ?>
 
-        <main>
+        <!-- Popup for viewing admin accounts -->
+        <div class="modal modal-fullscreen-xl viewAdmin" id="viewProfile" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog opacity-animate3" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <main class="mainPopup">
+
+
+                        </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <main class="main">
+
             <div class="filter">
-
-
                 <div class="filter">
-                    <form action="brw_history.php" method="GET">
+                    <form action="manageAdmin.php" method="GET">
 
                         <div class="row">
-
                             <div class="department">
                                 <label for="cars">Department</label>
-                                <select class="form-control">
+                                <select class="form-control" type="submit" name="department">
                                     <option style="display:none">Select here</option>
-                                    <option>College of Architecture and Fine Arts (CAFA)</option>
-                                    <option>College of Arts and Letters (CAL)</option>
-                                    <option>College of Business Administration (CBA)</option>
-                                    <option>College of Criminal Justice Education (CCJE)</option>
-                                    <option>College of Hospitaity and Tourism Management (CHTM)</option>
-                                    <option>College of Information and Communications Technology (CICT)</option>
-                                    <option>College of Industrial Technology (CIT)</option>
-                                    <option>College of Law (CLaw)</option>
-                                    <option>College of Nursing (CN)</option>
-                                    <option>College of Engineering (COE)</option>
-                                    <option>College of Education (COED)</option>
-                                    <option>College of Science (CS)</option>
-                                    <option>College of Exercise and Recreation (CSER)</option>
-                                    <option>College of Social Sciences and Philosophy (CSSP)</option>
-                                    <option>Graduate School (GS)</option>
+                                    <option value="CAFA">College of Architecture and Fine Arts (CAFA)</option>
+                                    <option value="CAL">College of Arts and Letters (CAL)</option>
+                                    <option value="CBA">College of Business Administration (CBA)</option>
+                                    <option value="CCJE">College of Criminal Justice Education (CCJE)</option>
+                                    <option value="CHTM">College of Hospitaity and Tourism Management (CHTM)</option>
+                                    <option value="CICT">College of Information and Communications Technology (CICT)
+                                    </option>
+                                    <option value="CIT">College of Industrial Technology (CIT)</option>
+                                    <option value="CLAW">College of Law (CLAW)</option>
+                                    <option value="CN">College of Nursing (CN)</option>
+                                    <option value="COE">College of Engineering (COE)</option>
+                                    <option value="COED">College of Education (COED)</option>
+                                    <option value="CS">College of Science (CS)</option>
+                                    <option value="CSER">College of Exercise and Recreation (CSER)</option>
+                                    <option value="CSSP">College of Social Sciences and Philosophy (CSSP)</option>
+                                    <option value="GS">Graduate School (GS)</option>
                                 </select>
                             </div>
 
@@ -274,21 +305,27 @@ require 'assets/php/session.php';
                                     <option>Temporary</option>
                                 </select>
                             </div>
-
-                            <div class="filterBTN">
-                                <button type="submit" class="filterButton">Filter</button>
+                            <div class="searchBar">
+                                <input type="search" placeholder="Search" name="search">
                             </div>
 
-
                             <?php
+                            // //sort by department
+                            // if (isset($_GET['department'])) {
+                            //     $valueToSearch = $_GET['department'];
+                            //     $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, ACCOUNT.email, ACCOUNT.account_type, rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
+                            //     INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
+                            //     WHERE ADMIN.department = $valueToSearch";
+                            //     $search_result = filterTable($querySearch);
+                            // }
 
                             if (isset($_GET['search'])) {
                                 $valueToSearch = $_GET['search'];
                                 // search in all table columns
                                 // using concat mysql function
-                                $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, email, account_type, ADMIN.rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
-                                    INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
-                                    WHERE ACCOUNT_TYPE = 'admin'";
+                                $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, ACCOUNT.email, ACCOUNT.account_type, rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
+                                INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
+                                WHERE ACCOUNT.account_id > 0 AND CONCAT(ACCOUNT.account_id, ACCOUNT.username, ADMIN.first_name, ADMIN.last_name, ACCOUNT.email, ADMIN.isSuperAdmin, ADMIN.work_status)LIKE '%" . $valueToSearch . "%'";
                                 $search_result = filterTable($querySearch);
 
                             } else {
@@ -307,14 +344,11 @@ require 'assets/php/session.php';
                                 return $filter_Result;
                             }
                             ?>
-                            <div class="searchBar">
-                                <form>
-                                    <input type="search" placeholder="Search" name="search">
-                                </form>
-                            </div>
+
                         </div>
                     </form>
                 </div>
+
 
 
                 <div class="recent-grid">
@@ -402,15 +436,21 @@ require 'assets/php/session.php';
                                                                         <div class="menu">
                                                                             <div>
                                                                                 <ul>
-                                                                                    <li><a href="adminProfile.php"
-                                                                                            class="link">See
-                                                                                            profile</a>
-                                                                                    </li>
+                                                                                    <form method='GET' action='viewAdmin.php'
+                                                                                        class='form'>
+                                                                                        <li><button class="link" name="admin"
+                                                                                                id="view_Profile" type="submit"
+                                                                                                value="<?php echo $row2['account_id'] ?>">View
+                                                                                                Profile</button>
+                                                                                        </li>
+                                                                                    </form>
+                                                                                    <!-- data-toggle="modal" data-target="#viewProfile" -->
                                                                                     <li>
                                                                                         <button class="link deleteAcc"
                                                                                             type="button"
                                                                                             value="<?php echo $row2['account_id'] ?>">Delete</button>
                                                                                     </li>
+
                                                                                 </ul>
                                                                             </div>
                                                                         </div>
@@ -433,13 +473,10 @@ require 'assets/php/session.php';
                 </div>
             </div>
 
-    </div>
-
-    </main>
+        </main>
 
 
     </div>
-
 
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -555,6 +592,6 @@ require 'assets/php/session.php';
         });
     });
 </script>
-</script>
+
 
 </html>
