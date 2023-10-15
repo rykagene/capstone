@@ -122,8 +122,6 @@ require 'assets/php/session.php';
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body" style="padding:10px 40px;">
-                            <div class="form-group text-center pb-2">
-                            </div>
                             <div class="form-group">
                                 <label for="name">Username</label>
                                 <input type="text" id="username-input" class="form-control" placeholder="Jdoe" required>
@@ -325,14 +323,14 @@ require 'assets/php/session.php';
                                 // using concat mysql function
                                 $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, ACCOUNT.email, ACCOUNT.account_type, rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
                                 INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
-                                WHERE ACCOUNT.account_id > 0 AND CONCAT(ACCOUNT.account_id, ACCOUNT.username, ADMIN.first_name, ADMIN.last_name, ACCOUNT.email, ADMIN.isSuperAdmin, ADMIN.work_status)LIKE '%" . $valueToSearch . "%'";
+                                WHERE ACCOUNT.account_id > 0 AND ACCOUNT.account_id != 1  AND CONCAT(ACCOUNT.account_id, ACCOUNT.username, ADMIN.first_name, ADMIN.last_name, ACCOUNT.email, ADMIN.isSuperAdmin, ADMIN.work_status)LIKE '%" . $valueToSearch . "%'";
                                 $search_result = filterTable($querySearch);
 
                             } else {
                                 // display students existing on databse. exclude the admins/librarians
                                 $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, email, account_type, ADMIN.rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
                                     INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
-                                    WHERE ACCOUNT_TYPE = 'admin'";
+                                    WHERE ACCOUNT_TYPE = 'admin' AND ACCOUNT.account_id != 1 ";
                                 $search_result = filterTable($querySearch);
                             }
 
