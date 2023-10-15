@@ -53,8 +53,7 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span
-                            class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -68,9 +67,6 @@ require 'assets/php/session.php';
                 </li>
                 <li> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
-                </li>
-                <li> <a href="adminReviews.php" class="active"><span class="las la-history"></span>
-                        <span>Reviews</span></a>
                 </li>
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
@@ -235,112 +231,66 @@ require 'assets/php/session.php';
                             <div class="review-list-container">
                                 <div class="review-list">
                                     <!-- Review 1 -->
-                                    <div class="review">
+                                    <div class="reviews">
                                         <div class="review-header">
                                             <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
+                                                <span class="name">Jane Doe</span>
+                                                <span class="date">6/24/23</span>
                                             </div>
                                             <div class="star-rating">
-                                                <span>⭐⭐⭐⭐⭐</span>
+                                                <span>⭐⭐⭐</span>
+                                            </div>
+                                        </div>
+                                        <div class="review-text">
+                                            <p>It is quiet and peaceful to work.</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Review 2 -->
+                                    <div class="reviews">
+                                        <div class="review-header">
+                                            <div class="review-info">
+                                                <span class="name">Jane Doe</span>
+                                                <span class="date">6/24/23</span>
+                                            </div>
+                                            <div class="star-rating">
+                                                <span>⭐⭐⭐</span>
+                                            </div>
+                                        </div>
+                                        <div class="review-text">
+                                            <p>It is quiet and peaceful to work.</p>
+                                        </div>
+                                    </div>
+                                    <!-- Review 2 -->
+                                    <div class="reviews">
+                                        <div class="review-header">
+                                            <div class="review-info">
+                                                <span class="name">John Doe</span>
+                                                <span class="date">9/9/23</span>
+                                            </div>
+                                            <div class="star-rating">
+                                                <span>⭐⭐⭐⭐</span>
+                                            </div>
+                                        </div>
+                                        <div class="review-text">
+                                            <p>It is good and clean.</p>
+                                        </div>
+                                    </div>
+                                    <!-- Review 2 -->
+                                    <div class="reviews">
+                                        <div class="review-header">
+                                            <div class="review-info">
+                                                <span class="name">Juan Dela Cruz</span>
+                                                <span class="date">8/8/23</span>
+                                            </div>
+                                            <div class="star-rating">
+                                                <span>⭐⭐⭐⭐</span>
                                             </div>
                                         </div>
                                         <div class="review-text">
                                             <p>It is good.</p>
                                         </div>
                                     </div>
-
-                                    <!-- Review 2 -->
-                                    <div class="review">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>Review text goes here...</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="review">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>Review text goes here...</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="review">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>Review text goes here...</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="review">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>Review text goes here...</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="review">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>Review text goes here...</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="review">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Name 2</span>
-                                                <span class="date">Date 2</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>Review text goes here...</p>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                             <div class="print-report">
@@ -359,5 +309,7 @@ require 'assets/php/session.php';
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 <script src="assets\js\adminReviews.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets\js\sidebar.js"></script>
 
 </html>
