@@ -185,8 +185,8 @@ $result = $conn->query($sql);
         <!------------------------ END OF HEADER ------------------------>
 
 
-    <div class="main-content">
-        <main>
+    <div class="main-content" style="overflow:hidden;">
+        <main >
             <div id="tabContainer">
                 <!--- Dashboard Code --->
                 <div class="tab active" id="dashboard">
