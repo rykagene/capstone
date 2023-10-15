@@ -53,7 +53,8 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
+                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span
+                            class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
                 <li> <a href="seats-info.php"><span class="las la-check"></span>
@@ -67,6 +68,9 @@ require 'assets/php/session.php';
                 </li>
                 <li> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
+                </li>
+                <li> <a href="adminReviews.php" class="active"><span class="las la-history"></span>
+                        <span>Reviews</span></a>
                 </li>
                 <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
@@ -339,10 +343,10 @@ require 'assets/php/session.php';
 
                                 </div>
                             </div>
-                        <div class="print-report">
-                                        <a href="sample-doc.pdf" class="buttons">Print Feedback</a>
-                                    </div>
-                                    </div>
+                            <div class="print-report">
+                                <a href="sample-doc.pdf" class="buttons">Print Feedback</a>
+                            </div>
+                        </div>
 
         </main>
 
