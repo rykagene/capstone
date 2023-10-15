@@ -37,13 +37,14 @@
   text-decoration-color: rgb(247, 247, 247);
 } */
 
-#tabButton a:hover {
+#tabButton .tabs a:hover {
   background: #fff8f8d3;
   color: var(--main-color);
   border-radius: 20px 0px 0px 20px;
   text-decoration: none;
   transition: 400ms;
 }
+
 
 .sidebar-brand {
   height: 90px;
@@ -120,6 +121,11 @@
   bottom: 0;
   background: #701313;
   padding: 5%;
+  text-decoration: none;
+}
+  
+.logout a {
+  text-decoration: none;
 }
 
 /* --------- END OF SIDEBAR --------- */
