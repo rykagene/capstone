@@ -43,7 +43,6 @@ require 'assets/php/session.php';
     ; ?>
 
     <input type="checkbox" id="nav-toggle">
-
     <!------------------------ SIDEBAR ------------------------>
     <div class="sidebar">
         <div class="sidebar-brand">
@@ -53,28 +52,32 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
+                <li class="tabs"> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span
+                            class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
-                <li> <a href="seats-info.php"><span class="las la-check"></span>
+                <li class="tabs"> <a href="seats-info.php"><span class="las la-check"></span>
                         <span>Seats Information</span></a>
                 </li>
-                <li> <a href="reserved.php"><span class="las la-clock"></span>
+                <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
                         <span>Reserved</span></a>
                 </li>
-                <li> <a href="user-list.php"><span class="las la-user-friends"></span>
+                <li class="tabs"> <a href="user-list.php"><span class="las la-user-friends"></span>
                         <span>User List</span></a>
                 </li>
-                <li> <a href="history.php"><span class="las la-history"></span>
+                <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
                 </li>
-                <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
+                <li class="tabs"> <a href="adminReviews.php" class="active"><span class="las la-star"></span>
+                        <span>Reviews</span></a>
+                </li>
+                <li class="tabs"> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
-                <li> <a href="settings.php"><span class="las la-cog"></span>
+                <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
                         href="manageAdmin.php"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
@@ -85,17 +88,18 @@ require 'assets/php/session.php';
         </div>
     </div>
     <!------------------------ END OF SIDEBAR ------------------------>
+    </input>
 
-    <div class="main-content">
-
-        <!------------------------ HEADER ------------------------>
+    <!------------------------ HEADER ------------------------>
+    <div class="header">
         <header>
-
             <h2>
                 <label for="nav-toggle">
-                    <span class="la la-bars"></span>
+                    <div class="toggle">
+                        <span class="la la-bars"></span>
+                    </div>
                 </label>
-                Admin Reviews
+                User Reviews
             </h2>
 
             <div class="dropdown">
@@ -121,8 +125,10 @@ require 'assets/php/session.php';
                 </div>
             </div>
         </header>
-        <!------------------------ END OF HEADER ------------------------>
+    </div>
+    <!------------------------ END OF HEADER ------------------------>
 
+    <div class="main-content">
 
         <main>
             <!-- DASHBOARD -->
@@ -305,11 +311,19 @@ require 'assets/php/session.php';
 
 
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 <script src="assets\js\adminReviews.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
 <script src="assets\js\sidebar.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
 
 </html>

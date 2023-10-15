@@ -3,11 +3,13 @@ session_start();
 require 'assets/php/connect.php';
 
 // if the user was not logged in
-if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"]) 
-&& !isset($_SESSION["last_name"]) &&!isset($_SESSION["reservation_count"])) {
+if (
+    !isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"])
+    && !isset($_SESSION["last_name"]) && !isset($_SESSION["reservation_count"])
+) {
 
-      header('Location: loginAdmin.php');
-      exit();
+    header('Location: loginAdmin.php');
+    exit();
 
 }
 
@@ -83,7 +85,7 @@ $result = $conn->query($sql);
 
 
 <body>
-    
+<!-- Hides manage admin button when regular admin is logged in -->
 <?php if ($_SESSION['isSuperAdmin'] === 'no') {
     echo '<style type="text/css">
        .sidebar-menu #hidden{
@@ -94,95 +96,93 @@ $result = $conn->query($sql);
 ; ?>
 
 
-    <input type="checkbox" id="nav-toggle">
-    <!------------------------ SIDEBAR ------------------------>
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
-            <h2> <span>SOAR Admin</span></h2>
-        </div>
+        <input type="checkbox" id="nav-toggle">
+        <!------------------------ SIDEBAR ------------------------>
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
+                <h2> <span>SOAR Admin</span></h2>
+            </div>
 
-        <div class="sidebar-menu" id="tabButton">
-            <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" class="dashboard active" id="tabButtons"><span
-                            class="las la-th-large"></span>
-                        <span>Dashboard</span></a>
-                </li>
-                <li> <a href="seats-info.php" ><span class="las la-check"></span>
-                        <span>Seats Information</span></a>
-                </li>
-                <li> <a href="reserved.php"><span class="las la-clock"></span>
-                        <span>Reserved</span></a>
-                </li>
-                <li> <a href="user-list.php"><span
-                            class="las la-user-friends"></span>
-                        <span>User List</span></a>
-                </li>
-                <li> <a href="history.php"><span class="las la-history"></span>
-                        <span>History</span></a>
-                </li>
-                <li> <a href="adminReviews.php"><span class="las la-history"></span>
-                        <span>Reviews</span></a>
-                </li>
-                <li> <a href="analytics.php"><span
-                            class="las la-chart-bar"></span>
-                        <span>Analytics</span></a>
-                </li>
-                <li> <a href="settings.php"><span class="las la-cog"></span>
-                        <span>Settings</span></a>
-                </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
-                        href="manageAdmin.php"><span class="las la-users-cog"></span>
-                        <span>Manage Accounts</span></a>
-                </li>
-                <li class="logout"> <a href="toLogout.php">
-                        <span>Logout</span></a>
-                </li>
-            </ul>
+            <div class="sidebar-menu" id="tabButton">
+                <ul>
+                    <li class="tabs"> <a href="admin.php" data-tabName="dashboard" class="dashboard active" id="tabButtons"><span
+                                class="las la-th-large"></span>
+                            <span>Dashboard</span></a>
+                    </li>
+                    <li class="tabs"> <a href="seats-info.php" ><span class="las la-check"></span>
+                            <span>Seats Information</span></a>
+                    </li>
+                    <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
+                            <span>Reserved</span></a>
+                    </li>
+                    <li class="tabs"> <a href="user-list.php"><span
+                                class="las la-user-friends"></span>
+                            <span>User List</span></a>
+                    </li>
+                    <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
+                            <span>History</span></a>
+                    </li>
+                    <li class="tabs"> <a href="adminReviews.php"><span class="las la-star"></span>
+                            <span>Reviews</span></a>
+                    </li>
+                    <li class="tabs"> <a href="analytics.php"><span
+                                class="las la-chart-bar"></span>
+                            <span>Analytics</span></a>
+                    </li>
+                    <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
+                            <span>Settings</span></a>
+                    </li>
+                    <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
+                            href="manageAdmin.php"><span class="las la-users-cog"></span>
+                            <span>Manage Accounts</span></a>
+                    </li>
+                    <li class="logout"> <a href="toLogout.php">
+                            <span>Logout</span></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!------------------------ END OF SIDEBAR ------------------------>
-    </input>
+        <!------------------------ END OF SIDEBAR ------------------------>
+        </input>
 
-    <!------------------------ HEADER ------------------------>
-    <div class="header">
-        <header>
-            <h2>
-                <label for="nav-toggle">
-                    <div class="toggle">
-                        <span class="la la-bars"></span>
-                    </div>
-                </label>
-                <h2 class="dashboardText">
+<!------------------------ HEADER ------------------------>
+      <div class="header">
+            <header>
+                <h2>
+                    <label for="nav-toggle">
+                        <div class="toggle">
+                            <span class="la la-bars"></span>
+                        </div>
+                    </label>
                     Dashboard
                 </h2>
-            </h2>
 
-            <div class="dropdown">
-                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
-                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <div class="user-wrapper">
-                    <img src="<?php if ($_SESSION['gender'] == "Male") {
-                        echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
-                    } elseif ($_SESSION['gender'] == "Female") {
-                        echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
-                    } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
-                        <div id="user_admin">
-                            <h4>
-                                <?php echo  $_SESSION["username"]; ?>
-                            </h4>
+                <div class="dropdown">
+                    <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <div class="user-wrapper">
+                            <img src="<?php if ($_SESSION['gender'] == "Male") {
+                                echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
+                            } elseif ($_SESSION['gender'] == "Female") {
+                                echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
+                            } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
+                            <div id="user_admin">
+                                <h4>
+                                    <?php echo $_SESSION["username"]; ?>
+                                </h4>
+                            </div>
                         </div>
-                    </div>
-                </button>
+                    </button>
 
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
-                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
+                        <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
+                    </div>
                 </div>
-            </div>
-        </header>
-    </div>
-    <!------------------------ END OF HEADER ------------------------>
+            </header>
+        </div>
+        <!------------------------ END OF HEADER ------------------------>
 
 
     <div class="main-content">
@@ -217,9 +217,9 @@ $result = $conn->query($sql);
                             // Handle the query error here
                             echo "Error: " . $conn->error;
                         }
-                        
-                        
-                        
+
+
+
                         ?>
                       
                         <div class="counter col_fourth end">
@@ -255,65 +255,65 @@ $result = $conn->query($sql);
                                                 </tr>
                                             </thead>
                                             <?php
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                ?>
-                                                <tr id="reservation_row_<?php echo $row['reservation_id']; ?>">                                                 
-                                                    <td class="studno">
-                                                        <?php echo $row['reservation_id']; ?>
-                                                    </td>
-                                                    <td>
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                                                                <tr id="reservation_row_<?php echo $row['reservation_id']; ?>">                                                 
+                                                                                                    <td class="studno">
+                                                                                                        <?php echo $row['reservation_id']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
                                                         
-                                                        <?php echo $row['user_id']; ?>
-                                                    </td>
+                                                                                                        <?php echo $row['user_id']; ?>
+                                                                                                    </td>
 
-                                                    <td>
-                                                        <?php echo $row['first_name']; ?>
-                                                        <?php echo $row['last_name']; ?>
-                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['first_name']; ?>
+                                                                                                        <?php echo $row['last_name']; ?>
+                                                                                                    </td>
                                                     
-                                                    <td>
-                                                        <?php echo $row['seat_id']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['date']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['start_time']; ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $row['end_time']; ?>
-                                                    </td>
-                                                    <td>
-                                                    <button type="button" class="btn btn-light btn-rounded btn-icon view_reservation"
-                                                    data-toggle="modal" data-target="#staticBackdrop"
-                                                            data-userid="<?php echo $row['user_id']; ?>"
-                                                            data-date="<?php echo $row['date']; ?>"
-                                                            data-starttime="<?php echo $row['start_time']; ?>"
-                                                            data-endtime="<?php echo $row['end_time']; ?>"
+                                                                                                    <td>
+                                                                                                        <?php echo $row['seat_id']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['date']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['start_time']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['end_time']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                    <button type="button" class="btn btn-light btn-rounded btn-icon view_reservation"
+                                                                                                    data-toggle="modal" data-target="#staticBackdrop"
+                                                                                                            data-userid="<?php echo $row['user_id']; ?>"
+                                                                                                            data-date="<?php echo $row['date']; ?>"
+                                                                                                            data-starttime="<?php echo $row['start_time']; ?>"
+                                                                                                            data-endtime="<?php echo $row['end_time']; ?>"
                                                             
-                                                            data-firstname="<?php echo $row['first_name']; ?>"
-                                                            data-lastname="<?php echo $row['last_name']; ?>"
-                                                            data-picture="<?php echo $row['picture']; ?>"
-                                                            data-email="<?php echo $row['email']; ?> "
-                                                            data-rfidno="<?php echo $row['rfid_no']; ?> "
-                                                            data-course="<?php echo $row['course_code']; ?> "
-                                                            data-contactno="<?php echo $row['contact_number']; ?> "
-                                                            data-seatid="<?php echo $row['seat_id']; ?> "
-                                                            >
-                                                        <i class="bi bi-eye-fill text-danger" style="font-size: 1.2em;"></i>
-                                                    </button>
+                                                                                                            data-firstname="<?php echo $row['first_name']; ?>"
+                                                                                                            data-lastname="<?php echo $row['last_name']; ?>"
+                                                                                                            data-picture="<?php echo $row['picture']; ?>"
+                                                                                                            data-email="<?php echo $row['email']; ?> "
+                                                                                                            data-rfidno="<?php echo $row['rfid_no']; ?> "
+                                                                                                            data-course="<?php echo $row['course_code']; ?> "
+                                                                                                            data-contactno="<?php echo $row['contact_number']; ?> "
+                                                                                                            data-seatid="<?php echo $row['seat_id']; ?> "
+                                                                                                            >
+                                                                                                        <i class="bi bi-eye-fill text-danger" style="font-size: 1.2em;"></i>
+                                                                                                    </button>
                                                     
                                                    
                                                     
-                                                    </td>
-                                                </tr>
-                                                <?php
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <?php
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='7'>No history found.</td></tr>";
                                             }
-                                        } else {
-                                            echo "<tr><td colspan='7'>No history found.</td></tr>";
-                                        }
-                                        ?>
+                                            ?>
                                         </table>
                                     </div>
                                 </div>
@@ -339,27 +339,27 @@ $result = $conn->query($sql);
                                     WHERE h.is_archived = 0
                                     ORDER BY h.date DESC
                                     LIMIT 5"; // Retrieve the first 5 rows from the history table ordered by date in descending order
-
+                                    
                                     $historyResult = $conn->query($historySql);
 
                                     if ($historyResult->num_rows > 0) {
                                         while ($row = $historyResult->fetch_assoc()) {
                                             ?>
 
-                                            <div class="customer">
-                                                <div class="info">
-                                                    <img src="<?php echo $row['picture']; ?>" width="40px" height="40px" alt="">
-                                                    <div>
-                                                        <h5><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></h5>
-                                                        <small><?php echo $row['course_code']; ?></small>
-                                                    </div>
-                                                </div>
-                                                <div class="see-details">
-                                                    <a href="history-details.php?history_id=<?php echo $row['history_id']; ?>">See details</a>
-                                                </div>
-                                            </div>
+                                                                                            <div class="customer">
+                                                                                                <div class="info">
+                                                                                                    <img src="<?php echo $row['picture']; ?>" width="40px" height="40px" alt="">
+                                                                                                    <div>
+                                                                                                        <h5><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></h5>
+                                                                                                        <small><?php echo $row['course_code']; ?></small>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="see-details">
+                                                                                                    <a href="history-details.php?history_id=<?php echo $row['history_id']; ?>">See details</a>
+                                                                                                </div>
+                                                                                            </div>
 
-                                            <?php
+                                                                                            <?php
                                         }
                                     } else {
                                         // No recent history message
