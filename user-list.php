@@ -5,7 +5,8 @@ require 'assets/php/session.php';
 
 $sql = "SELECT u.user_id, u.rfid_no, u.first_name, u.last_name, u.account_id, u.course_code, u.yearsec_id, u.age, u.contact_number, a.picture, a.email,  a.account_type
         FROM users u
-        JOIN account a ON u.account_id = a.account_id";
+        JOIN account a ON u.account_id = a.account_id
+        WHERE u.is_archived = 0";
 
 $result = $conn->query($sql);
 
@@ -242,16 +243,27 @@ $result = $conn->query($sql);
                                                             data-course="<?php echo $row['course_code']; ?> "
                                                             data-contactno="<?php echo $row['contact_number']; ?> "
                                                             data-age="<?php echo $row['age']; ?> "
-                                                            
                                                             >
     
-                                                        <i class="bi bi-eye-fill text-primary" style="font-size: 1.4em;"></i>
+                                                        <i class="bi bi-eye-fill text-primary" style="font-size: 1.2em;"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
-                                                      <i class="bi bi-pencil-square text-warning" style="font-size: 1.3em;"></i>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon edit_user" data-toggle="modal" data-target="#editUser"
+                                                            data-userid="<?php echo $row['user_id']; ?>"
+                                                            data-firstname="<?php echo $row['first_name']; ?>"
+                                                            data-lastname="<?php echo $row['last_name']; ?>"
+                                                            
+                                                            data-picture="<?php echo $row['picture']; ?>"
+                                                            data-email="<?php echo $row['email']; ?> "
+                                                            data-rfidno="<?php echo $row['rfid_no']; ?> "
+                                                            data-course="<?php echo $row['course_code']; ?> "
+                                                            data-contactno="<?php echo $row['contact_number']; ?> "
+                                                            data-age="<?php echo $row['age']; ?> "                                                   
+                                                            >
+                                                      <i class="bi bi-pencil-square text-warning" style="font-size: 1.2em;"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
-                                                      <i class="bi bi-trash-fill text-danger" style="font-size: 1.3em;"></i>
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon archive_btn"
+                                                        data-user-id="<?php echo $row['user_id']; ?>">
+                                                        <i class="bi bi-trash-fill text-danger" style="font-size: 1.2em;"></i>
                                                     </button>
                                                     </td>
                                                 </tr>
@@ -272,12 +284,6 @@ $result = $conn->query($sql);
             </div>
                 
 
-
-
-
-
-
-
             </div>
                 </div>
 
@@ -288,39 +294,154 @@ $result = $conn->query($sql);
             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
         </main>
     </div>
     
 
-<!-- Modal for View -->
-<!--- modal view--->
+<!-- Modal for edit -->
+<div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="editUserLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createAccountLabel">Edit User Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body" style="padding:10px 40px;">
+                            <div class="form-group text-center pb-2">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="name">User ID</label>
+                                    <input type="text" id="userId-input" class="form-control" placeholder="Jhon"
+                                        required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="name">RFID</label>
+                                    <input type="text" id="rfid-input" class="form-control" placeholder="Doe"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="name">First Name</label>
+                                    <input type="text" id="firstname-input" class="form-control" placeholder="Jhon"
+                                        required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="name">Last Name</label>
+                                    <input type="text" id="lastname-input" class="form-control" placeholder="Doe"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group" style="position:relative;">
+                                <label for="email">Email</label>
+                                <input type="email" id="email-input" class="form-control mb-1"
+                                    placeholder="example@gmail.com" required>
+                                <a href="#" data-toggle="modal" data-target="#login"
+                                    style="display:none; position: absolute; right: 0; font-size: 12px;">That's you?
+                                    Login</a>
+                            </div>
+                            <div class="form-group" style="position:relative;">
+                                <label for="gender">Gender</label>
+                                <select class="form-control" id="gender-input">
+                                    <option hidden disabled selected value> -- select a gender -- </option>
+                                    <option value='Male'>Male</option>
+                                    <option value='Female'>Female</option>
+                                </select>
+                            </div>
+                            <div class="form-row mb-1">
+                                <div class="form-group col">
+                                    <label for="password">Age</label>
+                                    <input type="password" id="age-input" class="form-control"
+                                        placeholder="" required>
+
+                                </div>
+                                <div class="form-group col">
+                                    <label for="password_confirmation">Contact Number</label>
+                                    <input type="password" id="number-input" class="form-control"
+                                        placeholder="" required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group" style="position:relative;">
+                                <label for="email">Department</label>
+                                <select class="form-control" id="department-input">
+                                    <option hidden disabled selected value> -- select an option -- </option>
+                                    <option value='CAFA'>
+                                        COLLEGE OF ARCHITECTURE AND FINE ARTS (CAFA)</option>
+                                    <option value='CAL'>
+                                        COLLEGE OF ARTS AND LETTERS (CAL)</option>
+                                    <option value='CBA'>
+                                        COLLEGE OF BUSINESS ADMINISTRATION (CBA)</option>
+                                    <option value='CCJE'>
+                                        COLLEGE OF CRIMINAL JUSTICE EDUCATION (CCJE)</option>
+                                    <option value='CHTM'>
+                                        COLLEGE OF HOSPITALITY AND TOURISM MANAGEMENT (CHTM)
+                                    </option>
+                                    <option value='CICT'>
+                                        COLLEGE OF INFORMATION AND COMMUNICATIONS TECHNOLOGY
+                                        (CICT)
+                                    </option>
+                                    <option value='CIT'>
+                                        COLLEGE OF INDUSTRIAL TECHNOLOGY (CIT)</option>
+                                    <option value='CLAW'>
+                                        COLLEGE OF LAW (CLAW)</option>
+                                    <option value='CN'>
+                                        COLLEGE OF NURSING (CN)</option>
+                                    <option value='COE'>
+                                        COLLEGE OF ENGINEERING (COE)</option>
+                                    <option value='COED'>
+                                        COLLEGE OF EDUCATION (COED)</option>
+                                    <option value='CS'>
+                                        COLLEGE OF SCIENCE (CS)</option>
+                                    <option value='CSER'>
+                                        COLLEGE OF SPORTS, EXERCISE AND RECREATION (CSER)
+                                    </option>
+                                    <option value='CSSP'>
+                                        COLLEGE OF SOCIAL SCIENCES AND PHILOSOPHY (CSSP)
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="position:relative;">
+                                <label for="email">Course</label>
+                                <select class="form-control" id="employmentSTS-input">
+                                    <option hidden disabled selected value> -- select an option -- </option>
+                                    <option value='Permanent'>Permanent</option>
+                                    <option value='Temporary'>Temporary</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-group" style="position:relative;">
+                                <label for="email">User Type</label>
+                                <select class="form-control" id="position-input">
+                                    <option value='student'>Student</option>
+                                    <option value='faculty'>Faculty</option>
+                                    <option value='alumni'>Alumni</option>
+                                </select>
+                            </div>
+                            
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                            <a id="createAccount_BTN" class="btn btn-danger" type="submit" form="a-form">Save</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+<!--- modal for view--->
 <div class="modal fade" id="modalView" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -360,13 +481,7 @@ $result = $conn->query($sql);
                 <div class="d-flex justify-content-between mb-3">
                     <small id="email_view"></small>
                     <small > </small>
-                </div>
-                
-                
-
-                
-                
-                                   
+                </div>         
                 </div>
 
             </div>
@@ -376,6 +491,7 @@ $result = $conn->query($sql);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="assets/js/history.js"></script>
 <script src="assets/js/users.js"></script>
@@ -395,8 +511,6 @@ $(document).ready(function() {
         var pictureUrl = $(this).data('picture'); 
         var age = $(this).data('age');
         
-        
-
         // Set the retrieved values in the modal
         $('#userID_view').text("User ID: " + userId);
         $('#email_view').text("Email:     " + email);
@@ -412,6 +526,69 @@ $(document).ready(function() {
 });
 
 </script>
+
+
+<script>
+$(document).ready(function() {
+    // Add a click event listener to the "Edit" button in your table rows
+    $(".edit_user").on("click", function() {
+        // Capture the data attributes from the clicked row
+        var userId = $(this).data('userid');
+        var rfidNo = $(this).data('rfidno');
+        var email = $(this).data('email');
+        var firstName = $(this).data('firstname');
+        var lastName = $(this).data('lastname');
+
+        // Set the captured data in the modal input fields
+        $("#userId-input").val(userId);
+        $("#rfid-input").val(rfidNo);
+        $('#email-input').text(email);
+        $("#firstname-input").val(firstName);
+        $("#lastname-input").val(lastName);
+
+        
+    });
+});
+</script>
+
+<script>
+    //TO ARCHIVE
+    $(document).ready(function() {
+        $(".archive_btn").click(function() {
+            var reservationId = $(this).data("user-id");
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, archive it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    $.ajax({
+                        url: 'toArchive.php', 
+                        method: 'POST',
+                        data: { reservation_id: reservationId },
+                        success: function(response) {
+                            if (response === 'success') {
+                                Swal.fire('Archived!', 'The user has been archived.', 'success');
+                                
+                                $("#reservation_row_" + reservationId).remove();
+                            } else {
+                                Swal.fire('Error!', 'Failed to archive the user.', 'error');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
 
 
 

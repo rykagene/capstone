@@ -9,7 +9,8 @@ require 'assets/php/session.php';
 $sql = "SELECT h.history_id, h.reservation_id, h.user_id, h.date, h.start_time, h.end_time, a.username, u.user_id, h.seat_id, h.time_spent, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, a.email, a.picture
         FROM history AS h
         INNER JOIN account AS a ON h.user_id = a.username
-        INNER JOIN users AS u ON h.user_id = u.user_id";
+        INNER JOIN users AS u ON h.user_id = u.user_id
+        WHERE h.is_archived = 0"; 
 
 
 
@@ -277,7 +278,7 @@ $result = $conn->query($sql);
     
                                                         <i class="bi bi-eye-fill text-primary" style="font-size: 1.4em;"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-light btn-rounded btn-icon">
+                                                    <button type="button" class="btn btn-light btn-rounded btn-icon" id="archive_btn">
                                                         <i class="bi bi-trash-fill text-danger" style="font-size: 1.4em;"></i>
                                                     </button>
                                                     
@@ -443,7 +444,7 @@ $result = $conn->query($sql);
     });
     </script>
 
-    <script>
+<script>
  $(document).ready(function() {
     // Function to apply the date filter
     function applyDateFilter() {
@@ -498,9 +499,9 @@ $result = $conn->query($sql);
 });
 
 
-    </script>
+</script>
 
-    <script>
+<script>
 $(document).ready(function() {
     // Add a click event handler for the "View History" button with the class "view_history"
     $('.view_history').click(function() {
@@ -537,7 +538,62 @@ $(document).ready(function() {
         
     });
 });
+</script>
 
+<script>
+$(document).ready(function () {
+    // Attach a click event handler to the "Archive" button
+    $('.archive_btn').click(function () {
+        // Get the history_id from the data attribute
+        var historyId = $(this).data('history-id');
+
+        // Show a confirmation dialog using SweetAlert
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, archive it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // User confirmed, send an AJAX request to archive the record
+                $.ajax({
+                    type: 'POST',
+                    url: 'archive_record.php',
+                    data: { history_id: historyId },
+                    success: function (response) {
+                        if (response === 'success') {
+                            // Archive was successful
+                            Swal.fire(
+                                'Archived!',
+                                'The record has been archived.',
+                                'success'
+                            ).then(function() {
+                                // Reload the page or update the table with the updated data
+                                location.reload(); // You can use a more efficient way to update the table without a full page reload.
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                'Failed to archive the record.',
+                                'error'
+                            );
+                        }
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Error',
+                            'An error occurred while processing your request.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+});
 </script>
 
 

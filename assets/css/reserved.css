@@ -371,3 +371,17 @@ td {
   color: #ffffff;
   cursor: pointer;
 }
+
+
+/* Fix search icon */
+.input-group input[type="search"] {
+  flex: 1; 
+  padding: 10px; 
+}
+
+.input-group .search-icon {
+  width: 24px; 
+  margin-left: 8px; 
+  cursor: pointer; 
+  padding: 10px;
+}

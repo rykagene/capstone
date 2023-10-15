@@ -762,3 +762,16 @@ margin-right: 10px;
   margin-top:100px;
 }
 
+/* Fix search icon */
+.input-group input[type="search"] {
+  flex: 1; 
+  padding: 10px; 
+}
+
+.input-group .search-icon {
+  width: 24px; 
+  margin-left: 8px; 
+  cursor: pointer; 
+  padding: 10px;
+}
+
