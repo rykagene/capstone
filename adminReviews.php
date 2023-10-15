@@ -234,75 +234,83 @@ require 'assets/php/session.php';
 
                             </div>
 
+                            <?php
+                            if (isset($_GET['search'])) {
+                                $valueToSearch = $_GET['search'];
+                                // search in all table columns
+                                // using concat mysql function
+                                $querySearch = "SELECT * FROM rating  WHERE rating_id >= 0";
+                                $search_result = filterTable($querySearch);
+
+                            } else {
+                                // display students existing on databse. exclude the admins/librarians
+                                $querySearch = "SELECT * FROM rating  WHERE rating_id >= 0";
+                                $search_result = filterTable($querySearch);
+                            }
+
+                            // function to connect and execute the query
+                            function filterTable($querySearch)
+                            {
+                                require 'assets/php/connect.php';
+                                $filter_Result = mysqli_query($conn, $querySearch);
+                                return $filter_Result;
+                            }
+                            ?>
+
                             <div class="review-list-container">
                                 <div class="review-list">
-                                    <!-- Review 1 -->
-                                    <div class="reviews">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Jane Doe</span>
-                                                <span class="date">6/24/23</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>It is quiet and peaceful to work.</p>
-                                        </div>
-                                    </div>
+                                    <?php
+                                    if ($count = mysqli_num_rows($search_result) > 0) {
 
-                                    <!-- Review 2 -->
-                                    <div class="reviews">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Jane Doe</span>
-                                                <span class="date">6/24/23</span>
+                                        while ($row2 = mysqli_fetch_array($search_result)) {
+
+                                            ?>
+                                            <!-- Review 1 -->
+                                            <div class="reviews">
+                                                <div class="review-header">
+                                                    <div class="review-info">
+                                                        <span class="name">
+                                                            <?php echo $row2['user_id']; ?>
+                                                        </span>
+                                                        <span class="date">
+                                                            <?php echo $row2['date']; ?>
+                                                        </span>
+                                                    </div>
+                                                    <div class="star-rating">
+                                                        <span>
+                                                            <?php if ($row2['rating'] == "1") {
+                                                                echo "⭐";
+                                                            } elseif ($row2['rating'] == "2") {
+                                                                echo "⭐⭐";
+                                                            } elseif ($row2['rating'] == "3") {
+                                                                echo "⭐⭐⭐";
+                                                            } elseif ($row2['rating'] == "4") {
+                                                                echo "⭐⭐⭐⭐";
+                                                            } elseif ($row2['rating'] == "5") {
+                                                                echo "⭐⭐⭐⭐⭐";
+                                                            } ?>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="review-text">
+                                                    <p>
+                                                        <?php echo $row2['review']; ?>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>It is quiet and peaceful to work.</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="reviews">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">John Doe</span>
-                                                <span class="date">9/9/23</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>It is good and clean.</p>
-                                        </div>
-                                    </div>
-                                    <!-- Review 2 -->
-                                    <div class="reviews">
-                                        <div class="review-header">
-                                            <div class="review-info">
-                                                <span class="name">Juan Dela Cruz</span>
-                                                <span class="date">8/8/23</span>
-                                            </div>
-                                            <div class="star-rating">
-                                                <span>⭐⭐⭐⭐</span>
-                                            </div>
-                                        </div>
-                                        <div class="review-text">
-                                            <p>It is good.</p>
-                                        </div>
-                                    </div>
+                                        <?php }
+                                    }
+                                    ?>
+
                                 </div>
                             </div>
-                            <div class="print-report">
-                                <a href="sample-doc.pdf" class="buttons">Print Feedback</a>
-                            </div>
                         </div>
+
+                        <div class="print-report">
+                            <a href="sample-doc.pdf" class="buttons">Print Feedback</a>
+                        </div>
+
+
 
         </main>
 
@@ -311,19 +319,13 @@ require 'assets/php/session.php';
 
 
 </body>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 <script src="assets\js\adminReviews.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="assets\js\sidebar.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-    crossorigin="anonymous"></script>
 
 </html>
