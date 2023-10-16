@@ -33,6 +33,7 @@ $result = mysqli_query($conn, $query);
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -52,7 +53,6 @@ $result = mysqli_query($conn, $query);
     ; ?>
 
     <input type="checkbox" id="nav-toggle">
-
     <!------------------------ SIDEBAR ------------------------>
     <div class="sidebar">
         <div class="sidebar-brand">
@@ -62,29 +62,33 @@ $result = mysqli_query($conn, $query);
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
+                <li class="tabs"> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span
+                            class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
-                <li> <a href="seats-info.php"><span class="las la-check"></span>
+                <li class="tabs"> <a href="seats-info.php"><span class="las la-check"></span>
                         <span>Seats Information</span></a>
                 </li>
-                <li> <a href="reserved.php"><span class="las la-clock"></span>
+                <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
                         <span>Reserved</span></a>
                 </li>
-                <li> <a href="user-list.php"><span class="las la-user-friends"></span>
+                <li class="tabs"> <a href="user-list.php"><span class="las la-user-friends"></span>
                         <span>User List</span></a>
                 </li>
-                <li> <a href="history.php"><span class="las la-history"></span>
+                <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
                 </li>
-                <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
+                <li class="tabs"> <a href="adminReviews.php"><span class="las la-star"></span>
+                        <span>Reviews</span></a>
+                </li>
+                <li class="tabs"> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
-                <li> <a href="settings.php"><span class="las la-cog"></span>
+                <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a class="active"
-                        href="manageAdmin.php"><span class="las la-users-cog"></span>
+                <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
+                        href="manageAdmin.php" class="active"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">
@@ -94,15 +98,16 @@ $result = mysqli_query($conn, $query);
         </div>
     </div>
     <!------------------------ END OF SIDEBAR ------------------------>
+    </input>
 
-    <div class="main-content">
-
-        <!------------------------ HEADER ------------------------>
+    <!------------------------ HEADER ------------------------>
+    <div class="header">
         <header>
-
             <h2>
                 <label for="nav-toggle">
-                    <span class="la la-bars"></span>
+                    <div class="toggle">
+                        <span class="la la-bars"></span>
+                    </div>
                 </label>
                 Manage
             </h2>
@@ -130,8 +135,87 @@ $result = mysqli_query($conn, $query);
                 </div>
             </div>
         </header>
-        <!------------------------ END OF HEADER ------------------------>
+    </div>
+    <!------------------------ END OF HEADER ------------------------>
 
+    <div class="main-content">
+
+        <!-- Popup for changing username -->
+        <div class="modal fade" id="change_username" tabindex="-1" role="dialog" aria-labelledby="change_usernameLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="change_usernameLabel">Update Username </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body" style="padding:40px 50px;">
+                            <h6 class="" id="">Are you sure you want to change your username, <span
+                                    style="font-weight:bold;">
+                                    <?php echo $_SESSION["username"]; ?>
+                                </span>?</h6>
+                            <hr>
+                            <div class="form-group">
+                                <label for="name">New Username</label>
+                                <input type="text" id="username-input" class="form-control" placeholder="Jdoe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Confirm New Username</label>
+                                <input type="text" id="confirmUsername-input" class="form-control" placeholder="Jdoe"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                            <a id="updateUname_BTN" class="btn btn-danger" type="submit" form="a-form">Save</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popup for changing password -->
+        <div class="modal fade" id="change_password" tabindex="-1" role="dialog" aria-labelledby="change_passwordLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="change_passwordLabel">Update Password </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body" style="padding:40px 50px;">
+                            <h6 class="" id="">Are you sure you want to change your password, <span
+                                    style="font-weight:bold;">
+                                    <?php echo $_SESSION["username"]; ?>
+                                </span>?</h6>
+                            <hr>
+                            <div class="form-group">
+                                <label for="name">New Password</label>
+                                <input type="password" id="password-field1" class="form-control pass">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Confirm New Password</label>
+                                <input id="password-field" type="password" class="form-control" name="password">
+                                <span style="margin-right:10px;" toggle="#password-field"
+                                    class="fa fa-fw fa-eye field-icon toggle-password">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                            <a id="updatePass_BTN" class="btn btn-danger" type="submit" form="a-form">Save</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Popup for SAVING ACCOUNT CHANGES with superadmin permission -->
         <div class="modal fade" id="updateInfo1" tabindex="-1" role="dialog" aria-labelledby="updateInfo1Label"
@@ -244,25 +328,27 @@ $result = mysqli_query($conn, $query);
                                     <ul class="list-group list-group-flush">
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0">Username</h6>
+                                            <h6 class="mb-0">Username <img src="assets/img/edit.png" width="20" height="20"
+                                                    style="cursor:pointer;" data-toggle="modal"
+                                                    data-target="#change_username"></h6>
                                             <span class="text-secondary">
                                                 <?php echo $row['username']; ?>
                                             </span>
                                         </li>
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                            <h6 class="mb-0">RFID</h6>
+                                            <h6 class="mb-0">Password &nbsp;<img src="assets/img/edit.png" width="20"
+                                                    height="20" style="cursor:pointer;" data-toggle="modal"
+                                                    data-target="#change_password"></h6>
+
                                             <span class="text-secondary">
-                                                <?php if ($row['rfid_no'] == '')
-                                                    echo "Not Registered";
-                                                else
-                                                    echo $row['rfid_no'] ?>
-                                                </span>
-                                            </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">Account Number</h6>
-                                                <span class="text-secondary">
+                                                Set
+                                            </span>
+                                        </li>
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                            <h6 class="mb-0">Account Number</h6>
+                                            <span class="text-secondary">
                                                 <?php echo $row['account_id']; ?>
                                             </span>
                                         </li>
@@ -667,6 +753,107 @@ $result = mysqli_query($conn, $query);
                 location.reload();
             }
         })
+    });
+
+    //show password
+    $(".toggle-password").click(function () {
+
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+
+    // Function to change admin username
+    document.getElementById('updateUname_BTN').addEventListener('click', function (update1) {
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+
+        var newUsername = document.getElementById('username-input').value;
+        var confirmNewUname = document.getElementById('confirmUsername-input').value;
+
+        if (newUsername != "" && confirmNewUname != "") {
+            if (newUsername == confirmNewUname) {
+                $.ajax({
+                    url: 'toUpdateAdminUname.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        newUsername: newUsername
+                    },
+                });
+                Swal.fire({
+                    title: "Saved!",
+                    text: "Your information has been updated",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Username do not match",
+                    icon: "error"
+                })
+            }
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Please fill out both fields",
+                icon: "error"
+            })
+        }
+
+    });
+
+    // Function to change admin pass
+    document.getElementById('updatePass_BTN').addEventListener('click', function (update1) {
+        // Disable the button to prevent multiple clicks
+        this.disabled = true;
+
+        var newPass = document.getElementById('password-field1').value;
+        var confirmNewPass = document.getElementById('password-field').value;
+
+        if (newPass != "" && confirmNewPass != "") {
+            if (newPass == confirmNewPass) {
+                $.ajax({
+                    url: 'toUpdateAdminPass.php',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        newPass: newPass
+                    },
+                });
+                Swal.fire({
+                    title: "Saved!",
+                    text: "Your password has been updated",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Passwords do not match!",
+                    icon: "error"
+                })
+            }
+
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Please fill out both fields",
+                icon: "error"
+            })
+        }
+
     });
 </script>
 

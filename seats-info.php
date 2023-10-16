@@ -122,7 +122,6 @@ require 'assets/php/session.php';
         ; ?>
 
         <input type="checkbox" id="nav-toggle">
-
         <!------------------------ SIDEBAR ------------------------>
         <div class="sidebar">
             <div class="sidebar-brand">
@@ -132,29 +131,32 @@ require 'assets/php/session.php';
 
             <div class="sidebar-menu" id="tabButton">
                 <ul>
-                    <li> <a href="admin.php" data-tabName="dashboard" class="dashboard" id="tabButtons"><span
-                                class="las la-th-large"></span>
+                    <li class="tabs"> <a href="admin.php" data-tabName="dashboard" 
+                            id="tabButtons"><span class="las la-th-large"></span>
                             <span>Dashboard</span></a>
                     </li>
-                    <li> <a href="seats-info.php" class="active"><span class="las la-check"></span>
+                    <li class="tabs"> <a href="seats-info.php" class="active"><span class="las la-check"></span>
                             <span>Seats Information</span></a>
                     </li>
-                    <li> <a href="reserved.php"><span class="las la-clock"></span>
+                    <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
                             <span>Reserved</span></a>
                     </li>
-                    <li> <a href="user-list.php"><span class="las la-user-friends"></span>
+                    <li class="tabs"> <a href="user-list.php"><span class="las la-user-friends"></span>
                             <span>User List</span></a>
                     </li>
-                    <li> <a href="history.php"><span class="las la-history"></span>
+                    <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
                             <span>History</span></a>
                     </li>
-                    <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
+                    <li class="tabs"> <a href="adminReviews.php"><span class="las la-star"></span>
+                            <span>Reviews</span></a>
+                    </li>
+                    <li class="tabs"> <a href="analytics.php"><span class="las la-chart-bar"></span>
                             <span>Analytics</span></a>
                     </li>
-                    <li> <a href="settings.php"><span class="las la-cog"></span>
+                    <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
                             <span>Settings</span></a>
                     </li>
-                    <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                    <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
                             href="manageAdmin.php"><span class="las la-users-cog"></span>
                             <span>Manage Accounts</span></a>
                     </li>
@@ -165,15 +167,16 @@ require 'assets/php/session.php';
             </div>
         </div>
         <!------------------------ END OF SIDEBAR ------------------------>
+        </input>
 
-
-        <div class="main-content">
-
-            <!------------------------ HEADER ------------------------>
+        <!------------------------ HEADER ------------------------>
+        <div class="header">
             <header>
                 <h2>
                     <label for="nav-toggle">
-                        <span class="la la-bars"></span>
+                        <div class="toggle">
+                            <span class="la la-bars"></span>
+                        </div>
                     </label>
                     Seats Information
                 </h2>
@@ -201,7 +204,11 @@ require 'assets/php/session.php';
                     </div>
                 </div>
             </header>
-            <!------------------------ END OF HEADER ------------------------>
+        </div>
+        <!------------------------ END OF HEADER ------------------------>
+
+
+        <div class="main-content">
 
             <main>
 
@@ -308,7 +315,6 @@ require 'assets/php/session.php';
                                 <!-------------------------END OF DATE & TIME PICKER CARD DIV --------------------->
                             </div>
 
-
                             <div id="selectSeatForm" class="col mt-1">
 
                                 <?php
@@ -324,13 +330,7 @@ require 'assets/php/session.php';
 
                             </div>
                         </div>
-
-
-
-
                         <!-------------------------END OF DATE & TIME PICKER--------------------->
-
-
                     </div>
                 </div>
 

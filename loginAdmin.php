@@ -12,37 +12,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Check if the user is an admin
   $sql = "SELECT * FROM ACCOUNT 
   INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id 
-  WHERE ACCOUNT.username = '$username' AND ACCOUNT.password = '$password' AND account_type = 'admin'";
+  WHERE ACCOUNT.username = '$username' AND account_type = 'admin'";
   $result = $conn->query($sql);
-  
+
   // if admin account found
   if ($result->num_rows == 1) {
-
     // Fetch the admin details
     $row = $result->fetch_assoc();
-    $account_id = $row['account_id'];
-    $first_name = $row['first_name'];
-    $last_name = $row['last_name'];
-    $admin_id = $row['admin_id'];
-    $email = $row['email'];
-    $isSuperAdmin = $row['isSuperAdmin'];    
-    $gender = $row['gender']; 
-    $account_type = $row['account_type'];       
+    $stored_password = $row['password'];
 
-    // Set the session variables for admin
-    $_SESSION["account_id"] = $account_id;
-    $_SESSION["username"] = $username;
-    $_SESSION["password"] = $password;
-    $_SESSION["admin_id"] = $admin_id;
-    $_SESSION["first_name"] = $first_name;
-    $_SESSION["last_name"] = $last_name;
-    $_SESSION["email"] = $email;
-    $_SESSION["isSuperAdmin"] = $isSuperAdmin;
-    $_SESSION["gender"] = $gender;
-    $_SESSION["account_type"] = $account_type;
-    
-    header("Location: admin.php");
-    exit();
+    if (password_verify($password, $stored_password)) {
+      $account_id = $row['account_id'];
+      $first_name = $row['first_name'];
+      $last_name = $row['last_name'];
+      $admin_id = $row['admin_id'];
+      $email = $row['email'];
+      $isSuperAdmin = $row['isSuperAdmin'];
+      $gender = $row['gender'];
+      $account_type = $row['account_type'];
+
+      // Set the session variables for admin
+      $_SESSION["account_id"] = $account_id;
+      $_SESSION["username"] = $username;
+      $_SESSION["password"] = $stored_password;
+      $_SESSION["admin_id"] = $admin_id;
+      $_SESSION["first_name"] = $first_name;
+      $_SESSION["last_name"] = $last_name;
+      $_SESSION["email"] = $email;
+      $_SESSION["isSuperAdmin"] = $isSuperAdmin;
+      $_SESSION["gender"] = $gender;
+      $_SESSION["account_type"] = $account_type;
+
+      header("Location: admin.php");
+      exit();
+    } else {
+      // Passwords don't match, login failed
+      $error_message = "Invalid username or passwords";
+    }
+
   }
 
   // Login failed

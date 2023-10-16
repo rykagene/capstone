@@ -34,7 +34,6 @@ require 'assets/php/session.php';
     }
     ; ?>
     <input type="checkbox" id="nav-toggle">
-
     <!------------------------ SIDEBAR ------------------------>
     <div class="sidebar">
         <div class="sidebar-brand">
@@ -44,28 +43,32 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
+                <li class="tabs"> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span
+                            class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
-                <li> <a href="seats-info.php"><span class="las la-check"></span>
+                <li class="tabs"> <a href="seats-info.php"><span class="las la-check"></span>
                         <span>Seats Information</span></a>
                 </li>
-                <li> <a href="reserved.php"><span class="las la-clock"></span>
+                <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
                         <span>Reserved</span></a>
                 </li>
-                <li> <a href="user-list.php"><span class="las la-user-friends"></span>
+                <li class="tabs"> <a href="user-list.php"><span class="las la-user-friends"></span>
                         <span>User List</span></a>
                 </li>
-                <li> <a href="history.php"><span class="las la-history"></span>
+                <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
                 </li>
-                <li> <a href="analytics.php" class="active"><span class="las la-chart-bar"></span>
+                <li class="tabs"> <a href="adminReviews.php"><span class="las la-star"></span>
+                        <span>Reviews</span></a>
+                </li>
+                <li class="tabs"> <a href="analytics.php" class="active"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
-                <li> <a href="settings.php"><span class="las la-cog"></span>
+                <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
+                <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
                         href="manageAdmin.php"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
@@ -76,20 +79,21 @@ require 'assets/php/session.php';
         </div>
     </div>
     <!------------------------ END OF SIDEBAR ------------------------>
+    </input>
 
-
-    <div class="main-content">
-
-        <!------------------------ HEADER ------------------------>
+    <!------------------------ HEADER ------------------------>
+    <div class="header">
         <header>
             <h2>
                 <label for="nav-toggle">
-                    <span class="la la-bars"></span>
+                    <div class="toggle">
+                        <span class="la la-bars"></span>
+                    </div>
                 </label>
                 Analytics
             </h2>
 
-            <<div class="dropdown">
+            <div class="dropdown">
                 <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <div class="user-wrapper">
@@ -110,86 +114,90 @@ require 'assets/php/session.php';
                     <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
                     <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
                 </div>
+            </div>
+        </header>
     </div>
-    </header>
     <!------------------------ END OF HEADER ------------------------>
 
 
-    <main>
-        <div class="graphBox">
-            <div class="box">
-                <h4>Weekly Statistics</h4>
-                <div>
-                    <canvas id="myChart"></canvas>
-                </div>
-            </div>
-            <div class="box">
-                <div>
-                    <canvas id="myChart2"></canvas>
-                </div>
-            </div>
-        </div>
+    <div class="main-content">
 
-        <div class="graphBox2">
-            <div class="box">
-                <h4>Monthly/Annual Statistics</h4>
-                <div>
 
-                    <div class="filters">
-
-                        <div class="year" class="form-control">
-                            <label for="cars">Filter Year:</label>
-                            <select class="form-control">
-                                <option>2022</option>
-                                <option>2023</option>
-                            </select>
-                        </div>
-
-                        <div class="year-level" class="form-control">
-                            <label for="cars">Filter Year Level:</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-
-                        <div class="college">
-                            <label for="cars">Filter College:</label>
-                            <select class="form-control">
-                                <option style="display:none">Select here</option>
-                                <option>CAFA</option>
-                                <option>CAL</option>
-                                <option>CBA</option>
-                                <option>CCJE</option>
-                                <option>CHTM</option>
-                                <option>CICT</option>
-                                <option>CIT</option>
-                                <option>CLaw</option>
-                                <option>CN</option>
-                                <option>COE</option>
-                                <option>COED</option>
-                                <option>CS</option>
-                                <option>CSER</option>
-                                <option>CSSP</option>
-                                <option>GS</option>
-                            </select>
-                        </div>
-
+        <main>
+            <div class="graphBox">
+                <div class="box">
+                    <h4>Weekly Statistics</h4>
+                    <div>
+                        <canvas id="myChart"></canvas>
                     </div>
-                    <canvas id="myChart3"></canvas>
-                    <div class="print-report">
-                        <a href="sample-doc.pdf" class="buttons">Print Report</a>
+                </div>
+                <div class="box">
+                    <div>
+                        <canvas id="myChart2"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="graphBox2">
+                <div class="box">
+                    <h4>Monthly/Annual Statistics</h4>
+                    <div>
+
+                        <div class="filters">
+
+                            <div class="year" class="form-control">
+                                <label for="cars">Filter Year:</label>
+                                <select class="form-control">
+                                    <option>2022</option>
+                                    <option>2023</option>
+                                </select>
+                            </div>
+
+                            <div class="year-level" class="form-control">
+                                <label for="cars">Filter Year Level:</label>
+                                <select class="form-control">
+                                    <option style="display:none">Select here</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                            </div>
+
+                            <div class="college">
+                                <label for="cars">Filter College:</label>
+                                <select class="form-control">
+                                    <option style="display:none">Select here</option>
+                                    <option>CAFA</option>
+                                    <option>CAL</option>
+                                    <option>CBA</option>
+                                    <option>CCJE</option>
+                                    <option>CHTM</option>
+                                    <option>CICT</option>
+                                    <option>CIT</option>
+                                    <option>CLaw</option>
+                                    <option>CN</option>
+                                    <option>COE</option>
+                                    <option>COED</option>
+                                    <option>CS</option>
+                                    <option>CSER</option>
+                                    <option>CSSP</option>
+                                    <option>GS</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <canvas id="myChart3"></canvas>
+                        <div class="print-report">
+                            <a href="sample-doc.pdf" class="buttons">Print Report</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
-    </main>
+        </main>
 
 
     </div>
@@ -206,6 +214,7 @@ require 'assets/php/session.php';
 "></script>
 
 <script src="assets/js/analytics.js"></script>
+
 
 
 </html>

@@ -28,7 +28,6 @@ require 'assets/php/session.php';
 <body>
 
     <input type="checkbox" id="nav-toggle">
-
     <!------------------------ SIDEBAR ------------------------>
     <div class="sidebar">
         <div class="sidebar-brand">
@@ -38,29 +37,33 @@ require 'assets/php/session.php';
 
         <div class="sidebar-menu" id="tabButton">
             <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span class="las la-th-large"></span>
+                <li class="tabs"> <a href="admin.php" data-tabName="dashboard" id="tabButtons"><span
+                            class="las la-th-large"></span>
                         <span>Dashboard</span></a>
                 </li>
-                <li> <a href="seats-info.php"><span class="las la-check"></span>
+                <li class="tabs"> <a href="seats-info.php"><span class="las la-check"></span>
                         <span>Seats Information</span></a>
                 </li>
-                <li> <a href="reserved.php"><span class="las la-clock"></span>
+                <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
                         <span>Reserved</span></a>
                 </li>
-                <li> <a href="user-list.php"><span class="las la-user-friends"></span>
+                <li class="tabs"> <a href="user-list.php"><span class="las la-user-friends"></span>
                         <span>User List</span></a>
                 </li>
-                <li> <a href="history.php"><span class="las la-history"></span>
+                <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
                         <span>History</span></a>
                 </li>
-                <li> <a href="analytics.php"><span class="las la-chart-bar"></span>
+                <li class="tabs"> <a href="adminReviews.php"><span class="las la-star"></span>
+                        <span>Reviews</span></a>
+                </li>
+                <li class="tabs"> <a href="analytics.php"><span class="las la-chart-bar"></span>
                         <span>Analytics</span></a>
                 </li>
-                <li> <a href="settings.php"><span class="las la-cog"></span>
+                <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
                         <span>Settings</span></a>
                 </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a class="active"
-                        href="manageAdmin.php"><span class="las la-users-cog"></span>
+                <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
+                        href="manageAdmin.php" class="active"><span class="las la-users-cog"></span>
                         <span>Manage Accounts</span></a>
                 </li>
                 <li class="logout"> <a href="toLogout.php">
@@ -70,17 +73,18 @@ require 'assets/php/session.php';
         </div>
     </div>
     <!------------------------ END OF SIDEBAR ------------------------>
+    </input>
 
-
-    <div class="main-content">
-
-        <!------------------------ HEADER ------------------------>
+    <!------------------------ HEADER ------------------------>
+    <div class="header">
         <header>
             <h2>
                 <label for="nav-toggle">
-                    <span class="la la-bars"></span>
+                    <div class="toggle">
+                        <span class="la la-bars"></span>
+                    </div>
                 </label>
-                Manage
+                Manage Admin Accounts
             </h2>
 
             <div class="dropdown">
@@ -106,7 +110,10 @@ require 'assets/php/session.php';
                 </div>
             </div>
         </header>
-        <!------------------------ END OF HEADER ------------------------>
+    </div>
+    <!------------------------ END OF HEADER ------------------------>
+
+    <div class="main-content">
 
         <!-- Popup for CREATING ADMIN ACCOUNT -->
         <div class="modal fade" id="createAccount" tabindex="-1" role="dialog" aria-labelledby="createAccountLabel"
@@ -122,8 +129,6 @@ require 'assets/php/session.php';
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body" style="padding:10px 40px;">
-                            <div class="form-group text-center pb-2">
-                            </div>
                             <div class="form-group">
                                 <label for="name">Username</label>
                                 <input type="text" id="username-input" class="form-control" placeholder="Jdoe" required>
@@ -318,21 +323,21 @@ require 'assets/php/session.php';
                             //     WHERE ADMIN.department = $valueToSearch";
                             //     $search_result = filterTable($querySearch);
                             // }
-
+                            
                             if (isset($_GET['search'])) {
                                 $valueToSearch = $_GET['search'];
                                 // search in all table columns
                                 // using concat mysql function
                                 $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, ACCOUNT.email, ACCOUNT.account_type, rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
                                 INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
-                                WHERE ACCOUNT.account_id > 0 AND CONCAT(ACCOUNT.account_id, ACCOUNT.username, ADMIN.first_name, ADMIN.last_name, ACCOUNT.email, ADMIN.isSuperAdmin, ADMIN.work_status)LIKE '%" . $valueToSearch . "%'";
+                                WHERE ACCOUNT.account_id > 0 AND ACCOUNT.account_id != 1  AND CONCAT(ACCOUNT.account_id, ACCOUNT.username, ADMIN.first_name, ADMIN.last_name, ACCOUNT.email, ADMIN.isSuperAdmin, ADMIN.work_status)LIKE '%" . $valueToSearch . "%'";
                                 $search_result = filterTable($querySearch);
 
                             } else {
                                 // display students existing on databse. exclude the admins/librarians
                                 $querySearch = "SELECT ACCOUNT.account_id, ACCOUNT.username, ADMIN.gender, ADMIN.department, ADMIN.work_status, ADMIN.isSuperAdmin, email, account_type, ADMIN.rfid_no, ADMIN.first_name, ADMIN.last_name FROM ACCOUNT 
                                     INNER JOIN ADMIN ON ACCOUNT.account_id = ADMIN.account_id
-                                    WHERE ACCOUNT_TYPE = 'admin'";
+                                    WHERE ACCOUNT_TYPE = 'admin' AND ACCOUNT.account_id != 1 ";
                                 $search_result = filterTable($querySearch);
                             }
 

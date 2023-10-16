@@ -3,13 +3,24 @@ session_start();
 require 'assets/php/connect.php';
 
 // if the user was not logged in
-if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"]) 
-&& !isset($_SESSION["last_name"]) &&!isset($_SESSION["reservation_count"])) {
+if (
+    !isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SESSION["first_name"])
+    && !isset($_SESSION["last_name"]) && !isset($_SESSION["reservation_count"])
+) {
 
-      header('Location: loginAdmin.php');
-      exit();
+    header('Location: loginAdmin.php');
+    exit();
 
 }
+
+$sql = "SELECT r.reservation_id, r.user_id, r.date, r.start_time, r.end_time, a.username, u.user_id, r.seat_id, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, a.email, a.picture
+        FROM reservation AS r
+        INNER JOIN account AS a ON r.user_id = a.username
+        INNER JOIN users AS u ON r.user_id = u.user_id
+        WHERE r.is_archived = 0 AND r.isDone = 0";
+
+$result = $conn->query($sql);
+
 ?>
 
 
@@ -67,12 +78,14 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
     <!------------------------ ICONS ------------------------>
     <link rel="stylesheet"
         href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
 
 </head>
 
 
 <body>
-    
+<!-- Hides manage admin button when regular admin is logged in -->
 <?php if ($_SESSION['isSuperAdmin'] === 'no') {
     echo '<style type="text/css">
        .sidebar-menu #hidden{
@@ -83,99 +96,97 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
 ; ?>
 
 
-    <input type="checkbox" id="nav-toggle">
-    <!------------------------ SIDEBAR ------------------------>
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
-            <h2> <span>SOAR Admin</span></h2>
-        </div>
+        <input type="checkbox" id="nav-toggle">
+        <!------------------------ SIDEBAR ------------------------>
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <img src="assets/img/bulsu logo.png" alt="bulsu logo" class="logo">
+                <h2> <span>SOAR Admin</span></h2>
+            </div>
 
-        <div class="sidebar-menu" id="tabButton">
-            <ul>
-                <li> <a href="admin.php" data-tabName="dashboard" class="dashboard active" id="tabButtons"><span
-                            class="las la-th-large"></span>
-                        <span>Dashboard</span></a>
-                </li>
-                <li> <a href="seats-info.php" ><span class="las la-check"></span>
-                        <span>Seats Information</span></a>
-                </li>
-                <li> <a href="reserved.php"><span class="las la-clock"></span>
-                        <span>Reserved</span></a>
-                </li>
-                <li> <a href="user-list.php"><span
-                            class="las la-user-friends"></span>
-                        <span>User List</span></a>
-                </li>
-                <li> <a href="history.php"><span class="las la-history"></span>
-                        <span>History</span></a>
-                </li>
-                <li> <a href="adminReviews.php"><span class="las la-history"></span>
-                        <span>Reviews</span></a>
-                </li>
-                <li> <a href="analytics.php"><span
-                            class="las la-chart-bar"></span>
-                        <span>Analytics</span></a>
-                </li>
-                <li> <a href="settings.php"><span class="las la-cog"></span>
-                        <span>Settings</span></a>
-                </li>
-                <li id="hidden" class="manage" data-toggle="modal" data-target="#exampleModal"> <a
-                        href="manageAdmin.php"><span class="las la-users-cog"></span>
-                        <span>Manage Accounts</span></a>
-                </li>
-                <li class="logout"> <a href="toLogout.php">
-                        <span>Logout</span></a>
-                </li>
-            </ul>
+            <div class="sidebar-menu" id="tabButton">
+                <ul>
+                    <li class="tabs"> <a href="admin.php" data-tabName="dashboard" class="dashboard active" id="tabButtons"><span
+                                class="las la-th-large"></span>
+                            <span>Dashboard</span></a>
+                    </li>
+                    <li class="tabs"> <a href="seats-info.php" ><span class="las la-check"></span>
+                            <span>Seats Information</span></a>
+                    </li>
+                    <li class="tabs"> <a href="reserved.php"><span class="las la-clock"></span>
+                            <span>Reserved</span></a>
+                    </li>
+                    <li class="tabs"> <a href="user-list.php"><span
+                                class="las la-user-friends"></span>
+                            <span>User List</span></a>
+                    </li>
+                    <li class="tabs"> <a href="history.php"><span class="las la-history"></span>
+                            <span>History</span></a>
+                    </li>
+                    <li class="tabs"> <a href="adminReviews.php"><span class="las la-star"></span>
+                            <span>Reviews</span></a>
+                    </li>
+                    <li class="tabs"> <a href="analytics.php"><span
+                                class="las la-chart-bar"></span>
+                            <span>Analytics</span></a>
+                    </li>
+                    <li class="tabs"> <a href="settings.php"><span class="las la-cog"></span>
+                            <span>Settings</span></a>
+                    </li>
+                    <li id="hidden" class="manage tabs" data-toggle="modal" data-target="#exampleModal"> <a
+                            href="manageAdmin.php"><span class="las la-users-cog"></span>
+                            <span>Manage Accounts</span></a>
+                    </li>
+                    <li class="logout"> <a href="toLogout.php">
+                            <span>Logout</span></a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!------------------------ END OF SIDEBAR ------------------------>
-    </input>
+        <!------------------------ END OF SIDEBAR ------------------------>
+        </input>
 
-    <!------------------------ HEADER ------------------------>
-    <div class="header">
-        <header>
-            <h2>
-                <label for="nav-toggle">
-                    <div class="toggle">
-                        <span class="la la-bars"></span>
-                    </div>
-                </label>
-                <h2 class="dashboardText">
+<!------------------------ HEADER ------------------------>
+      <div class="header">
+            <header>
+                <h2>
+                    <label for="nav-toggle">
+                        <div class="toggle">
+                            <span class="la la-bars"></span>
+                        </div>
+                    </label>
                     Dashboard
                 </h2>
-            </h2>
 
-            <div class="dropdown">
-                <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
-                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <div class="user-wrapper">
-                    <img src="<?php if ($_SESSION['gender'] == "Male") {
-                        echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
-                    } elseif ($_SESSION['gender'] == "Female") {
-                        echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
-                    } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
-                        <div id="user_admin">
-                            <h4>
-                                <?php echo  $_SESSION["username"]; ?>
-                            </h4>
+                <div class="dropdown">
+                    <button class="dropdown-toggle" class="btn btn-secondary dropdown-toggle" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <div class="user-wrapper">
+                            <img src="<?php if ($_SESSION['gender'] == "Male") {
+                                echo "https://cdn-icons-png.flaticon.com/512/2552/2552801.png";
+                            } elseif ($_SESSION['gender'] == "Female") {
+                                echo "https://cdn-icons-png.flaticon.com/512/206/206864.png";
+                            } ?>" alt="Admin" class="rounded-circle p-1 bg-secondary" width="45">
+                            <div id="user_admin">
+                                <h4>
+                                    <?php echo $_SESSION["username"]; ?>
+                                </h4>
+                            </div>
                         </div>
+                    </button>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
+                        <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
                     </div>
-                </button>
-
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="adminProfile.php">Profile</a></li>
-                    <li><a class="dropdown-item" href="toLogout.php">Logout</a></li>
                 </div>
-            </div>
-        </header>
-    </div>
-    <!------------------------ END OF HEADER ------------------------>
+            </header>
+        </div>
+        <!------------------------ END OF HEADER ------------------------>
 
 
-    <div class="main-content">
-        <main>
+    <div class="main-content" style="overflow:hidden;">
+        <main >
             <div id="tabContainer">
                 <!--- Dashboard Code --->
                 <div class="tab active" id="dashboard">
@@ -193,12 +204,24 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
                             <p class="count-text ">Occupied</p>
                         </div>
 
-                        <div class="counter col_fourth">
-                            <i class="las la-clock"></i>
-                            <h2 class="timer count-title count-number" data-to="35" data-speed="1000"></h2>
-                            <p class="count-text ">Pending</p>
-                        </div>
+                        <?php
+                        if ($result) {
+                            $rowCount = mysqli_num_rows($result); // Get the number of rows
+                        
+                            echo '<div class="counter col_fourth">
+                                    <i class="las la-clock"></i>
+                                    <h2 class="timer count-title count-number" data-to="' . $rowCount . '" data-speed="1000">' . $rowCount . '</h2>
+                                    <p class="count-text">Pending</p>
+                                  </div>';
+                        } else {
+                            // Handle the query error here
+                            echo "Error: " . $conn->error;
+                        }
 
+
+
+                        ?>
+                      
                         <div class="counter col_fourth end">
                             <i class="las la-tools"></i>
                             <h2 class="timer count-title count-number" data-to="10" data-speed="1000"></h2>
@@ -221,103 +244,82 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
                                         <table width="100%">
                                             <thead>
                                                 <tr>
-                                                    <td>Student No.</td>
-                                                    <td>College</td>
-                                                    <td>Time-in</td>
-                                                    <td>Time-out</td>
+                                                    <td>Reservation ID</td>
+                                                    <td>User ID</td>
+                                                    <td>Name</td>
+                                                    <td>Seat ID</td>
                                                     <td>Date</td>
-                                                    <td>Seat No.</td>
-                                                    <td>Floor</td>
+                                                    <td>Start Time</td>
+                                                    <td>End Time</td>
+                                                    <td></td>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <?php
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    ?>
+                                                                                                <tr id="reservation_row_<?php echo $row['reservation_id']; ?>">                                                 
+                                                                                                    <td class="studno">
+                                                                                                        <?php echo $row['reservation_id']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                        
+                                                                                                        <?php echo $row['user_id']; ?>
+                                                                                                    </td>
 
-                                                <tr>
-                                                    <td class="studno">2020106234</td>
-                                                    <td>CICT</td>
-                                                    <td>09:30AM</td>
-                                                    <td>10:00AM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>53</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020103646</td>
-                                                    <td>CLaw</td>
-                                                    <td>10:00AM</td>
-                                                    <td>12:00PM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>65</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020106434</td>
-                                                    <td>CAL</td>
-                                                    <td>1:00PM</td>
-                                                    <td>3:00PM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>24</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020106434</td>
-                                                    <td>CIT</td>
-                                                    <td>09:30AM</td>
-                                                    <td>10:00AM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>12</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020106434</td>
-                                                    <td>CN</td>
-                                                    <td>10:00AM</td>
-                                                    <td>12:00PM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>52</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020104122</td>
-                                                    <td>CAFA</td>
-                                                    <td>3:00PM</td>
-                                                    <td>4:00PM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>52</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020106234</td>
-                                                    <td>CICT</td>
-                                                    <td>09:30AM</td>
-                                                    <td>10:00AM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>53</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="studno">2020103646</td>
-                                                    <td>CLaw</td>
-                                                    <td>10:00AM</td>
-                                                    <td>12:00PM</td>
-                                                    <td>4/17/23</td>
-                                                    <td>65</td>
-                                                    <td>6</td>
-                                                </tr>
-
-                                            </tbody>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['first_name']; ?>
+                                                                                                        <?php echo $row['last_name']; ?>
+                                                                                                    </td>
+                                                    
+                                                                                                    <td>
+                                                                                                        <?php echo $row['seat_id']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['date']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['start_time']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <?php echo $row['end_time']; ?>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                    <button type="button" class="btn btn-light btn-rounded btn-icon view_reservation"
+                                                                                                    data-toggle="modal" data-target="#staticBackdrop"
+                                                                                                            data-userid="<?php echo $row['user_id']; ?>"
+                                                                                                            data-date="<?php echo $row['date']; ?>"
+                                                                                                            data-starttime="<?php echo $row['start_time']; ?>"
+                                                                                                            data-endtime="<?php echo $row['end_time']; ?>"
+                                                            
+                                                                                                            data-firstname="<?php echo $row['first_name']; ?>"
+                                                                                                            data-lastname="<?php echo $row['last_name']; ?>"
+                                                                                                            data-picture="<?php echo $row['picture']; ?>"
+                                                                                                            data-email="<?php echo $row['email']; ?> "
+                                                                                                            data-rfidno="<?php echo $row['rfid_no']; ?> "
+                                                                                                            data-course="<?php echo $row['course_code']; ?> "
+                                                                                                            data-contactno="<?php echo $row['contact_number']; ?> "
+                                                                                                            data-seatid="<?php echo $row['seat_id']; ?> "
+                                                                                                            >
+                                                                                                        <i class="bi bi-eye-fill text-danger" style="font-size: 1.2em;"></i>
+                                                                                                    </button>
+                                                    
+                                                   
+                                                    
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <?php
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='7'>No history found.</td></tr>";
+                                            }
+                                            ?>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <!------------------------ END OF PENDING RESERVATION ------------------------>
 
                         <!------------------------ RECENT HISTORY ------------------------>
@@ -325,82 +327,54 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
                             <div class="card">
                                 <div class="card-header">
                                     <h3>Recent History</h3>
-                                    <a href="history.php" class="button">See all <span
-                                            class="las la-arrow-right"></span></a>
+                                    <a href="history.php" class="button">See all <span class="las la-arrow-right"></span></a>
                                 </div>
                                 <div class="card-body">
 
-                                    <div class="customer">
-                                        <div class="info">
-                                            <img src="assets/img/stud1.jpg" width="40px" height="40px" alt="">
-                                            <div>
-                                                <h5>Jericho Jorales</h5>
-                                                <small>BSIT 3E </small>
-                                            </div>
-                                        </div>
-                                        <div class="see-details">
-                                            <h7>See details</h7>
-                                        </div>
-                                    </div>
+                                    <?php
+                                    $historySql = "SELECT h.history_id, h.reservation_id, h.user_id, h.date, h.start_time, h.end_time, a.username, u.user_id, h.seat_id, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, a.email, a.picture
+                                    FROM history AS h
+                                    INNER JOIN account AS a ON h.user_id = a.username
+                                    INNER JOIN users AS u ON h.user_id = u.user_id
+                                    WHERE h.is_archived = 0
+                                    ORDER BY h.date DESC
+                                    LIMIT 5"; // Retrieve the first 5 rows from the history table ordered by date in descending order
+                                    
+                                    $historyResult = $conn->query($historySql);
 
-                                    <div class="customer">
-                                        <div class="info">
-                                            <img src="assets/img/stud1.jpg" width="40px" height="40px" alt="">
-                                            <div>
-                                                <h5>Jericho Jorales</h5>
-                                                <small>BSIT 3E </small>
-                                            </div>
-                                        </div>
-                                        <div class="see-details">
-                                            <h7>See details</h7>
-                                        </div>
-                                    </div>
+                                    if ($historyResult->num_rows > 0) {
+                                        while ($row = $historyResult->fetch_assoc()) {
+                                            ?>
 
+                                                                                            <div class="customer">
+                                                                                                <div class="info">
+                                                                                                    <img src="<?php echo $row['picture']; ?>" width="40px" height="40px" alt="">
+                                                                                                    <div>
+                                                                                                        <h5><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></h5>
+                                                                                                        <small><?php echo $row['course_code']; ?></small>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="see-details">
+                                                                                                    <a href="history-details.php?history_id=<?php echo $row['history_id']; ?>">See details</a>
+                                                                                                </div>
+                                                                                            </div>
 
-                                    <div class="customer">
-                                        <div class="info">
-                                            <img src="assets/img/stud1.jpg" width="40px" height="40px" alt="">
-                                            <div>
-                                                <h5>Jericho Jorales</h5>
-                                                <small>BSIT 3E </small>
-                                            </div>
-                                        </div>
-                                        <div class="see-details">
-                                            <h7>See details</h7>
-                                        </div>
-                                    </div>
+                                                                                            <?php
+                                        }
+                                    } else {
+                                        // No recent history message
+                                        echo "<p>No recent history.</p>";
+                                    }
+                                    // Close the database connection after fetching the data
+                                    $conn->close();
+                                    ?>
 
-
-                                    <div class="customer">
-                                        <div class="info">
-                                            <img src="assets/img/stud1.jpg" width="40px" height="40px" alt="">
-                                            <div>
-                                                <h5>Jericho Jorales</h5>
-                                                <small>BSIT 3E </small>
-                                            </div>
-                                        </div>
-                                        <div class="see-details">
-                                            <h7>See details</h7>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="customer">
-                                        <div class="info">
-                                            <img src="assets/img/stud1.jpg" width="40px" height="40px" alt="">
-                                            <div>
-                                                <h5>Jericho Jorales</h5>
-                                                <small>BSIT 3E </small>
-                                            </div>
-                                        </div>
-                                        <div class="see-details">
-                                            <h7>See details</h7>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!------------------------ END OF RECENT HISTORY ------------------------>
+
+
 
                         <!-- Popup for superadmin permission -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -1917,6 +1891,88 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
         </main>
     </div>
 
+
+
+
+
+
+
+
+    <!--- modal view for pending reservation--->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="true" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body text-center">
+                                    <div class="text-right"> <i class="bi bi-x-lg close" data-dismiss="modal"></i></div>
+                                
+                                    <div class="px-4 py-5">
+                                        <img src="" id="user-picture" alt="user picture" class="rounded-circle p-1 bg-secondary mb-3" width="10" style="width: 100px; height: 100px;">
+                                        
+                                        <h5 class="text-uppercase" id="name_view"></h5>
+
+                                    <h6 class="mt-2 theme-color mb-5" id="userID_view"></h6>
+
+                                    <span class="font-weight-bold theme-color">User Information</span>
+                                    <div class="mb-3">
+                                        <hr class="new1">
+                                    </div>
+
+                                    
+
+                                    <div class="d-flex justify-content-between">
+                                        <small id="rfid_view">RFID No.:  </small>
+                                        <small id="contact_view"></small>
+                                    </div>
+                                    
+
+                                    <div class="d-flex justify-content-between">
+                                        <small id="course_view">Course: </small>
+                                        <small >Year and Section: </small>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <small id="">College</small>
+                                        <small >Age: </small>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <small id="email_view"></small>
+                                        <small > </small>
+                                    </div>
+                                    
+                                    
+
+                                    <span class="font-weight-bold theme-color">Reservation Details</span>
+                                    <div class="mb-3">
+                                        <hr class="new1">
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <span class="font-weight-bold">Date:</span>
+                                        <span class="text-muted" id="date_view">Date: </span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <span class="font-weight-bold">Seat ID:</span>
+                                        <span class="text-muted" id="seat_view"></span>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <small>Start Time:</small>
+                                        <small id="stime_view">start time here</small>
+                                    </div>
+
+
+                                    <div class="d-flex justify-content-between">
+                                        <small>End Time:</small>
+                                        <small id="etime_view">end time here</small>
+                                    </div>      
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -1931,6 +1987,43 @@ if (!isset($_SESSION["user_id"]) && !isset($_SESSION["password"]) && !isset($_SE
 
 <script src="assets/js/admin.js"></script>
 <script src="assets/js/analytics.js"></script>
+
+<script>
+    //TO VIEW PENDING RESERVATION
+$(document).ready(function() {
+    
+    $('.view_reservation').click(function() {
+        
+        var userId = $(this).data('userid');
+        var date = $(this).data('date');
+        var seatId = $(this).data('seatid');
+        var startTime = $(this).data('starttime');
+        var endTime = $(this).data('endtime');
+        var timeSpent = $(this).data('timespent');
+        var email = $(this).data('email');
+        var firstName = $(this).data('firstname');
+        var lastName = $(this).data('lastname');
+        var rfidNo = $(this).data('rfidno');
+        var contactNo = $(this).data('contactno');
+        var courseCode = $(this).data('course');
+        var pictureUrl = $(this).data('picture'); 
+        
+        $('#userID_view').text("User ID: " + userId);
+        $('#date_view').text(date);
+        $('#stime_view').text(startTime);
+        $('#etime_view').text(endTime);
+        $('#timeSpent_view').text(timeSpent);
+        $('#email_view').text("Email:     " + email);
+        $('#name_view').text(firstName + " " +  lastName);
+        $('#user-picture').attr('src', pictureUrl);
+        $('#rfid_view').text("RFID Number:     " + rfidNo);
+        $('#course_view').text("Course:     " + courseCode);
+        $('#contact_view').text("Contact No.:     " + rfidNo);
+        $('#seat_view').text(seatId);
+        
+    });
+});
+</script>
 
 </html>
 
