@@ -186,7 +186,7 @@ $error_message = "Invalid username or passwordz";
     </div>
     <div class="col">
       <div class="form-floating">
-        <input type="text" name="user_id" class="form-control" id="user_id" autocomplete="off" required>
+        <input type="number" name="user_id" class="form-control" id="user_id" autocomplete="off" required>
         <label for="user_id">ID Number</label>
         <div class="invalid-feedback">
       Sorry, it's already used.
