@@ -1,13 +1,4 @@
 
-
-
-<!-- as of now, username is also user_id.
-planning to make a feature that username is editable
-so the user can use both username or id number to login -->
-
-
-
-
 <?php
 require_once 'assets/php/connect.php';
 
@@ -87,12 +78,24 @@ if ($conn->query($query)) {
 
   if ($conn->query($query2)) {
     // Successful insertion into users table
-    echo "User inserted successfully.";
+ $response = array(
+    'status' => 'success',
+    'message' => 'Registration successful'
+);
+echo json_encode($response);
+
   } else {
-    echo "Error inserting user: " . $conn->error;
+    $response = array(
+      'status' => 'error',
+      'message' => 'Error'
+  );
+  echo json_encode($response);
+  
   }
 
 } 
+
+
 
 // Close the database connection
 $conn->close();
