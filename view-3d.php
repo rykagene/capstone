@@ -26,26 +26,26 @@ $currentDateTime = date('Y-m-d H:i');
 // E-library hours
 // E-library hours
 // E-library hours
-$settingsSql = "SELECT start_hour, end_hour FROM settings WHERE settings_id = 1"; // Assuming settings_id is 1, modify as needed
-$settingsResult = mysqli_query($conn, $settingsSql);
+// $settingsSql = "SELECT start_hour, end_hour FROM settings WHERE settings_id = 1"; // Assuming settings_id is 1, modify as needed
+// $settingsResult = mysqli_query($conn, $settingsSql);
 
-if ($settingsResult && mysqli_num_rows($settingsResult) > 0) {
-    $settingsRow = mysqli_fetch_assoc($settingsResult);
-    $dbStartHour = $settingsRow['start_hour'];
-    $dbEndHour = $settingsRow['end_hour'];
+// if ($settingsResult && mysqli_num_rows($settingsResult) > 0) {
+//     $settingsRow = mysqli_fetch_assoc($settingsResult);
+//     $dbStartHour = $settingsRow['start_hour'];
+//     $dbEndHour = $settingsRow['end_hour'];
 
-    // Compare with the provided start and end times
-    if ($start_time < $dbStartHour || $end_time > $dbEndHour) {
-        echo '<div class="d-flex justify-content-center align-items-center vh-100" data-aos="fade">
-            <div class="text-center">
-                <i class="bi bi-exclamation-circle-fill text-danger display-1"></i>
-                <h5 class="mt-3">Invalid Time Selection</h5>
-                <p>Please reserve a time from E-library hours. '. date('g:i A' , strtotime($dbStartHour)) .' to '. date('g:i A', strtotime($dbEndHour)) .' </p>
-            </div>
-        </div>';
-        exit(); // Exit early if the times are invalid
-    }
-}
+//     // Compare with the provided start and end times
+//     if ($start_time < $dbStartHour || $end_time > $dbEndHour) {
+//         echo '<div class="d-flex justify-content-center align-items-center vh-100" data-aos="fade">
+//             <div class="text-center">
+//                 <i class="bi bi-exclamation-circle-fill text-danger display-1"></i>
+//                 <h5 class="mt-3">Invalid Time Selection</h5>
+//                 <p>Please reserve a time from E-library hours. '. date('g:i A' , strtotime($dbStartHour)) .' to '. date('g:i A', strtotime($dbEndHour)) .' </p>
+//             </div>
+//         </div>';
+//         exit(); // Exit early if the times are invalid
+//     }
+// }
 // end E-library hours
 // end E-library hours
 // end E-library hours

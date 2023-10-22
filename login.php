@@ -7,42 +7,55 @@ session_start();
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Retrieve the form data
+    // Retrieve the form data
   $username = $_POST['username'];
   $password = $_POST['login_password'];
-
-// Check if the user is a regular user
-$sql = "SELECT * FROM account WHERE username = '$username' AND account_type != 'admin'";
-$result = $conn->query($sql);
+ 
+  // Check if the user is a regular user
+  $sql = "SELECT * FROM account WHERE username = '$username' AND account_type != 'admin'";
+  $result = $conn->query($sql);
 
 
 // Check if a matching user record is found
-if ($result->num_rows == 1) {
-  // Fetch the user's data from the database
-  $row = $result->fetch_assoc();
-  $stored_password = $row['password'];
+  if ($result->num_rows == 1) {
+    // Fetch the user's data from the database
+    $row = $result->fetch_assoc();
+    $stored_password = $row['password'];
+    $account_id = $row['account_id'];
+    
+    // Verify the provided password against the stored hash
+    if (password_verify($password, $stored_password)) {
+      // Passwords match, user is authenticated
+      $sql2 = "SELECT * FROM users WHERE account_id = '$account_id'";
+      $result2 = $conn->query($sql2);
 
-  // Verify the provided password against the stored hash
-  if (password_verify($password, $stored_password)) {
-    // Passwords match, user is authenticated
-    $_SESSION["username"] = $username;
-    $_SESSION["account_type"] = $row['account_type'];
-    $_SESSION["user_id"] = $row['user_id'];
-    $_SESSION["first_name"] = $row['first_name'];
-    $_SESSION["account_type"] = $row['account_type'];
-    // $_SESSION["admin_id"] = $admin_id;
-    $_SESSION["last_name"] = $row['last_name'];
-    $_SESSION["reservation_count"] = $row['reservation_count'];
-    header("Location: home.php");
-    exit();
+      if ($result2->num_rows == 1) {
+        $user_row = $result2->fetch_assoc();
+
+        $_SESSION["username"] = $username;
+        $_SESSION["account_type"] = $row['account_type'];
+        $_SESSION["user_id"] = $user_row['user_id']; // Fetch user_id from the second query
+        $_SESSION["first_name"] = $user_row['first_name'];
+        $_SESSION["last_name"] = $user_row['last_name'];
+        $_SESSION["reservation_count"] = $user_row['reservation_count'];
+
+        header("Location: home.php");
+        exit();
+      } else {
+        $error_message = "Invalid username or password";
+        header("Location: login.php");
+        exit();
+      }
+    } else {
+      $error_message = "Invalid username or password";
+      header("Location: login.php");
+      exit();
+    }
   } else {
-    // Passwords don't match, login failed
-    $error_message = "Invalid username or passwords";
+    $error_message = "Invalid username or password";
+    header("Location: login.php");
+    exit();
   }
-}
-
-// Login failed
-$error_message = "Invalid username or passwordz";
 }
 ?>
 
@@ -186,7 +199,7 @@ $error_message = "Invalid username or passwordz";
     </div>
     <div class="col">
       <div class="form-floating">
-        <input type="text" name="user_id" class="form-control" id="user_id" autocomplete="off" required>
+        <input type="number" name="user_id" class="form-control" id="user_id" autocomplete="off" required>
         <label for="user_id">ID Number</label>
         <div class="invalid-feedback">
       Sorry, it's already used.
