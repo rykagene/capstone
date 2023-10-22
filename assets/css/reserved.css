@@ -403,3 +403,28 @@ td {
   cursor: pointer;
   padding: 10px;
 }
+
+/*USER TYPE*/
+.user-type {
+  padding: 0.4rem 0;
+  border-radius: 2rem;
+  text-align: center;
+}
+
+.user-type.alumni {
+  background-color: #86e49d;
+  color: #006b21;
+}
+
+.user-type.admin {
+  background-color: #d893a3;
+  color: #b30021;
+}
+
+.user-type.faculty {
+  background-color: #ebc474;
+}
+
+.user-type.student {
+  background-color: #6fcaea;
+}
