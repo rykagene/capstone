@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- REGISTER FORM -->
         
         
-        <form id="register-form" autocomplete="off" class="sign-up-form needs-validation" novalidate>
+        <form id="register-form" autocomplete="off" class="sign-up-form needs-validation">
             <div class="logo">
       <img src="assets/img/elib logo.png" alt="easyclass" />
       <h4>SOAR</h4>
@@ -344,15 +344,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script>
   $(document).ready(function() {
-    $('#register-form').submit(function(e) {
+    const registerForm = $('#register-form');
+    const registerButton = $('#register-btn');
+
+    // Disable the button initially
+    registerButton.prop('disabled', true);
+
+    registerForm.submit(function(e) {
       e.preventDefault(); // Prevent the default form submission
 
-      // Check if any of the required fields are empty
+      // Check if all required fields are valid
       let formValid = true;
       $(this)
         .find('[required]')
         .each(function() {
-          if ($(this).val() === '') {
+          if (!this.checkValidity()) {
             formValid = false;
             $(this).addClass('is-invalid');
           } else {
@@ -360,47 +366,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }
         });
 
-      if (!formValid) {
-        // Display an error message or take any other necessary action
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Please fill in all required fields.',
-          confirmButtonColor: '#a81c1c',
-        });
-        return;
+      // Check if passwords match
+      const password = $('#new_password').val();
+      const confirmPassword = $('#confirm_password').val();
+
+      if (password !== confirmPassword) {
+        formValid = false;
+        $('#new_password').addClass('is-invalid');
+        $('#confirm_password').addClass('is-invalid');
       }
 
-      // If all required fields are filled, proceed with the AJAX request
-      const formData = new FormData(this);
+        // Check if user_id is already used (you need to implement this logic)
+        const userIdInput = $('#user_id');
+      const userIdValue = userIdInput.val();
+      if (userIdValue === 'used') {
+        userIdInput.addClass('is-invalid');
+        formValid = false;
+      } else {
+        userIdInput.removeClass('is-invalid');
+      }
 
-      $.ajax({
-        url: 'toRegister.php',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-          // Display a success message using SweetAlert2
-          Swal.fire({
-            icon: 'success',
-            title: 'Registration Successful',
-            text: 'You have successfully registered.',
-            confirmButtonColor: '#a81c1c',
-          });
-        },
-        error: function(xhr, status, error) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Registration Error',
-            text: 'Registration failed. Please try again.',
-            confirmButtonColor: '#a81c1c',
-          });
-        }
-      });
+      if (formValid) {
+        // If all required fields are valid and passwords match, proceed with the AJAX request
+        const formData = new FormData(this);
+
+        $.ajax({
+          url: 'toRegister.php',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            // Display a success message using SweetAlert2
+            Swal.fire({
+              icon: 'success',
+              title: 'Registration Successful',
+              text: 'You have successfully registered.',
+              confirmButtonColor: '#a81c1c',
+            }).then(function () {
+              // Reload the page after the alert is closed
+              location.reload();
+            });
+          },
+          error: function(xhr, status, error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Registration Error',
+              text: 'Registration failed. Please try again.',
+              confirmButtonColor: '#a81c1c',
+            });
+          }
+        });
+      }
+    });
+
+    // Disable or enable the button based on form validity
+    registerForm.on('input', function() {
+      const password = $('#new_password').val();
+      const confirmPassword = $('#confirm_password').val();
+      const userIdInput = $('#user_id');
+
+      if (this.checkValidity() && password === confirmPassword && !userIdInput.hasClass('is-invalid')) {
+        registerButton.prop('disabled', false);
+      } else {
+        registerButton.prop('disabled', true);
+      }
+    });
+
+    // Check if userId is already used (you need to implement this logic)
+    $('#user_id').on('input', function() {
+      // Implement the logic to check if the user_id is already used
+      // If it's already used, add the 'is-invalid' class to mark it as invalid
+      // Example:
+      const userIdValue = $(this).val();
+      if (userIdValue === 'used') {
+        $(this).addClass('is-invalid');
+      } else {
+        $(this).removeClass('is-invalid');
+      }
     });
   });
 </script>
+
 
 
 
