@@ -131,59 +131,40 @@ require 'assets/php/session.php';
     <div class="main-content">
 
         <main>
-            <!-- DASHBOARD -->
-
-            <!-- <div class="graphBox">
-            <div class="box">
-                <h4>Weekly Statistics</h4>
-                <div>
-                    <canvas id="myChart"></canvas>
-                </div>
-            </div>
-            <div class="box">
-                <div>
-                    <canvas id="myChart2"></canvas>
-                </div>
-            </div>
-        </div> -->
             <div class="dashboard">
+                <?php
+                $query = "SELECT rating, COUNT(*) AS count FROM rating GROUP BY rating";
+
+                $result = $conn->query($query);
+
+                $ratings = [];
+                while ($row = $result->fetch_assoc()) {
+                    $ratings[$row['rating']] = $row['count'];
+                }
+
+                $totalRatings = array_sum($ratings);
+
+                $percentageRatings = [];
+                foreach ($ratings as $rating => $count) {
+                    $percentage = ($count / $totalRatings) * 100;
+                    $percentageRatings[$rating] = $percentage;
+                }
+                ?>
+
                 <div class="reviews-container">
                     <h2>Reviews Summary</h2>
-                    <div class="review">
-                        <span class="icon-container">5 <i class="fas fa-star"></i></span>
-                        <div class="progress">
-                            <div class="progress-done" data-done="68"></div>
-                        </div>
-                        <span class="percent">68%</span>
-                    </div>
-                    <div class="review">
-                        <span class="icon-container">4 <i class="fas fa-star"></i></span>
-                        <div class="progress">
-                            <div class="progress-done" data-done="13"></div>
-                        </div>
-                        <span class="percent">13%</span>
-                    </div>
-                    <div class="review">
-                        <span class="icon-container">3 <i class="fas fa-star"></i></span>
-                        <div class="progress">
-                            <div class="progress-done" data-done="9"></div>
-                        </div>
-                        <span class="percent">9%</span>
-                    </div>
-                    <div class="review">
-                        <span class="icon-container">2 <i class="fas fa-star"></i></span>
-                        <div class="progress">
-                            <div class="progress-done" data-done="3"></div>
-                        </div>
-                        <span class="percent">3%</span>
-                    </div>
-                    <div class="review">
-                        <span class="icon-container">1 <i class="fas fa-star"></i></span>
-                        <div class="progress">
-                            <div class="progress-done" data-done="7"></div>
-                        </div>
-                        <span class="percent">7%</span>
-                    </div>
+                    <?php
+                    for ($rating = 5; $rating >= 1; $rating--) {
+                        $percentage = isset($percentageRatings[$rating]) ? $percentageRatings[$rating] : 0;
+                        echo '<div class="review">';
+                        echo '<span class="icon-container">' . $rating . ' <i class="fas fa-star"></i></span>';
+                        echo '<div class="progress">';
+                        echo '<div class="progress-done" data-done="' . $percentage . '"></div>';
+                        echo '</div>';
+                        echo '<span class="percent">' . number_format($percentage, 2) . '%</span>';
+                        echo '</div>';
+                    }
+                    ?>
                 </div>
 
                 <div class="box-container">
