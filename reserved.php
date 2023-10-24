@@ -3,10 +3,11 @@ session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
 
-$sql = "SELECT r.reservation_id, r.user_id, r.date, r.start_time, r.end_time, a.username, u.user_id, r.seat_id, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, a.email, a.picture
+$sql = "SELECT r.reservation_id, r.user_id, r.date, r.start_time, r.end_time, a.username, u.user_id, r.seat_id, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, u.age, a.email, a.picture, a.account_type, u.course_code, c.college_code
         FROM reservation AS r
         INNER JOIN account AS a ON r.user_id = a.username
         INNER JOIN users AS u ON r.user_id = u.user_id
+        LEFT JOIN course AS c ON u.course_code = c.course_code
         WHERE r.is_archived = 0";
 
 $result = $conn->query($sql);
@@ -29,6 +30,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" type="text/css" href="assets/css/reserved.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/user-list.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="path-to-bootstrap/bootstrap.min.css">
 
     <!-- Datepicker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -159,7 +161,7 @@ $result = $conn->query($sql);
                 </li>
 
             </ul>
-
+            
             <!-- Tab content -->
             <div class="tab-content" id="myTabsContent">
                 <!-- Table Tab Content -->
@@ -181,6 +183,8 @@ $result = $conn->query($sql);
                                             </div>
 
                                             <div class="export__file">
+                                                
+
                                                 <label for="export-file" class="export__file-btn" title="Export File">
                                                     <img src="assets/img/export1.png" alt="Export" class="export_ic">
                                                 </label>
@@ -225,16 +229,21 @@ $result = $conn->query($sql);
                                                 <button id="reset"
                                                     class="btn btn-outline-warning btn-sm ">Reset</button>
                                             </div>
+                                            
+
                                         </div>
 
                                         <section class="table__body">
-                                            <table id="customers_table">
+                                            <table id="reservation_table">
                                                 <thead>
                                                     <tr>
                                                         <th id="all-reservation-id"> Reservation ID <span
                                                                 class="icon-arrow">&UpArrow;</span></th>
                                                         <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> User <span class="icon-arrow">&UpArrow;</span></th>
+                                                        <th> User Type <span class="icon-arrow">&UpArrow;</span></th>
+                                                        <th> Course <span class="icon-arrow">&UpArrow;</span></th>
+                                                        <th> College <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> Date <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> Start Time <span class="icon-arrow">&UpArrow;</span></th>
@@ -247,6 +256,7 @@ $result = $conn->query($sql);
                                                     while ($row = $result->fetch_assoc()) {
                                                         ?>
                                                         <tr id="reservation_row_<?php echo $row['reservation_id']; ?>">
+
                                                             <td class="studno">
                                                                 <?php echo $row['reservation_id']; ?>
                                                             </td>
@@ -259,6 +269,24 @@ $result = $conn->query($sql);
                                                                 <img src="<?php echo $row['picture']; ?>" alt="">
                                                                 <?php echo $row['first_name']; ?>
                                                                 <?php echo $row['last_name']; ?>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <p
+                                                                    class="user-type <?php echo strtolower($row['account_type']); ?>">
+                                                                    <?php echo $row['account_type']; ?>
+                                                                </p>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <?php echo $row['course_code']; ?>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <?php echo $row['college_code']; ?>
                                                             </td>
 
                                                             <td>
@@ -288,17 +316,18 @@ $result = $conn->query($sql);
                                                                     data-rfidno="<?php echo $row['rfid_no']; ?> "
                                                                     data-course="<?php echo $row['course_code']; ?> "
                                                                     data-contactno="<?php echo $row['contact_number']; ?> "
-                                                                    data-seatid="<?php echo $row['seat_id']; ?> ">
+                                                                    data-seatid="<?php echo $row['seat_id']; ?> "
+                                                                    data-age="<?php echo $row['age']; ?> ">
 
                                                                     <i class="bi bi-eye-fill text-primary"
-                                                                        style="font-size: 1.4em;"></i>
+                                                                        style="font-size: 1.2em;"></i>
                                                                 </button>
 
                                                                 <button type="button"
                                                                     class="btn btn-light btn-rounded btn-icon archive_btn"
                                                                     data-reservation-id="<?php echo $row['reservation_id']; ?>">
                                                                     <i class="bi bi-trash-fill text-danger"
-                                                                        style="font-size: 1.4em;"></i>
+                                                                        style="font-size: 1.2em;"></i>
                                                                 </button>
 
                                                             </td>
@@ -320,7 +349,6 @@ $result = $conn->query($sql);
                 </div>
 
                 <!-- Archive Tab Content -->
-                <!-- Archive Tab Content -->
                 <div class="tab-pane fade" id="archive-content" role="tabpanel" aria-labelledby="archive-tab">
                     <div class="recent-grid">
                         <div class="archived_reservation">
@@ -338,25 +366,26 @@ $result = $conn->query($sql);
                                             </div>
 
                                             <div class="export__file">
-                                                <label for="export-file" class="export__file-btn" title="Export File">
+                                                <label for="export-file-archive" class="export__file-btn" title="Export File">
                                                     <img src="assets/img/export1.png" alt="Export" class="export_ic">
                                                 </label>
-                                                <input type="checkbox" id="export-file">
+                                                <input type="checkbox" id="export-file-archive">
                                                 <div class="export__file-options">
                                                     <label>Export As &nbsp; &#10140;</label>
-                                                    <label for="export-file" id="toPDF">PDF <img
+                                                    <label for="export-file-archive" id="toPDFArchive">PDF <img
                                                             src="assets/img/pdf.png" alt=""></label>
-                                                    <label for="export-file" id="toJSON">JSON <img
+                                                    <label for="export-file-archive" id="toJSONArchive">JSON <img
                                                             src="assets/img/json.png" alt=""></label>
-                                                    <label for="export-file" id="toCSV">CSV <img
+                                                    <label for="export-file-archive" id="toCSVArchive">CSV <img
                                                             src="assets/img/csv.png" alt=""></label>
-                                                    <label for "export-file" id="toEXCEL">EXCEL <img
+                                                    <label for "export-file-archive" id="toEXCELArchive">EXCEL <img
                                                             src="assets/img/excel.png" alt=""></label>
                                                 </div>
                                             </div>
                                         </section>
 
                                         <div class="row">
+                                            
                                             <div class="col-md-6">
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
@@ -378,9 +407,9 @@ $result = $conn->query($sql);
                                                 </div>
                                             </div>
                                             <div class="ml-5">
-                                                <button id="filter" class="btn btn-outline-info btn-sm">Filter
+                                                <button id="filterArchive" class="btn btn-outline-info btn-sm">Filter
                                                     Date</button>
-                                                <button id="archive_reset"
+                                                <button id="resetArchive"
                                                     class="btn btn-outline-warning btn-sm ">Reset</button>
                                             </div>
                                         </div>
@@ -393,6 +422,9 @@ $result = $conn->query($sql);
                                                                 class="icon-arrow">&UpArrow;</span></th>
                                                         <th> User ID <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> User <span class="icon-arrow">&UpArrow;</span></th>
+                                                        <th> User Type <span class="icon-arrow">&UpArrow;</span></th>
+                                                        <th> Course <span class="icon-arrow">&UpArrow;</span></th>
+                                                        <th> College <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> Seat ID <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> Date <span class="icon-arrow">&UpArrow;</span></th>
                                                         <th> Start Time <span class="icon-arrow">&UpArrow;</span></th>
@@ -402,10 +434,11 @@ $result = $conn->query($sql);
                                                 </thead>
                                                 <?php
 
-                                                $archiveSql = "SELECT r.reservation_id, r.user_id, r.date, r.start_time, r.end_time, a.username, u.user_id, r.seat_id, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, a.email, a.picture
+                                                $archiveSql = "SELECT r.reservation_id, r.user_id, r.date, r.start_time, r.end_time, a.username, u.user_id, r.seat_id, u.first_name, u.last_name, u.rfid_no, u.contact_number, u.course_code, a.email, a.picture, a.account_type, u.course_code, c.college_code
                                                 FROM reservation AS r
                                                 INNER JOIN account AS a ON r.user_id = a.username
                                                 INNER JOIN users AS u ON r.user_id = u.user_id
+                                                LEFT JOIN course AS c ON u.course_code = c.course_code
                                                 WHERE r.is_archived = 1";
 
                                                 $archiveResult = $conn->query($archiveSql);
@@ -425,6 +458,26 @@ $result = $conn->query($sql);
                                                                 <?php echo $row['first_name']; ?>
                                                                 <?php echo $row['last_name']; ?>
                                                             </td>
+
+                                                            <td>
+
+                                                                <p
+                                                                    class="user-type <?php echo strtolower($row['account_type']); ?>">
+                                                                    <?php echo $row['account_type']; ?>
+                                                                </p>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <?php echo $row['course_code']; ?>
+                                                            </td>
+
+                                                            <td>
+
+                                                                <?php echo $row['college_code']; ?>
+                                                            </td>
+
+
                                                             <td>
                                                                 <?php echo $row['seat_id']; ?>
                                                             </td>
@@ -523,8 +576,8 @@ $result = $conn->query($sql);
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <small id="">College</small>
-                                    <small>Age: </small>
+                                    <small id="college_view">College</small>
+                                    <small id="age_view">Age: </small>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-3">
@@ -609,6 +662,10 @@ $result = $conn->query($sql);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+
+
+
 <script>
     $(function () {
         $("#archive_start_date, #start_date").datepicker({
@@ -639,18 +696,25 @@ $result = $conn->query($sql);
             var startDate = new Date(startDateStr);
             var endDate = new Date(endDateStr);
 
+            // Set the time components to midnight (00:00:00) to compare only the date portion
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+
             // Loop through all table rows and hide/show them based on the date range
             $(tableId + " tr[id^='reservation_row_'], " + tableId + " tr[id^='archivedReservation_row_']").each(function () {
                 var rowId = $(this).attr("id");
-                var rowDateStr = $(this).find("td:eq(4)").text(); // Assuming date is in the fourth column (0-based index)
+                var rowDateStr = $(this).find("td:eq(7)").text(); // Assuming date is in the fourth column (0-based index)
 
                 // Parse the row's date string into a JavaScript Date object
                 var rowDate = new Date(rowDateStr);
 
+                // Set the time component to midnight for the row's date
+                rowDate.setHours(0, 0, 0, 0);
+
                 // Check if the row's date falls within the selected date range
                 if (rowDate >= startDate && rowDate <= endDate) {
                     $(this).show();
-                } else if (startDate.toDateString() === endDate.toDateString() && rowDate.toDateString() === startDate.toDateString()) {
+                } else if (startDate.getTime() === endDate.getTime() && rowDate.getTime() === startDate.getTime()) {
                     // Show rows for the exact same date when start and end dates are the same
                     $(this).show();
                 } else {
@@ -661,18 +725,43 @@ $result = $conn->query($sql);
 
         // Add a click event handler for the "Filter" button for the main and archive tables
         $("#filterAll").click(function () {
-            applyDateFilter("", "#start_date", "#end_date"); // Main table
-            applyDateFilter("#archive_", "#archive_start_date", "#archive_end_date"); // Archive table
-        });
+    // Check if the "All" tab is active
+    if ($("#table-tab").hasClass("active")) {
+        applyDateFilter("", "#start_date", "#end_date"); // Main table
+    } else if ($("#archive-tab").hasClass("active")) {
+        applyDateFilter("", "#archive_start_date", "#archive_end_date"); // Archive table
+    }
+});
+
+$("#filterArchive").click(function () {
+    // Check if the "Archive" tab is active
+    if ($("#table-tab").hasClass("active")) {
+        // Apply the filter for the main table here
+        applyDateFilter("", "#start_date", "#end_date");
+    } else if ($("#archive-tab").hasClass("active")) {
+        // Apply the filter for the archive table here
+        applyDateFilter("", "#archive_start_date", "#archive_end_date");
+    }
+});
+
 
         // Add a click event handler for the "Reset" button to show all rows for both tables
         $("#reset").click(function () {
-            $("tr[id^='reservation_row_'], tr[id^='archivedReservation_row_']").show();
-            $("#start_date, #archive_start_date").val(""); // Clear the start date input fields
-            $("#end_date, #archive_end_date").val(""); // Clear the end date input fields
+            $("tr[id^='reservation_row_']").show();
+            $("#start_date").val(""); // Clear the start date input fields
+            $("#end_date").val(""); // Clear the end date input fields
+        });
+        $("#resetArchive").click(function () {
+            $("tr[id^='archivedReservation_row_']").show();
+            $("#archive_start_date").val(""); // Clear the start date input fields
+            $("#archive_end_date").val(""); // Clear the end date input fields
         });
     });
 </script>
+
+
+
+
 
 
 <script>
@@ -694,6 +783,8 @@ $result = $conn->query($sql);
             var contactNo = $(this).data('contactno');
             var courseCode = $(this).data('course');
             var pictureUrl = $(this).data('picture');
+            var age = $(this).data('age');
+            
 
             $('#userID_view').text("User ID: " + userId);
             $('#date_view').text(date);
@@ -707,6 +798,7 @@ $result = $conn->query($sql);
             $('#course_view').text("Course:     " + courseCode);
             $('#contact_view').text("Contact No.:     " + rfidNo);
             $('#seat_view').text(seatId);
+            $('#age_view').text("Age: " + age);
 
         });
     });
@@ -844,208 +936,7 @@ $result = $conn->query($sql);
 
 
 <script>
-    //EXPORT TABLE DATA
-    const search = document.querySelector('.input-group input'),
-        table_rows = document.querySelectorAll('tbody tr'),
-        table_headings = document.querySelectorAll('thead th');
-
-    // 1. Searching for specific data of HTML table
-    search.addEventListener('input', searchTable);
-
-    function searchTable() {
-        table_rows.forEach((row, i) => {
-            let table_data = row.textContent.toLowerCase(),
-                search_data = search.value.toLowerCase();
-
-            row.classList.toggle('hide', table_data.indexOf(search_data) < 0);
-            row.style.setProperty('--delay', i / 25 + 's');
-        })
-
-        document.querySelectorAll('tbody tr:not(.hide)').forEach((visible_row, i) => {
-            visible_row.style.backgroundColor = (i % 2 == 0) ? 'transparent' : '#0000000b';
-        });
-    }
-
-    // 2. Sorting | Ordering data of HTML table
-
-    function setupTableSorting(tableId) {
-        const tableHeadings = document.querySelectorAll(`#${tableId} th`);
-        const tableRows = document.querySelectorAll(`#${tableId} tbody tr`);
-
-        tableHeadings.forEach((head, i) => {
-            let sort_asc = true;
-            head.onclick = () => {
-                tableHeadings.forEach(head => head.classList.remove('active'));
-                head.classList.add('active');
-
-                document.querySelectorAll(`#${tableId} td`).forEach(td => td.classList.remove('active'));
-                tableRows.forEach(row => {
-                    row.querySelectorAll('td')[i].classList.add('active');
-                })
-
-                head.classList.toggle('asc', sort_asc);
-                sort_asc = head.classList.contains('asc') ? false : true;
-
-                sortTable(tableRows, i, sort_asc);
-            }
-        });
-
-        function sortTable(rows, column, sort_asc) {
-            [...rows].sort((a, b) => {
-                let first_row = a.querySelectorAll('td')[column].textContent.toLowerCase(),
-                    second_row = b.querySelectorAll('td')[column].textContent.toLowerCase();
-
-                return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
-            })
-                .map(sorted_row => document.querySelector(`#${tableId} tbody`).appendChild(sorted_row));
-        }
-    }
-
-    // Call the function to set up sorting for the "All" table
-    setupTableSorting('customers_table');
-
-    // Call the function again to set up sorting for the "Archived" table
-    setupTableSorting('archivedReservation_table');
-
-
-
-
-    // 3. Converting HTML table to PDF
-
-    const pdf_btn = document.querySelector('#toPDF');
-    const customers_table = document.querySelector('#customers_table');
-
-    const toPDF = function (customers_table) {
-        const html_code = `
-    <link rel="stylesheet" href="assets/css/users.css" />
-    
-    <table id="customers_table">${customers_table.innerHTML}</table>
-    `;
-
-        const new_window = window.open();
-        new_window.document.write(html_code);
-
-        setTimeout(() => {
-            new_window.print();
-            new_window.close();
-        }, 400);
-    }
-
-    pdf_btn.onclick = () => {
-        toPDF(customers_table);
-    }
-
-    // 4. Converting HTML table to JSON
-
-    const json_btn = document.querySelector('#toJSON');
-
-    const toJSON = function (table) {
-        let table_data = [],
-            t_head = [],
-
-            t_headings = table.querySelectorAll('th'),
-            t_rows = table.querySelectorAll('tbody tr');
-
-        for (let t_heading of t_headings) {
-            let actual_head = t_heading.textContent.trim().split(' ');
-
-            t_head.push(actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase());
-        }
-
-        t_rows.forEach(row => {
-            const row_object = {},
-                t_cells = row.querySelectorAll('td');
-
-            t_cells.forEach((t_cell, cell_index) => {
-                const img = t_cell.querySelector('img');
-                if (img) {
-                    row_object['customer image'] = decodeURIComponent(img.src);
-                }
-                row_object[t_head[cell_index]] = t_cell.textContent.trim();
-            })
-            table_data.push(row_object);
-        })
-
-        return JSON.stringify(table_data, null, 4);
-    }
-
-    json_btn.onclick = () => {
-        const json = toJSON(customers_table);
-        downloadFile(json, 'json')
-    }
-
-
-
-    // 5. Converting HTML table to CSV and Excel
-
-    const csv_btn = document.querySelector('#toCSV');
-    const excel_btn = document.querySelector('#toEXCEL');
-
-    const toCSV = function (table) {
-        const t_heads = table.querySelectorAll('th');
-        const headings = [...t_heads].map(head => {
-            let actual_head = head.textContent.trim().split(' ');
-            return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-        }).join(',') + ',image name';
-
-        const tbody_rows = table.querySelectorAll('tbody tr');
-        const table_data = [...tbody_rows].map(row => {
-            const cells = row.querySelectorAll('td');
-            const data_without_img = [...cells].map(cell => cell.textContent.replace(/,/g, ".").trim()).join(',');
-            return data_without_img;
-        }).join('\n');
-
-        return headings + '\n' + table_data;
-    };
-
-    const toExcel = function (table) {
-        const excelRows = [];
-
-        const t_heads = table.querySelectorAll('th');
-        const headings = [...t_heads].map(head => {
-            let actual_head = head.textContent.trim().split(' ');
-            return actual_head.splice(0, actual_head.length - 1).join(' ').toLowerCase();
-        });
-        excelRows.push(headings);
-
-        const tbody_rows = table.querySelectorAll('tbody tr');
-        [...tbody_rows].forEach(row => {
-            const cells = row.querySelectorAll('td');
-            const rowData = [...cells].map(cell => cell.textContent.trim());
-            excelRows.push(rowData);
-        });
-
-        const workbook = XLSX.utils.book_new();
-        const worksheet = XLSX.utils.aoa_to_sheet(excelRows);
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet 1');
-
-        const excelFile = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        return excelFile;
-    };
-
-    csv_btn.onclick = () => {
-        const csv = toCSV(customers_table);
-        downloadFile(csv, 'csv', 'customer_orders.csv');
-    };
-
-    excel_btn.onclick = () => {
-        const excel = toExcel(customers_table);
-        downloadFile(excel, 'excel', 'customer_orders.xlsx');
-    };
-
-    const downloadFile = function (data, fileType, fileName = '') {
-        const blob = new Blob([data], { type: fileType });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    };
-
+   //SCRIPT EXPORT (NONE)
 </script>
 
 
