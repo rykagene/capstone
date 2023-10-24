@@ -279,18 +279,18 @@ $result = $conn->query($sql);
                                                                                                         <?php echo $row['date']; ?>
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        <?php echo $row['start_time']; ?>
+                                                                                                        <?php echo date("h:i A", strtotime($row['start_time'])); ?>
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        <?php echo $row['end_time']; ?>
+                                                                                                        <?php echo date("h:i A", strtotime($row['end_time'])); ?>
                                                                                                     </td>
                                                                                                     <td>
                                                                                                     <button type="button" class="btn btn-light btn-rounded btn-icon view_reservation"
                                                                                                     data-toggle="modal" data-target="#staticBackdrop"
                                                                                                             data-userid="<?php echo $row['user_id']; ?>"
                                                                                                             data-date="<?php echo $row['date']; ?>"
-                                                                                                            data-starttime="<?php echo $row['start_time']; ?>"
-                                                                                                            data-endtime="<?php echo $row['end_time']; ?>"
+                                                                                                            data-starttime="<?php echo date("h:i A", strtotime($row['start_time'])); ?>"
+                                                                                                            data-endtime="<?php echo date("h:i A", strtotime($row['end_time'])); ?>"
                                                             
                                                                                                             data-firstname="<?php echo $row['first_name']; ?>"
                                                                                                             data-lastname="<?php echo $row['last_name']; ?>"

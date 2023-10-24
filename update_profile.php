@@ -120,29 +120,31 @@ require 'assets/php/session.php';
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Gender</label>
-									<select class="form-control" aria-label="Default select example">					  
-										<option selected>Select Gender</option>
-  										<option value="1">Male</option>
-  										<option value="2">Female</option>
+									<select id="gender-input" class="form-control" name="gender" aria-label="Default select example">
+									<option value="<?php echo $row["gender"];?>"><?php echo $row["gender"]; ?></option>
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+									<option value="Rather not to say">Rather not to say</option>
+	
 									</select>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Contact Number</label>
-								  	<input type="text" class="form-control" id="number-input" value="<?php echo $row["contact_num"]; ?>">
+								  	<input type="number" name="contact_number" class="form-control" id="number-input" placeholder="Enter contact number"  value="<?php echo $row["contact_number"]; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Birthdate</label>
-									<input type="date" class="form-control" id="dateReleased" name="dateReleased" value=""  required="required" placeholder="Date Released">
+									<input type="date" id="bday-input" name="bday" class="form-control" id="dateReleased" name="dateReleased" value="<?php echo $row["bday"]; ?>"  required="required" placeholder="Date Released">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Age</label>
-								  	<input type="text" class="form-control" id="age-input" value="<?php echo $row["age"]; ?>">
+								  	<input type="text" class="form-control" id="age-input" placeholder="Enter age" value="<?php echo $row["age"]; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -180,41 +182,41 @@ require 'assets/php/session.php';
                             </select>
 								</div>
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div class="form-group">
-								  	<label>Course</label>
-									<!-- Get Course -->
+								  	<label>Type</label>
+							
 									<?php
-                        			// Function to fetch colleges from the database
-                        			function getCourses($conn)
-                        			{
-                            			$courses = array();
+                        			// // Function to fetch colleges from the database
+                        			// function getCourses($conn)
+                        			// {
+                            		// 	$courses = array();
 
-                           			 	$sql = "SELECT * FROM COURSE";
-                            			$result = $conn->query($sql);
+                           			//  	$sql = "SELECT * FROM COURSE";
+                            		// 	$result = $conn->query($sql);
 
-                            			if ($result->num_rows > 0) {
-                            			while ($row = $result->fetch_assoc()) {
-                            			$courses[$row['course_code']] = $row['course_name'];
-                                		}
-                            			}
+                            		// 	if ($result->num_rows > 0) {
+                            		// 	while ($row = $result->fetch_assoc()) {
+                            		// 	$courses[$row['course_code']] = $row['course_name'];
+                                	// 	}
+                            		// 	}
 
-                            			return $courses;
-                        			}
+                            		// 	return $courses;
+                        			// }
                         			?>
 									<select class="form-control" id="floatingSelect1" name="course_code" aria-label="Floating label select example" disabled>
                                 <?php
-                                // Fetch colleges from the database using the function
-                                $courses = getCourses($conn);
+                                // // Fetch colleges from the database using the function
+                                // $courses = getCourses($conn);
 
-                                // Loop through the colleges and generate options
-                                foreach ($courses as $course_code => $course_name) {
-                                    echo '<option value="' . $course_code . '">' . $course_name . '</option>';
-                                }
+                                // // Loop through the colleges and generate options
+                                // foreach ($courses as $course_code => $course_name) {
+                                //     echo '<option value="' . $course_code . '">' . $course_name . '</option>';
+                                // }
                                 ?>
-                            </select>							
+                            	</select>							
 								</div>
-							</div>
+							</div> -->
 						</div>
 						<div>
 							<button class="btn btn-danger" id="updateInfo">Update</button> 
@@ -263,7 +265,7 @@ require 'assets/php/session.php';
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Email</label>
-								  	<input type="text" class="form-control" id="email-input" value="<?php echo $row["email"]; ?>">
+								  	<input type="email" class="form-control" id="email-input" value="<?php echo $row["email"]; ?>">
 								</div>
 							</div>						
 							<form id="profile-picture-form" enctype="multipart/form-data">
@@ -343,8 +345,10 @@ document.getElementById('updateInfo').addEventListener('click', function() {
       const newLastName = document.getElementById('lastname-input').value;
 	  const newAge = document.getElementById('age-input').value;
 	  const newNumber = document.getElementById('number-input').value;
+	  const newBday = document.getElementById('bday-input').value;
+	  const newGender = document.getElementById('gender-input').value;
 
-      if (newFirstName.trim() === '' || newLastName.trim() === '' || newAge.trim() === '' || newNumber.trim() === '') {
+      if (newFirstName.trim() === '' ||newLastName.trim() === '' ||  newBday.trim() === '' ||  newGender.trim() === '' ||  newAge.trim() === '' || newNumber.trim() === '') {
         Swal.fire('Input Error', 'Please fill all the input fields first.', 'error');
         this.disabled = false; // Re-enable the button
         return;
@@ -357,14 +361,19 @@ document.getElementById('updateInfo').addEventListener('click', function() {
         data: {
           first_name: newFirstName,
           last_name: newLastName,
-		  contact_num: newNumber,
-		  age: newAge
+		  contact_number: newNumber,
+		  age: newAge,
+		  gender: newGender,
+		  bday: newBday
         },
         success: function(response) {
           if (response.status === 'success') {
             Swal.fire('Success!', 'Changes saved successfully.', 'success');
           } else {
-            Swal.fire('Error!', 'Failed to save changes.', 'error');
+            Swal.fire('Error!', 'Failed to save changes.', 'error').then(function () {
+              // Reload the page after the alert is closed
+              location.reload();
+            });
           }
         },
         complete: function() {
