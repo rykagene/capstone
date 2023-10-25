@@ -81,20 +81,18 @@ require 'assets/php/occupancy_timer.php';
             $username = $_SESSION["username"];
 
             // Retrieve the user details from the database
-            $sql = "SELECT * FROM ACCOUNT 
-                    INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id   
-                    INNER JOIN COURSE ON USERS.course_code = COURSE.course_code
-                    INNER JOIN YEARSEC ON USERS.yearsec_id = YEARSEC.yearsec_id
-                    INNER JOIN COLLEGE ON COURSE.college_code = COLLEGE.college_code
-                    WHERE ACCOUNT.username = '$username'";
+$sql = "SELECT *
+FROM ACCOUNT
+INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id
+WHERE ACCOUNT.username = '$username'";
+
 
             $result = $conn->query($sql);
 
             // Check if a matching record is found
             if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $email = $row["email"];
-            $year = $row["year_level"];
+           
             
 
             // Populate the HTML template with the fetched data
@@ -113,13 +111,14 @@ require 'assets/php/occupancy_timer.php';
                 <p>' . $row["user_id"] . '</p>
                 <div class="profile-info">
                     <h5><span>RFID No:</span> ' . $row["rfid_no"] . '</h5>
+                    <h5><span>Contact No:</span> ' . $row["contact_number"] . '</h5>
                     <h5><span>Username:</span> ' . $row["username"]. '</h5>
-                    <h5><span>Email:</span> ' . $email . '</h5>
-                    <!--<h5><span>Age:</span> ' . '</h5>
-                    <h5><span>Gender:</span> ' .  '</h5>-->
-                    <h5><span>College:</span> ' . $row["college_name"] . '</h5>
-                    <h5><span>Course:</span> ' . $row["course_name"] . '</h5>
-                    <h5><span>Year & Section:</span> ' . $year . ' ' . $row["section"] . '-G' . $row["section_group"] . '</h5>
+                    <h5><span>Email:</span> ' . $row["email"] . '</h5>
+                    <h5><span>Age:</span> ' . $row["age"] . '</h5>
+                    <h5><span>Gender:</span> ' . $row["gender"] .  '</h5>
+                    <h5><span>Course:</span> ' . $row["course_code"] . '</h5>
+                    
+              
                 </div>
                 <div class="edit-info">
                     <a href="update_profile.php" class="btn btn-danger"><span class="las la-user-edit"></span>Edit </a>

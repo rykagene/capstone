@@ -39,20 +39,19 @@ require 'assets/php/session.php';
 			
 
             // Retrieve the user details from the database
-            $sql = "SELECT * FROM ACCOUNT 
-                    INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id   
-                    INNER JOIN COURSE ON USERS.course_code = COURSE.course_code
-                    INNER JOIN YEARSEC ON USERS.yearsec_id = YEARSEC.yearsec_id
-                    INNER JOIN COLLEGE ON COURSE.college_code = COLLEGE.college_code
-                    WHERE ACCOUNT.username = '$username'";
+           // Retrieve the user details from the database
+			$sql = "SELECT * FROM ACCOUNT
+			INNER JOIN USERS ON ACCOUNT.account_id = USERS.account_id
+			WHERE ACCOUNT.username = '$username'";
+
 
             $result = $conn->query($sql);
 
             // Check if a matching record is found
             if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $email = $row["email"];
-            $year = $row["year_level"];
+            // $email = $row["email"];
+            // $year = $row["year_level"];
             
 
             // Populate the HTML template with the fetched data
@@ -147,41 +146,41 @@ require 'assets/php/session.php';
 								  	<input type="text" class="form-control" id="age-input" placeholder="Enter age" value="<?php echo $row["age"]; ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div class="form-group">
 								  	<label>College</label>
 									<?php
                         			// Function to fetch colleges from the database
-                        			function getColleges($conn)
-                        			{
-                            			$colleges = array();
+                        			// function getColleges($conn)
+                        			// {
+                            		// 	$colleges = array();
 
-                            			$sql = "SELECT * FROM COLLEGE";
-                            			$result = $conn->query($sql);
+                            		// 	$sql = "SELECT * FROM COLLEGE";
+                            		// 	$result = $conn->query($sql);
 
-                            			if ($result->num_rows > 0) {
-                            			while ($row = $result->fetch_assoc()) {
-                            			$colleges[$row['college_code']] = $row['college_name'];
-                                			}
-                            			}
+                            		// 	if ($result->num_rows > 0) {
+                            		// 	while ($row = $result->fetch_assoc()) {
+                            		// 	$colleges[$row['college_code']] = $row['college_name'];
+                                	// 		}
+                            		// 	}
 
-                            			return $colleges;
-                        			}
+                            		// 	return $colleges;
+                        			// }
                         			?>
-								  
-							<select class="form-control" id="floatingSelect" name="college_code" aria-label="Floating label select example" disabled>
-								<?php
-                                // Fetch colleges from the database using the function
-                                $colleges = getColleges($conn);
+									
+								<select class="form-control" id="floatingSelect" name="college_code" aria-label="Floating label select example" disabled>
+									<?php
+									// // Fetch colleges from the database using the function
+									// $colleges = getColleges($conn);
 
-                                // Loop through the colleges and generate options
-                                foreach ($colleges as $college_code => $college_name) {
-                                    echo '<option value="' . $college_code . '">' . $college_name . '</option>';
-                                }
-                                ?>
-                            </select>
+									// // Loop through the colleges and generate options
+									// foreach ($colleges as $college_code => $college_name) {
+									// 	echo '<option value="' . $college_code . '">' . $college_name . '</option>';
+									// }
+									?>
+								</select>
 								</div>
-							</div>
+							</div> -->
 							<!-- <div class="col-md-6">
 								<div class="form-group">
 								  	<label>Type</label>
