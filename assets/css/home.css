@@ -41,12 +41,58 @@ body,html{
   margin-right: auto;
 }
 
+
 /* Sticky header */
 .header-logo img {
   height: 70px;
   width: 70px;
   margin-left: 50px;
 }
+
+.header-text {
+  font-weight: bold;
+  font-size: 60px; /* Adjust the font size as needed */
+  font-family: "Archivo Black", "Times New Roman", Times, serif;
+  margin-right: auto; 
+}
+
+.icon {
+  margin-right: 20px;
+}
+
+/* Clock */
+#clock {
+  display: flex;
+  font-size: 35px;
+  font-weight: bold;
+  margin-right: auto;
+  color: #a81c1c;
+}
+
+#date {
+  display: flex;
+  font-size: 22px;
+  margin-right: auto;
+  align-items: center; /* Center vertically */
+  
+
+}
+
+#phtime {
+  display: flex; /* Display the content in a horizontal line */
+  align-items: center; /* Center vertically */
+  font-size: 22px; /* Adjust the font size as needed */
+}
+
+.phdate {
+  margin: 0; 
+  margin-right: 20px; 
+}
+
+#header-time {
+margin-right: auto;
+}
+
 
 .header-outer {
   border-bottom: 2px solid #f0f0f0;
