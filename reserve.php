@@ -2,7 +2,21 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
-require 'assets/php/occupancy_timer.php';
+
+$query123 = "SELECT occupy.*, seat.seat_number, reservation.start_time, reservation.end_time 
+          FROM occupy 
+          INNER JOIN reservation ON occupy.reservation_id = reservation.reservation_id 
+          INNER JOIN seat ON reservation.seat_id = seat.seat_id
+          WHERE reservation.user_id = '{$_SESSION['user_id']}' 
+          AND reservation.date = CURDATE() 
+          AND occupy.isDone = 0";
+
+$result123 = mysqli_query($conn, $query123);
+
+if (mysqli_num_rows($result123) == 1) {
+    // If the query returns exactly one result, require the specified file
+    require 'assets/php/occupancy_timer.php';
+}
 
 // Fetch the reservation status from the settings table
 $settings_query = "SELECT reservation FROM settings WHERE settings_id = '1'";

@@ -2,6 +2,9 @@
 session_start();
 require 'assets/php/connect.php';
 // require 'assets/php/session.php';
+require 'assets/php/validateReservation.php';
+
+
 
 
 ?>
@@ -33,7 +36,33 @@ require 'assets/php/connect.php';
     <!-- animation on scroll -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+<script>
+    // Function to trigger the PHP script
+    function triggerValidation() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'assets/php/validateReservation.php', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Checked expired validation');
+                } else {
+                    console.log('Error in checking expired validation');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    // Call the function immediately
+    triggerValidation();
+
+    // Set up a recurring timer to call the function every 5 seconds (5000 milliseconds)
+    setInterval(triggerValidation, 5000);
+</script>
+
 </head>
+
 
 <body>
 
@@ -57,7 +86,20 @@ require 'assets/php/connect.php';
 
         } else {
             require 'assets/php/header.php';
-            require 'assets/php/occupancy_timer.php';
+            $query123 = "SELECT occupy.*, seat.seat_number, reservation.start_time, reservation.end_time 
+                    FROM occupy 
+                    INNER JOIN reservation ON occupy.reservation_id = reservation.reservation_id 
+                    INNER JOIN seat ON reservation.seat_id = seat.seat_id
+                    WHERE reservation.user_id = '{$_SESSION['user_id']}' 
+                    AND reservation.date = CURDATE() 
+                    AND occupy.isDone = 0";
+
+            $result123 = mysqli_query($conn, $query123);
+
+            if (mysqli_num_rows($result123) == 1) {
+                // If the query returns exactly one result, require the specified file
+                require 'assets/php/occupancy_timer.php';
+            }
         }
 
         ?>

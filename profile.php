@@ -2,9 +2,32 @@
 session_start();
 require 'assets/php/connect.php';
 require 'assets/php/session.php';
-require 'assets/php/occupancy_timer.php';
+require 'assets/php/validateReservation.php';
 
+
+
+
+$query123 = "SELECT occupy.*, seat.seat_number, reservation.start_time, reservation.end_time 
+          FROM occupy 
+          INNER JOIN reservation ON occupy.reservation_id = reservation.reservation_id 
+          INNER JOIN seat ON reservation.seat_id = seat.seat_id
+          WHERE reservation.user_id = '{$_SESSION['user_id']}' 
+          AND reservation.date = CURDATE() 
+          AND occupy.isDone = 0";
+
+$result123 = mysqli_query($conn, $query123);
+
+if (mysqli_num_rows($result123) == 1) {
+    // If the query returns exactly one result, require the specified file
+    require 'assets/php/occupancy_timer.php';
+}
+
+// Rest of your code here
 ?>
+
+
+
+
 
 
 <!DOCTYPE HTML>
@@ -29,6 +52,30 @@ require 'assets/php/occupancy_timer.php';
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 
+        <script>
+    // Function to trigger the PHP script
+    function triggerValidation() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'assets/php/validateReservation.php', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Checked expired validation');
+                } else {
+                    console.log('Error in checking expired validation');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    // Call the function immediately
+    triggerValidation();
+
+    // Set up a recurring timer to call the function every 5 seconds (5000 milliseconds)
+    setInterval(triggerValidation, 5000);
+</script>
+
 
 </head>
 <style>
@@ -43,7 +90,9 @@ require 'assets/php/occupancy_timer.php';
     }
 </style>
 
+
 <body>
+
 
     <div class="wrapper">
 

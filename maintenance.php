@@ -52,6 +52,31 @@ if ($maintenanceMode) {
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital@1&display=swap"
         rel="stylesheet">
+        
+<script>
+    // Function to trigger the PHP script
+    function triggerValidation() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'assets/php/validateReservation.php', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('Checked expired validation');
+                } else {
+                    console.log('Error in checking expired validation');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    // Call the function immediately
+    triggerValidation();
+
+    // Set up a recurring timer to call the function every 5 seconds (5000 milliseconds)
+    setInterval(triggerValidation, 5000);
+</script>
+
 </head>
 
 <body>
