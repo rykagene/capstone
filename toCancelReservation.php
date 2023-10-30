@@ -14,7 +14,7 @@ if (isset($_GET['reservation_id'])) {
     $reservation_id = $_GET['reservation_id'];
 
     // Perform a database query to delete the reservation
-    $delete_query = "DELETE FROM reservation WHERE reservation_id = '$reservation_id'";
+    $delete_query = "UPDATE reservation SET isDone = 1 WHERE reservation_id = '$reservation_id'";
     $delete_result = mysqli_query($conn, $delete_query);
 
     if ($delete_result) {

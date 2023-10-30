@@ -76,7 +76,8 @@ require 'assets/php/session.php';
 							echo '
             					<h4>' . $row["username"] . '</h4> 
             					';
-            				?> 
+            				?>
+							
 						</div>		
 					</div>
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
